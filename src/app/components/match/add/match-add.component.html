@@ -1,0 +1,76 @@
+<mat-stepper [linear]="true" #stepper>
+
+  <mat-step [stepControl]="roundFormGroup" label="Round">
+    <form [formGroup]="roundFormGroup">
+      <mat-form-field>
+        <mat-label>Round</mat-label>
+        <mat-select formControlName="roundCtrl" required>
+          <mat-option *ngFor="let round of rounds" [value]="round">{{round}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="firstFormGroup" label="First Team">
+
+    <form [formGroup]="firstFormGroup">
+      <mat-form-field>
+        <mat-label>First team</mat-label>
+        <mat-select formControlName="firstCtrl" required>
+          <mat-option *ngFor="let team of teams" [value]="team">{{team}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Second Team">
+    <form [formGroup]="secondFormGroup">
+      <mat-form-field>
+        <mat-label>Second team</mat-label>
+        <mat-select formControlName="secondCtrl" required>
+          <mat-option *ngFor="let team of teams" [value]="team">{{team}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="thirdFormGroup" label="Match date">
+    <form [formGroup]="thirdFormGroup">
+      <mat-form-field>
+        <mat-label>Choose Match date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="thirdCtrl" required>
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Match Time (HH:mm)</mat-label>
+        <input matInput placeholder="16:00" formControlName="fourthCtrl" required>
+      </mat-form-field>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p><b>{{thirdFormGroup.value.thirdCtrl}} | {{thirdFormGroup.value.fourthCtrl}}</b></p>
+    <p>{{firstFormGroup.value.firstCtrl}} vs {{secondFormGroup.value.secondCtrl}}</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="save()">Save</button>
+    </div>
+  </mat-step>
+</mat-stepper>
