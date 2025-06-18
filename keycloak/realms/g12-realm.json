@@ -1,0 +1,37 @@
+{
+  "realm": "g12",
+  "enabled": true,
+  "displayName": "G12 Football",
+  "users": [],
+  "clients": [
+    {
+      "clientId": "frontend",
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": [
+        "https://g12-football-frontend.onrender.com/*",
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "rootUrl": "https://g12-football-frontend.onrender.com/",
+      "protocol": "openid-connect",
+      "attributes": {
+        "post.logout.redirect.uris": "*"
+      }
+    }
+  ],
+  "roles": {
+    "realm": {
+      "user": {
+        "name": "user",
+        "description": "Default user role"
+      },
+      "admin": {
+        "name": "admin",
+        "description": "Administrator role"
+      }
+    }
+  }
+}
