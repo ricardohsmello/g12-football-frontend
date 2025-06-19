@@ -35,10 +35,9 @@ ENV KEYCLOAK_ADMIN_PASSWORD=admin
 
 COPY realms/g12-realm.json /opt/keycloak/data/import/
 
-# Copy startup script to a writable location
-COPY start.sh /usr/local/bin/start.sh
-RUN chmod +x /usr/local/bin/start.sh
-
 RUN /opt/keycloak/bin/kc.sh build --db=postgres
+
+# Create a simple script inline to handle the PORT variable
+RUN echo '#!/bin/bash\nPORT=${PORT:-10000}\necho "Starting Keycloak on port $PORT"\nexec /opt/keycloak/bin/kc.sh start-dev --http-host=0.0.0.0 --http-port=$PORT --hostname-strict=false --import-realm' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
 CMD ["/usr/local/bin/start.sh"]
