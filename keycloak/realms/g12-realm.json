@@ -23,15 +23,15 @@
     }
   ],
   "roles": {
-    "realm": {
-      "user": {
-        "name": "user",
-        "description": "Default user role"
-      },
-      "admin": {
+    "realm": [
+      {
         "name": "admin",
         "description": "Administrator role"
+      },
+      {
+        "name": "user",
+        "description": "Default user role"
       }
-    }
+    ]
   }
 }

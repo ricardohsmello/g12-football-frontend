@@ -5,7 +5,8 @@ ENV KEYCLOAK_ADMIN_PASSWORD=admin
 
 COPY realms/g12-realm.json /opt/keycloak/data/import/
 
-EXPOSE 8080
+EXPOSE 8081
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start-dev", "--http-host=0.0.0.0", "--http-port=8080", "--hostname-strict=false", "--import-realm"]
+# ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+RUN /opt/keycloak/bin/kc.sh build --db=postgres
+CMD ["start-dev", "--http-host=0.0.0.0", "--http-port=8081", "--hostname-strict=false", "--import-realm"]
