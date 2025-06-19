@@ -9,4 +9,4 @@ EXPOSE 10000
 
 RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
-CMD ["/opt/keycloak/bin/kc.sh", "start-dev", "--http-host=0.0.0.0", "--http-port=10000", "--hostname-strict=false", "--import-realm"]
+CMD ["start-dev", "--http-host=0.0.0.0", "--http-port=10000", "--hostname-strict=false", "--import-realm"]
