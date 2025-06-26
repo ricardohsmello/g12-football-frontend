@@ -1,13 +1,11 @@
-# Usa a imagem oficial do Keycloak
 FROM quay.io/keycloak/keycloak:24.0.3
 
+# Ativa health checks e métricas
 ENV KC_HEALTH_ENABLED=true \
     KC_METRICS_ENABLED=true
 
-# Adiciona suporte ao build
-RUN microdnf install -y gettext
-
+# Compila a configuração para produção
 RUN /opt/keycloak/bin/kc.sh build
 
-# Define o comando padrão
+# Inicia o Keycloak no modo padrão (não-dev)
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start"]
