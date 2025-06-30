@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   apiUrl: 'https://g12-football-frontend.onrender.com',
   keycloak: {
-    url: 'https://g12-football-keycloak.onrender.com/auth',
+    url: 'https://g12-football-keycloak.onrender.com',
     realm: 'g12',
     clientId: 'frontend',
   },
