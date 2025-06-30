@@ -34,6 +34,6 @@ import { environment } from '../../../environments/environment';
   }
 
   public scoreRound(round: number) {
-    return this.http.put<void>(`${environment.apiUrl}/${round}/score`, {});
+    return this.http.put<void>(`${environment.apiUrl}/rounds/${round}/score`, {});
   }
 }
