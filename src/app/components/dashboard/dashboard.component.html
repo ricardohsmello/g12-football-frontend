@@ -1,36 +1,42 @@
 <div class="panel-header panel-header-lg">
   <div class="header text-center">
-    <h2 class="title">Welcome to G12 Football Bet ⚽</h2>
-    <h4 class="subtitle">Hi, {{ username }}! Ready for round {{ currentRound }}?</h4>
+    <h1 class="title" style="font-size: 2.5rem; margin-bottom: 8px;">⚽ G12 Football Bet</h1>
+    <h4 class="subtitle" style="font-weight: 400;">Hi, <strong>{{ username }}</strong>! Ready for <strong>Round {{ currentRound }}</strong>?</h4>
   </div>
 </div>
 
-<div class="main-content" style="padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+<div class="main-content" style="padding: 24px;">
+  <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;">
 
-  <!-- Regras do bolão -->
-  <mat-card>
-    <mat-card-title>🏆 Betting Rules</mat-card-title>
-    <mat-card-content>
-      <ul style="line-height: 1.8; padding-left: 16px;">
-        <li>✅ Exact score: <strong>10 points</strong></li>
-        <li>✅ Winner or draw: <strong>5 points</strong></li>
-        <li>🎯 Extra: <strong>+1 point</strong> for exact score in 4+ goal games</li>
-        <li>🤩 Solo exact hit: <strong>+1 point</strong> if you're the only one</li>
-        <li>💣 Bottom 4 pay <strong>R$ 50</strong> for BBQ 🍖</li>
-        <li>🔥 Round bonus: <strong>+5 points</strong> for best score</li>
-      </ul>
-    </mat-card-content>
-  </mat-card>
+    <!-- Regras do bolão -->
+    <mat-card style="flex: 1 1 300px; max-width: 500px;">
+      <mat-card-header>
+        <mat-card-title style="font-size: 1.5rem;">🏆 Betting Rules</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ul style="line-height: 2; padding-left: 20px; font-size: 1.05rem;">
+          <li>✅ Exact score: <strong>10 pts</strong></li>
+          <li>✅ Correct winner/draw: <strong>5 pts</strong></li>
+          <li>🎯 Extra: <strong>+1 pt</strong> for 4+ goal exact score</li>
+          <li>🤩 Solo exact hit: <strong>+1 pt</strong> (if you're the only one)</li>
+          <li>💣 Bottom 4 pay <strong>R$ 50</strong> (BBQ 🍖)</li>
+          <li>🔥 Round Bonus: <strong>+5 pts</strong> for top scorer</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
 
-  <!-- Info da rodada atual -->
-  <mat-card>
-    <mat-card-title>📅 Current Round</mat-card-title>
-    <mat-card-content>
-      <p><strong>Round:</strong> {{ currentRound }}</p>
-      <p><strong>Total players:</strong> {{ totalPlayers }}</p>
-      <p><strong>Next match:</strong> {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</p>
-      <p><strong>Prize pool:</strong> R$ {{ prizePool }}</p>
-    </mat-card-content>
-  </mat-card>
+    <!-- Info da rodada atual -->
+    <mat-card style="flex: 1 1 300px; max-width: 500px;">
+      <mat-card-header>
+        <mat-card-title style="font-size: 1.5rem;">📅 Current Round</mat-card-title>
+      </mat-card-header>
+      <mat-card-content style="font-size: 1.05rem;">
+        <p><strong>Round:</strong> {{ currentRound }}</p>
+        <p><strong>Total players:</strong> {{ totalPlayers }}</p>
+        <p><strong>Next match:</strong><br> {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</p>
+        <p><strong>Prize pool:</strong> R$ {{ prizePool }}</p>
+      </mat-card-content>
+    </mat-card>
 
+  </div>
 </div>
