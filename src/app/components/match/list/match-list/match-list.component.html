@@ -8,15 +8,6 @@
         <div class="col-md-12">
             <div class="card">
 
-                <!-- <mat-form-field appearance="outline" style="width: 200px; margin-left: 16px;">
-                    <mat-label>Order by</mat-label>
-                    <mat-select [(value)]="sortOrder" (selectionChange)="sortMatches()">
-                        <mat-option value="desc">Points Desc</mat-option>
-                        <mat-option value="asc">Points Asc</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
-
-
                 <div class="card-header">
                     <h4 class="card-title mb-2">Game match</h4>
 
@@ -57,7 +48,6 @@
                                     <th scope="col">Status</th>
                                     <th scope="col">Prediction</th>
                                     <th scope="col">Score</th>
-                                    <!-- <th scope="col">Points Earned</th> -->
                                     <th scope="col">
                                         Points Earned
                                         <button mat-icon-button style="vertical-align: middle;"
@@ -74,27 +64,8 @@
                                     <td class="text-left">{{ matchResponse.round }}</td>
                                     <td class="text-left">{{ matchResponse.homeTeam }}</td>
                                     <td class="text-left">{{ matchResponse.awayTeam }}</td>
-                                    <td class="text-left">{{ matchResponse.matchDate | date:'dd/MM/yyyy
-                                        HH:mm':'America/Sao_Paulo' }}</td>
+                                    <td class="text-left">{{ matchResponse.matchDate | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</td>
                                     <td class="text-left">{{ matchResponse.status }}</td>
-
-                                    <!-- <td class="text-left">
-                                        <ng-container *ngIf="matchResponse.prediction; else showEditPrediction">
-                                            {{ matchResponse.prediction.homeTeam }}
-                                            vs
-                                            {{ matchResponse.prediction.awayTeam }}
-                                            <div *ngIf="matchResponse.status === 'OPEN'">
-                                                <button mat-button color="accent"
-                                                    (click)="openEditBetDialog(matchResponse)">Edit</button>
-                                            </div>
-                                        </ng-container>
-                                        <ng-template #showEditPrediction>
-                                            <div *ngIf="matchResponse.status === 'OPEN'">
-                                                <button mat-button color="accent"
-                                                    (click)="openEditBetDialog(matchResponse)">Add</button>
-                                            </div>
-                                        </ng-template>
-                                    </td>  -->
 
                                     <td class="text-left">
                                         <ng-container *ngIf="matchResponse.prediction; else showEditPrediction">
@@ -124,15 +95,19 @@
                                             vs
                                             {{ matchResponse.score.awayTeam }}</span>
                                             <div *ngIf="hasAdminRole">
-                                                <button mat-button color="accent"
-                                                    (click)="openEditScoreDialog(matchResponse)">Edit</button>
+                                                <button *ngIf="matchResponse.status === 'OPEN'" mat-button
+                                                        color="accent" (click)="openEditScoreDialog(matchResponse)">
+                                                    Edit
+                                                </button>
                                             </div>
                                             </div>
                                         </ng-container>
                                         <ng-template #showEdit>
                                             <div *ngIf="hasAdminRole">
-                                                <button mat-button color="accent"
-                                                    (click)="openEditScoreDialog(matchResponse)">Add</button>
+                                                <button *ngIf="matchResponse.status === 'OPEN'" mat-button
+                                                        color="accent" (click)="openEditScoreDialog(matchResponse)">
+                                                    Add
+                                                </button>
                                             </div>
                                         </ng-template>
                                     </td>
