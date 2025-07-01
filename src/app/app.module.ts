@@ -16,26 +16,22 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { environment } from '../environments/environment';
 
-export function initializeKeycloak(keycloak: KeycloakService) {
-  console.log('Keycloak URL:', environment.keycloak.url);
-  console.log('API URL:', environment.apiUrl);
 
+export function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
-    keycloak.init({
-      config: {
-        url: `${environment.keycloak.url}`,
-        realm: 'g12',
-        clientId: 'frontend'
-      },
-      initOptions: {
-        onLoad: 'login-required',
-        // onLoad: 'check-sso',
-        checkLoginIframe: false,
-        // pkceMethod: 'S256',
-        silentCheckSsoRedirectUri:
-          window.location.origin + '/assets/silent-check-sso.html'
-      }
-    });
+      keycloak.init({
+        config: {
+          url: 'http://localhost:8180',
+          realm: 'g12',
+          clientId: 'frontend',
+        },
+        initOptions: {
+          onLoad: 'login-required',
+          checkLoginIframe: false,
+          redirectUri: window.location.origin + '/dashboard'
+        },
+        loadUserProfileAtStartUp: true
+      });
 }
 
 @NgModule({
