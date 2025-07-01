@@ -12,7 +12,7 @@ export class ScoreBoardListComponent implements OnInit {
 
 roundFormGroup!: FormGroup;
   selectedRound = 0;
-  availableRounds = Array.from({ length: 38 }, (_, i: 12) => i + 1);
+  availableRounds = Array.from({ length: 26 }, (_, i) => i + 13);
   scoreboard: ScoreboardEntry[] = [];
 
   constructor(

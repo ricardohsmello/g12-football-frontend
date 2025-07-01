@@ -175,8 +175,12 @@ export class MatchListComponent implements OnInit {
             this.snackBar.open('Round settled successfully', '', { duration: 3000 });
             this.findByUsernameRound(this.username, this.currentRound);
           },
-          error: (err) => {
-            this.snackBar.open('Unexpected error occurred.', err, { duration: 4000 });
+          error: (error) => {
+            if (error.error && error.error.message) {
+              this.snackBar.open(error.error.message, '', { duration: 4000 });
+            } else {
+              this.snackBar.open('Unexpected error occurred.', '', { duration: 4000 });
+            }
           }
         });
       }
