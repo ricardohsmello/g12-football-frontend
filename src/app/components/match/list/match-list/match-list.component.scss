@@ -1,0 +1,14 @@
+.scoreboard-container {
+  max-width: 100%;
+  padding: 16px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 500px; // or however many columns need
+}

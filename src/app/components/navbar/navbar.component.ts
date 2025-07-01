@@ -1,7 +1,5 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { ROUTES } from '../sidebar/sidebar.component';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Location } from '@angular/common';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
 
@@ -10,19 +8,22 @@ import { KeycloakProfile } from 'keycloak-js';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-
 export class NavbarComponent {
+  @Input() isMobile = false;
+  @Output() toggleMenu = new EventEmitter<void>();
+
   location: Location;
-  public isLogged = false;
   public profile: KeycloakProfile | null = null;
 
   constructor(location: Location, private readonly keycloak: KeycloakService) {
     this.location = location;
   }
- 
+
   public async logout() {
     this.keycloak.logout();
   }
 
-
+  toggleSidebar() {
+    this.toggleMenu.emit();
+  }
 }
