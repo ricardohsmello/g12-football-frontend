@@ -21,9 +21,9 @@ export function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
       keycloak.init({
         config: {
-          url: 'http://localhost:8180',
-          realm: 'g12',
-          clientId: 'frontend',
+          url: `${environment.keycloak.url}`,
+          realm: `${environment.keycloak.realm}`,
+          clientId: `${environment.keycloak.clientId}`,
         },
         initOptions: {
           onLoad: 'login-required',
