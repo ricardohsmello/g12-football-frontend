@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 declare interface RouteInfo {
     path: string;
@@ -18,7 +18,8 @@ export const ROUTES: RouteInfo[] = [
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  menuItems: any[];
+    @Output() menuItemClicked = new EventEmitter<void>();
+    menuItems: any[] = [];
 
   constructor() { }
 
@@ -26,9 +27,12 @@ export class SidebarComponent implements OnInit {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
   isMobileMenu() {
-      if ( window.innerWidth > 991) {
-          return false;
-      }
-      return true;
+      return window.innerWidth <= 991;
   };
+
+    onItemClick() {
+        if (this.isMobileMenu()) {
+            this.menuItemClicked.emit();
+        }
+    }
 }
