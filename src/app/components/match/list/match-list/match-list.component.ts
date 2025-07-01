@@ -21,13 +21,13 @@ import { ConfirmDialogComponent } from '../../../dialog/confirm-dialog.component
 export class MatchListComponent implements OnInit {
 
   roundFormGroup = this._formBuilder.group({
-    roundCtrl: this._formBuilder.control(1, Validators.required),
+    roundCtrl: this._formBuilder.control(13, Validators.required),
   });
 
 
   matchResponse: MatchResponse[];
   rounds: number[];
-  currentRound: number = 1;
+  currentRound: number = 13;
   public hasAdminRole: boolean = false;
   name?: string;
   username: string;
@@ -145,7 +145,7 @@ export class MatchListComponent implements OnInit {
     this.keycloak.loadUserProfile().then(profile => {
       this.username = profile.username ?? profile.email ?? 'unknown'
 
-      this.rounds = Array.from({ length: 38 }, (_, i) => i + 1);
+      this.rounds = Array.from({ length: 26 }, (_, i) => i + 13); // de 13 a 38
 
       this.hasAdminRole = this.keycloak.getUserRoles().includes('admin');
       this.findByUsernameRound(this.username, this.currentRound);
