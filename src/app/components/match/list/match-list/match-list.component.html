@@ -95,7 +95,7 @@
                                             vs
                                             {{ matchResponse.score.awayTeam }}</span>
                                             <div *ngIf="hasAdminRole">
-                                                <button *ngIf="matchResponse.status === 'OPEN'" mat-button
+                                                <button mat-button
                                                         color="accent" (click)="openEditScoreDialog(matchResponse)">
                                                     Edit
                                                 </button>
@@ -104,7 +104,7 @@
                                         </ng-container>
                                         <ng-template #showEdit>
                                             <div *ngIf="hasAdminRole">
-                                                <button *ngIf="matchResponse.status === 'OPEN'" mat-button
+                                                <button mat-button
                                                         color="accent" (click)="openEditScoreDialog(matchResponse)">
                                                     Add
                                                 </button>
