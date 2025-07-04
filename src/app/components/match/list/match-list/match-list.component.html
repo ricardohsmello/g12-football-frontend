@@ -9,10 +9,11 @@
             <div class="card">
 
                 <div class="card-header">
-                    <h4 class="card-title mb-2">Game match</h4>
+
 
 
                     <form [formGroup]="roundFormGroup">
+                        <h4 class="card-title mb-2">Partidas da rodada</h4>
                         <mat-form-field appearance="outline" style="width: 200px;">
                             <mat-label>Round</mat-label>
                             <mat-select formControlName="roundCtrl">
@@ -23,8 +24,8 @@
 
 
                     <div *ngIf="hasAdminRole" style="display: flex; gap: 12px; margin-top: 8px;">
-                        <button mat-raised-button color="primary" (click)="add()">New Match</button>
-                        <button mat-raised-button color="accent" (click)="settleRound()">Settle Round</button>
+                        <button mat-raised-button color="primary" (click)="add()">Novo Jogo</button>
+                        <button mat-raised-button color="accent" (click)="settleRound()">Encerrar Rodada</button>
                     </div>
                 </div>
 
@@ -33,12 +34,12 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">Round</th>
-                                    <th scope="col">Home Team</th>
-                                    <th scope="col">Away Team</th>
+                                    <th scope="col">Rodada</th>
+                                    <th scope="col">Mandante</th>
+                                    <th scope="col">Visitante</th>
                                     <!-- <th scope="col">Date</th> -->
                                     <th scope="col">
-                                        Date
+                                        Data
                                         <button mat-icon-button style="vertical-align: middle;"
                                             (click)="toggleDateSortOrder()" matTooltip="Order by date">
                                             <mat-icon>{{ dateSortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'
@@ -46,10 +47,10 @@
                                         </button>
                                     </th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Prediction</th>
-                                    <th scope="col">Score</th>
+                                    <th scope="col">Palpite</th>
+                                    <th scope="col">Resultado do jogo</th>
                                     <th scope="col">
-                                        Points Earned
+                                        Pontos conquistados
                                         <button mat-icon-button style="vertical-align: middle;"
                                             (click)="toggleSortOrder()" matTooltip="Order by points">
 
@@ -75,7 +76,7 @@
 
                                                 <button *ngIf="matchResponse.status === 'OPEN'" mat-button
                                                     color="accent" (click)="openEditBetDialog(matchResponse)">
-                                                    Edit
+                                                    Editar
                                                 </button>
                                             </div>
                                         </ng-container>
@@ -83,7 +84,7 @@
                                         <ng-template #showEditPrediction>
                                             <button *ngIf="matchResponse.status === 'OPEN'" mat-button color="accent"
                                                 (click)="openEditBetDialog(matchResponse)">
-                                                Add
+                                                Adicionar
                                             </button>
                                         </ng-template>
                                     </td>
@@ -97,7 +98,7 @@
                                             <div *ngIf="hasAdminRole">
                                                 <button mat-button
                                                         color="accent" (click)="openEditScoreDialog(matchResponse)">
-                                                    Edit
+                                                    Editar
                                                 </button>
                                             </div>
                                             </div>
@@ -106,7 +107,7 @@
                                             <div *ngIf="hasAdminRole">
                                                 <button mat-button
                                                         color="accent" (click)="openEditScoreDialog(matchResponse)">
-                                                    Add
+                                                    Adicionar
                                                 </button>
                                             </div>
                                         </ng-template>

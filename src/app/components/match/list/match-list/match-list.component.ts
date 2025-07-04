@@ -11,6 +11,7 @@ import { MatchBetEditComponent } from '../../bet-edit/match-bet-edit/match-bet-e
 import { BetService } from '../../../../services/bet-service/bet.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../../../dialog/confirm-dialog.component';
+import {RoundService} from "../../../../services/round-service/round.service";
 
 @Component({
   selector: 'app-match-list',
@@ -40,10 +41,10 @@ export class MatchListComponent implements OnInit {
     public dialog: MatDialog,
     private _formBuilder: FormBuilder,
     private betService: BetService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private roundService: RoundService
   ) {
   }
-
 
   toggleDateSortOrder() {
     this.dateSortOrder = this.dateSortOrder === 'asc' ? 'desc' : 'asc';
@@ -113,7 +114,6 @@ export class MatchListComponent implements OnInit {
     });
   }
 
-
   openEditScoreDialog(match: MatchResponse): void {
     const dialogRef = this.dialog.open(MatchScoreEditComponent, {
       width: '300px',
@@ -142,21 +142,30 @@ export class MatchListComponent implements OnInit {
   }
 
   async ngOnInit() {
+
+
     this.keycloak.loadUserProfile().then(profile => {
       this.username = profile.username ?? profile.email ?? 'unknown'
 
       this.rounds = Array.from({ length: 26 }, (_, i) => i + 13); // de 13 a 38
 
       this.hasAdminRole = this.keycloak.getUserRoles().includes('admin');
-      this.findByUsernameRound(this.username, this.currentRound);
 
-      this.roundFormGroup.get('roundCtrl')?.valueChanges.subscribe((round) => {
-        const roundNumber = Number(round);
-        this.currentRound = Number(round);
-        if (!isNaN(roundNumber)) {
-          this.findByUsernameRound(this.username, roundNumber);
-        }
+      this.roundService.getCurrentRound().subscribe((round: number) => {
+        this.currentRound = round;
+
+        this.roundFormGroup.get('roundCtrl')?.setValue(round, { emitEvent: false });
+        this.findByUsernameRound(this.username, round);
+
+        this.roundFormGroup.get('roundCtrl')?.valueChanges.subscribe((roundValue) => {
+          const roundNumber = Number(roundValue);
+          this.currentRound = roundNumber;
+          if (!isNaN(roundNumber)) {
+            this.findByUsernameRound(this.username, roundNumber);
+          }
+        });
       });
+
     });
   }
 
@@ -193,7 +202,7 @@ export class MatchListComponent implements OnInit {
     })
 
     dialogRef.afterClosed().subscribe(async result => {
-      (await this.matchService.save(result)).subscribe();
+      (this.matchService.save(result)).subscribe();
     }
     );
 
@@ -204,7 +213,7 @@ export class MatchListComponent implements OnInit {
     });
   }
 
-  private findByUsernameRound(username, round: number) {
+  private findByUsernameRound(username: string, round: number) {
     this.matchService.findByUsernameRound(username, round).subscribe(data => {
       this.matchResponse = data;
       this.sortMatches();
