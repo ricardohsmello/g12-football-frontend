@@ -97,7 +97,7 @@ export class MatchListComponent implements OnInit {
 
           this.betService.save(payload).subscribe({
             next: () => {
-              this.snackBar.open('Match score added successfully!', '', { duration: 3000 });
+              this.snackBar.open('Palpite informado com sucesso!', '', { duration: 3000 });
               dialogRef.close(true);
               this.findByUsernameRound(this.username, this.currentRound);
             },
