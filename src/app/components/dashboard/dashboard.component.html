@@ -9,38 +9,31 @@
 
 <div class="main-content" style="padding: 24px;">
 
-  <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;">
-      <mat-card style="flex: 1 1 300px; max-width: 500px;">
-          <mat-card-header>
-              <mat-card-title style="font-size: 1.5rem;">📅 Informações do jogo</mat-card-title>
-          </mat-card-header>
-          <mat-card-content style="font-size: 1.05rem;">
-              <p><strong>Rodada atual:</strong> {{ currentRound }}</p>
-              <p><strong>Total de jogadores:</strong> {{ totalPlayers }}</p>
-              <p><strong>Próximo jogo:</strong> {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</p>
-          </mat-card-content>
-      </mat-card>
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;">
+        <mat-card style="flex: 1 1 300px; max-width: 500px;">
+            <mat-card-header>
+                <mat-card-title style="font-size: 1.5rem;">📅 Informações do jogo</mat-card-title>
+            </mat-card-header>
+            <mat-card-content style="font-size: 1.05rem;">
+                <p><strong>Rodada atual:</strong> {{ currentRound }}</p>
+                <p><strong>Total de jogadores:</strong> {{ totalPlayers }}</p>
+                <p><strong>Próximo jogo:</strong> {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</p>
+            </mat-card-content>
+        </mat-card>
 
-    <mat-card style="flex: 1 1 300px; max-width: 500px;">
-      <mat-card-header>
-        <mat-card-title style="font-size: 1.5rem;">🏆 Betting Rules</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <ul style="line-height: 2; padding-left: 20px; font-size: 1.05rem;">
-
-          <li>✅ Exact score: <strong>10 pts</strong></li>
-          <li>✅ Correct winner/draw: <strong>5 pts</strong></li>
-          <li>🎯 Extra: <strong>+1 pt</strong> for 4+ goal exact score</li>
-          <li>🤩 Solo exact hit: <strong>+1 pt</strong> (if you're the only one)</li>
-          <li>💣 Bottom 4 pay <strong>R$ 50</strong> (BBQ 🍖)</li>
-          <li>🔥 Round Bonus: <strong>+5 pts</strong> for top scorer</li>
-        </ul>
-      </mat-card-content>
-    </mat-card>
-
-
-
-
-
-  </div>
+        <mat-card style="flex: 1 1 300px; max-width: 500px;">
+            <mat-card-header>
+                <mat-card-title style="font-size: 1.5rem;">🏆 Regras do Bolão</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <ul style="line-height: 2; padding-left: 20px; font-size: 1.05rem;">
+                    <li>Placar exato:  <strong>10 pts</strong></li>
+                    <li>Resultado correto (vitória/empate): <strong>5 pts</strong></li>
+                    <li>Extra: <strong>+1 pt</strong> por placar exato com 4 ou mais gols</li>
+                    <li>Acerto solo do placar exato:  <strong>+1 pt</strong> (se for o único a acertar)</li>
+                    <li>Últimos 4 colocados pagam <strong>R$ 50</strong></li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </div>
 </div>
