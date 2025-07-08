@@ -1,9 +1,12 @@
-<div class="wrapper" [ngClass]="{ 'sidebar-open': sidebarOpened }">
-    <div class="sidebar" data-color="red" [ngClass]="{ 'mobile-hidden': isMobile && !sidebarOpened }">
-        <app-sidebar (menuItemClicked)="toggleSidebar()"></app-sidebar>
+<div class="wrapper">
+    <div class="sidebar" data-color="red" [ngClass]="{ 'sidebar-open': sidebarOpened }">
+        <app-sidebar [ngClass]="{ 'sidebar-open': sidebarOpened }"
+                     (menuItemClicked)="closeSidebar()">
+        </app-sidebar>
     </div>
+
     <div class="main-panel">
-        <app-navbar (toggleMenu)="toggleSidebar()" [isMobile]="isMobile"></app-navbar>
+        <app-navbar [isMobile]="isMobile" (toggleMenu)="toggleSidebar()"></app-navbar>
         <router-outlet></router-outlet>
         <app-footer></app-footer>
     </div>

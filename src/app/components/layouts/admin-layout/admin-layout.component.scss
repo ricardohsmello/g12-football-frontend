@@ -1,13 +1,8 @@
 .sidebar {
   transition: all 0.3s ease;
-}
-
-.mobile-hidden {
   transform: translateX(-100%);
-  position: absolute;
-  z-index: 2;
 }
 
-.sidebar-open .sidebar {
+.sidebar.sidebar-open {
   transform: translateX(0);
 }

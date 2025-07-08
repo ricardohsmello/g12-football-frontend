@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 export class NavbarComponent {
   @Input() isMobile = false;
   @Output() toggleMenu = new EventEmitter<void>();
+  isCollapsed = true;
 
   location: Location;
   public profile: KeycloakProfile | null = null;

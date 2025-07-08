@@ -26,4 +26,10 @@ export class AdminLayoutComponent implements OnInit {
   toggleSidebar() {
     this.sidebarOpened = !this.sidebarOpened;
   }
+
+  closeSidebar() {
+    if (this.isMobile) {
+      this.sidebarOpened = false;
+    }
+  }
 }
