@@ -7,12 +7,14 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ChartsComponent } from './charts/charts.component';
+import {MaterialExampleModule} from "../../material.module";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    MaterialExampleModule
   ],
   declarations: [
     FooterComponent,
