@@ -1,29 +1,28 @@
 <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute bg-primary fixed-top">
-    <div class="container-fluid">
-<!--        <button *ngIf="isMobile" class="btn btn-outline-light btn-sm" (click)="toggleSidebar()">-->
-<!--            ☰-->
-<!--        </button>-->
-        <button class="navbar-toggler" type="button"
-                (click)="toggleSidebar()" [attr.aria-expanded]="!isCollapsed"
-
-                aria-controls="collapseExample"
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <!-- Botão hambúrguer (visível só em mobile) -->
+        <button *ngIf="isMobile"
+                class="navbar-toggler"
+                type="button"
+                (click)="toggleSidebar()"
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse justify-content-end" id="collapseExample" [ngbCollapse]="true">
-            <ul class="navbar-nav">
-                <li class="nav-item" ngbDropdown>
-                    <a class="nav-link" id="dropdownBasic1" ngbDropdownToggle>
-                        <i class="now-ui-icons users_single-02"></i>
-                        <p><span class="d-lg-none d-md-block">Account</span></p>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                        <a class="dropdown-item" (click)="navigateToProfile()">Profile</a>
-                        <a class="dropdown-item" (click)="logout()">Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        <div class="flex-grow-1"></div>
+
+        <ul class="navbar-nav user-menu">
+            <li class="nav-item" ngbDropdown>
+                <a class="nav-link" id="dropdownBasic1" ngbDropdownToggle>
+                    <i class="now-ui-icons users_single-02"></i>
+                 </a>
+                <div class="dropdown-menu dropdown-menu-right"
+                     ngbDropdownMenu
+                     aria-labelledby="dropdownBasic1">
+                    <a class="dropdown-item" (click)="navigateToProfile()">Profile</a>
+                    <a class="dropdown-item" (click)="logout()">Logout</a>
+                </div>
+            </li>
+        </ul>
     </div>
 </nav>
