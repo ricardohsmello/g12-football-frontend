@@ -188,11 +188,11 @@ export class MatchListComponent implements OnInit {
             this.findByUsernameRound(this.username, this.currentRound);
           },
           error: (error) => {
+            this.isLoading = false;
+
             if (error.error && error.error.message) {
               this.snackBar.open(error.error.message, '', { duration: 4000 });
-              this.isLoading = false;
             } else {
-              this.isLoading = false;
               this.snackBar.open('Unexpected error occurred.', '', { duration: 4000 });
             }
           },
