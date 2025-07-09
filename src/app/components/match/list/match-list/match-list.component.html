@@ -21,13 +21,13 @@
                         </mat-form-field>
                     </form>
                     <div *ngIf="hasAdminRole" style="display: flex; gap: 12px; margin-top: 8px;">
-                        <button mat-raised-button color="primary" (click)="add()">Novo Jogo</button>
+                        <button mat-raised-button color="primary" (click)="add()" [disabled]="isLoading">Novo Jogo</button>
                         <button mat-raised-button color="accent" (click)="settleRound()" [disabled]="isLoading">Encerrar Rodada</button>
                     </div>
                     <mat-progress-spinner
                             *ngIf="isLoading"
                             mode="indeterminate"
-                            diameter="50"
+                            diameter="80"
                             color="accent"
                             style="margin: 16px auto; display: block;">
                     </mat-progress-spinner>

@@ -34,7 +34,7 @@ export class MatchListComponent implements OnInit {
   username: string;
   sortOrder: 'asc' | 'desc' = 'desc';
   dateSortOrder: 'asc' | 'desc' = 'asc';
-  isLoading = false;
+  isLoading = true;
 
   constructor(
     private matchService: MatchService,
@@ -159,6 +159,7 @@ export class MatchListComponent implements OnInit {
         this.findByUsernameRound(this.username, round);
 
         this.roundFormGroup.get('roundCtrl')?.valueChanges.subscribe((roundValue) => {
+          this.isLoading = true;
           const roundNumber = Number(roundValue);
           this.currentRound = roundNumber;
           if (!isNaN(roundNumber)) {
@@ -225,6 +226,7 @@ export class MatchListComponent implements OnInit {
     this.matchService.findByUsernameRound(username, round).subscribe(data => {
       this.matchResponse = data;
       this.sortMatches();
+      this.isLoading = false;
     });
   }
 }
