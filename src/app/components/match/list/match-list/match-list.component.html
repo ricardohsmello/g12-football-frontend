@@ -1,17 +1,16 @@
 <head>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Jogos</title>
 </head>
 <div class="panel-header panel-header-sm"></div>
+
+
 
 <div class="main-content">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-
                 <div class="card-header">
-
-
-
                     <form [formGroup]="roundFormGroup">
                         <h4 class="card-title mb-2">Partidas da rodada</h4>
                         <mat-form-field appearance="outline" style="width: 200px;">
@@ -21,14 +20,18 @@
                             </mat-select>
                         </mat-form-field>
                     </form>
-
-
                     <div *ngIf="hasAdminRole" style="display: flex; gap: 12px; margin-top: 8px;">
                         <button mat-raised-button color="primary" (click)="add()">Novo Jogo</button>
-                        <button mat-raised-button color="accent" (click)="settleRound()">Encerrar Rodada</button>
+                        <button mat-raised-button color="accent" (click)="settleRound()" [disabled]="isLoading">Encerrar Rodada</button>
                     </div>
+                    <mat-progress-spinner
+                            *ngIf="isLoading"
+                            mode="indeterminate"
+                            diameter="50"
+                            color="accent"
+                            style="margin: 16px auto; display: block;">
+                    </mat-progress-spinner>
                 </div>
-
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped">
@@ -37,7 +40,6 @@
                                     <th scope="col">Rodada</th>
                                     <th scope="col">Mandante</th>
                                     <th scope="col">Visitante</th>
-                                    <!-- <th scope="col">Date</th> -->
                                     <th scope="col">
                                         Data
                                         <button mat-icon-button style="vertical-align: middle;"
@@ -53,7 +55,6 @@
                                         Pontos conquistados
                                         <button mat-icon-button style="vertical-align: middle;"
                                             (click)="toggleSortOrder()" matTooltip="Order by points">
-
                                             <mat-icon>{{ sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'
                                                 }}</mat-icon>
                                         </button>

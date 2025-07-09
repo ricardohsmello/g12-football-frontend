@@ -34,6 +34,7 @@ export class MatchListComponent implements OnInit {
   username: string;
   sortOrder: 'asc' | 'desc' = 'desc';
   dateSortOrder: 'asc' | 'desc' = 'asc';
+  isLoading = false;
 
   constructor(
     private matchService: MatchService,
@@ -179,6 +180,8 @@ export class MatchListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
+        this.isLoading = true
+
         this.matchService.scoreRound(this.currentRound).subscribe({
           next: () => {
             this.snackBar.open('Round settled successfully', '', { duration: 3000 });
@@ -187,9 +190,14 @@ export class MatchListComponent implements OnInit {
           error: (error) => {
             if (error.error && error.error.message) {
               this.snackBar.open(error.error.message, '', { duration: 4000 });
+              this.isLoading = false;
             } else {
+              this.isLoading = false;
               this.snackBar.open('Unexpected error occurred.', '', { duration: 4000 });
             }
+          },
+          complete: () => {
+            this.isLoading = false;
           }
         });
       }
