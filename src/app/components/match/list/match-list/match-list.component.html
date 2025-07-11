@@ -11,19 +11,33 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <form [formGroup]="roundFormGroup">
-                        <h4 class="card-title mb-2">Partidas da rodada</h4>
-                        <mat-form-field appearance="outline" style="width: 200px;">
-                            <mat-label>Round</mat-label>
-                            <mat-select formControlName="roundCtrl">
-                                <mat-option *ngFor="let round of rounds" [value]="round">{{ round }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </form>
-                    <div *ngIf="hasAdminRole" style="display: flex; gap: 12px; margin-top: 8px;">
+                    <h4 class="card-title mb-2">Partidas da rodada</h4>
+
+                    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+                        <form [formGroup]="roundFormGroup">
+                            <mat-form-field appearance="outline" style="width: 200px;">
+                                <mat-label>Round</mat-label>
+                                <mat-select formControlName="roundCtrl">
+                                    <mat-option *ngFor="let round of rounds" [value]="round">{{ round }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </form>
+
+                        <form [formGroup]="userFormGroup">
+                            <mat-form-field appearance="outline" style="width: 200px;">
+                                <mat-label>Jogadores</mat-label>
+                                <mat-select formControlName="userCtrl">
+                                    <mat-option *ngFor="let user of users" [value]="user">{{ user }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </form>
+                    </div>
+
+                    <div *ngIf="hasAdminRole" style="display: flex; gap: 12px; margin-top: 12px;">
                         <button mat-raised-button color="primary" (click)="add()" [disabled]="isLoading">Novo Jogo</button>
                         <button mat-raised-button color="accent" (click)="settleRound()" [disabled]="isLoading">Encerrar Rodada</button>
                     </div>
+
                     <mat-progress-spinner
                             *ngIf="isLoading"
                             mode="indeterminate"
@@ -75,7 +89,7 @@
                                                 <span>{{ matchResponse.prediction.homeTeam }} x {{
                                                     matchResponse.prediction.awayTeam }}</span>
 
-                                                <button *ngIf="matchResponse.status === 'OPEN'" mat-button
+                                                <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button
                                                     color="accent" (click)="openEditBetDialog(matchResponse)">
                                                     Editar
                                                 </button>
@@ -83,7 +97,7 @@
                                         </ng-container>
 
                                         <ng-template #showEditPrediction>
-                                            <button *ngIf="matchResponse.status === 'OPEN'" mat-button color="accent"
+                                            <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
                                                 (click)="openEditBetDialog(matchResponse)">
                                                 Adicionar
                                             </button>

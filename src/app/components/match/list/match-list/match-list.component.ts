@@ -25,16 +25,27 @@ export class MatchListComponent implements OnInit {
     roundCtrl: this._formBuilder.control(13, Validators.required),
   });
 
+  userFormGroup = this._formBuilder.group({
+    userCtrl: this._formBuilder.control('Selecione o jogador', Validators.required),
+  });
 
+
+  loggedUser: string;
+  username: string;
   matchResponse: MatchResponse[];
   rounds: number[];
   currentRound: number = 13;
   public hasAdminRole: boolean = false;
   name?: string;
-  username: string;
   sortOrder: 'asc' | 'desc' = 'desc';
   dateSortOrder: 'asc' | 'desc' = 'asc';
   isLoading = true;
+
+  users = [
+    "antonio", "braulio", "bruno", "cleber", "daniel", "edimilson", "fabio",
+    "gabriel", "giovanni", "joaozorzella", "joaogabriel", "lucas", "luciano", "matheus",
+    "murilo", "rafael", "ricardocoutinho", "ricardomello", "weslley", "zitras"
+  ];
 
   constructor(
     private matchService: MatchService,
@@ -146,14 +157,18 @@ export class MatchListComponent implements OnInit {
 
 
     this.keycloak.loadUserProfile().then(profile => {
+      this.loggedUser = profile.username ?? profile.email ?? 'unknown'
       this.username = profile.username ?? profile.email ?? 'unknown'
 
-      this.rounds = Array.from({ length: 26 }, (_, i) => i + 13); // de 13 a 38
+      this.rounds = Array.from({ length: 26 }, (_, i) => i + 13);
 
       this.hasAdminRole = this.keycloak.getUserRoles().includes('admin');
 
       this.roundService.getCurrentRound().subscribe((round: number) => {
         this.currentRound = round;
+
+        // @ts-ignore
+        this.userFormGroup.get('userCtrl')?.setValue(this.username, { emitEvent: false });
 
         this.roundFormGroup.get('roundCtrl')?.setValue(round, { emitEvent: false });
         this.findByUsernameRound(this.username, round);
@@ -166,9 +181,18 @@ export class MatchListComponent implements OnInit {
             this.findByUsernameRound(this.username, roundNumber);
           }
         });
+
+        this.userFormGroup.get('userCtrl')?.valueChanges.subscribe((user) => {
+          this.isLoading = true;
+          this.findByUsernameRound(user, this.currentRound);
+        });
       });
 
     });
+  }
+
+  get isCurrentUserSelected(): boolean {
+    return this.userFormGroup.get('userCtrl')?.value === this.loggedUser;
   }
 
   settleRound(): void {
