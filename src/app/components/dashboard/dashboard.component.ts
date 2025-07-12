@@ -33,13 +33,14 @@ export class DashboardComponent implements OnInit {
 
     this.roundService.getCurrentRound().subscribe((round: number) => {
       this.currentRound = round;
+
+      this.betService.countBettorsByRound(round).subscribe(count => {
+        this.totalBettors = count;
+        this.isLoading = false;
+        this.missing = this.totalPlayers - count;
+      });
     });
 
-    this.betService.countBettorsByRound(13).subscribe(count => {
-      this.totalBettors = count;
-      this.isLoading = false;
-      this.missing = this.totalPlayers - count;
-      console.log('Total de apostadores:', count);
-    });
+
 
   }}
