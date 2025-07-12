@@ -8,19 +8,32 @@
 </div>
 
 <div class="main-content" style="padding: 24px;">
-
     <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;">
         <mat-card style="flex: 1 1 300px; max-width: 500px;">
             <mat-card-header>
                 <mat-card-title style="font-size: 1.5rem;">📅 Informações do jogo</mat-card-title>
             </mat-card-header>
-            <mat-card-content style="font-size: 1.05rem;">
-                <p><strong>Rodada atual:</strong> {{ currentRound }}</p>
-                <p><strong>Total de jogadores:</strong> {{ totalPlayers }}</p>
-                <p><strong>Jogadores que já apostaram:</strong> {{ totalBettors }}</p>
-                <p><strong> Jogadores que ainda não apostaram:</strong> {{ missing }}</p>
 
-                <p><strong>Próximo jogo:</strong> {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</p>
+            <mat-card-content style="font-size: 1.05rem;">
+
+                <div *ngIf="isLoading"
+                     style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                    <mat-progress-spinner
+                            mode="indeterminate"
+                            diameter="60"
+                            color="accent">
+                    </mat-progress-spinner>
+                    <p style="margin-top: 16px;">Carregando ...</p>
+                </div>
+
+                <div *ngIf="!isLoading">
+                    <p><strong>Rodada atual:</strong> {{ currentRound }}</p>
+                    <p><strong>Total de jogadores:</strong> {{ totalPlayers }}</p>
+                    <p><strong>Jogadores que já apostaram:</strong> {{ totalBettors }}</p>
+                    <p><strong>Jogadores que ainda não apostaram:</strong> {{ missing }}</p>
+                    <p><strong>Próximo jogo:</strong> {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</p>
+                </div>
+
             </mat-card-content>
         </mat-card>
 

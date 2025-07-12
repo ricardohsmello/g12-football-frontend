@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   nextMatch: Date = new Date('2025-07-12T16:30:00');
   totalBettors: number = 0;
   missing: number;
-
+  isLoading = true;
   public isLogged = false;
   public profile: KeycloakProfile | null = null;
 
@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
 
     this.betService.countBettorsByRound(13).subscribe(count => {
       this.totalBettors = count;
+      this.isLoading = false;
       this.missing = this.totalPlayers - count;
       console.log('Total de apostadores:', count);
     });

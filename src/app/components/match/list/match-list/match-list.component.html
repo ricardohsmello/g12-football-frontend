@@ -43,7 +43,7 @@
                             style="margin: 16px auto; display: block;">
                     </mat-progress-spinner>
                 </div>
-                <div class="card-body">
+                <div class="card-body" *ngIf="!isLoading">
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
