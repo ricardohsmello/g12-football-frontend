@@ -17,7 +17,8 @@
             <mat-card-content style="font-size: 1.05rem;">
                 <p><strong>Rodada atual:</strong> {{ currentRound }}</p>
                 <p><strong>Total de jogadores:</strong> {{ totalPlayers }}</p>
-                <p><strong>Total de apostadores nesta rodada:</strong> 12</p>
+                <p><strong>Jogadores que já apostaram:</strong> {{ totalBettors }}</p>
+                <p><strong> Jogadores que ainda não apostaram:</strong> {{ missing }}</p>
 
                 <p><strong>Próximo jogo:</strong> {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</p>
             </mat-card-content>

@@ -4,6 +4,7 @@ import {KeycloakProfile} from "keycloak-js";
 import {RoundService} from "../../services/round-service/round.service";
 import {Round} from "../../domain/model/round/round";
 import {Observable} from "rxjs/Observable";
+import {BetService} from "../../services/bet-service/bet.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,12 +15,14 @@ export class DashboardComponent implements OnInit {
 
   currentRound: number;
   totalPlayers = 20;
-  nextMatch: Date = new Date('2025-07-17T16:00:00');
+  nextMatch: Date = new Date('2025-07-12T16:30:00');
+  totalBettors: number = 0;
+  missing: number;
 
   public isLogged = false;
   public profile: KeycloakProfile | null = null;
 
-  constructor(private readonly keycloak: KeycloakService, private roundService: RoundService) {}
+  constructor(private readonly keycloak: KeycloakService, private roundService: RoundService, private betService: BetService) {}
 
   async ngOnInit() {
     this.isLogged = await this.keycloak.isLoggedIn();
@@ -30,6 +33,12 @@ export class DashboardComponent implements OnInit {
 
     this.roundService.getCurrentRound().subscribe((round: number) => {
       this.currentRound = round;
+    });
+
+    this.betService.countBettorsByRound(13).subscribe(count => {
+      this.totalBettors = count;
+      this.missing = this.totalPlayers - count;
+      console.log('Total de apostadores:', count);
     });
 
   }}
