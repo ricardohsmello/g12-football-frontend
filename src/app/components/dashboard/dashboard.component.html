@@ -1,55 +1,118 @@
 <div class="panel-header panel-header-lg">
-  <div class="header text-center">
-    <h1 class="title" style="font-size: 2.5rem; margin-bottom: 8px;">Bolão brasileirão 2025</h1>
-      <p class="description">
-         Bem-vindo, {{profile.firstName}} {{profile.lastName}}
-      </p>
-  </div>
+    <div class="header text-center">
+        <h1 class="title">Bolão Brasileirão 2025</h1>
+        <p class="description">Bem-vindo, {{ profile.firstName }} {{ profile.lastName }}</p>
+    </div>
 </div>
 
-<div class="main-content" style="padding: 24px;">
-    <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;">
-        <mat-card style="flex: 1 1 300px; max-width: 500px;">
+<div class="main-content dashboard-section">
+    <div class="dashboard-cards">
+
+        <mat-card class="rules-card">
             <mat-card-header>
-                <mat-card-title style="font-size: 1.5rem;">📅 Informações do jogo</mat-card-title>
+                <mat-card-title>
+                    <div class="card-title-with-icon">
+                        <span>Informações do Jogo</span>
+                    </div>
+                </mat-card-title>
             </mat-card-header>
 
-            <mat-card-content style="font-size: 1.05rem;">
-
-                <div *ngIf="isLoading"
-                     style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
-                    <mat-progress-spinner
-                            mode="indeterminate"
-                            diameter="60"
-                            color="accent">
-                    </mat-progress-spinner>
-                    <p style="margin-top: 16px;">Carregando ...</p>
+            <mat-card-content class="info-content">
+                <div *ngIf="isLoading" class="spinner-container">
+                    <mat-progress-spinner mode="indeterminate" diameter="60" color="accent"></mat-progress-spinner>
+                    <p>Carregando...</p>
                 </div>
 
-                <div *ngIf="!isLoading">
-                    <p><strong>Rodada atual:</strong> {{ currentRound }}</p>
-                    <p><strong>Total de jogadores:</strong> {{ totalPlayers }}</p>
-                    <p><strong>Jogadores que já apostaram:</strong> {{ totalBettors }}</p>
-                    <p><strong>Jogadores que ainda não apostaram:</strong> {{ missing }}</p>
-                    <p><strong>Próximo jogo:</strong> {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</p>
-                </div>
+                <div *ngIf="!isLoading" class="rules-grid">
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Rodada atual</div>
+                            <div class="rule-value">{{ currentRound }}</div>
+                        </div>
+                    </div>
 
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Total de jogadores</div>
+                            <div class="rule-value">{{ totalPlayers }}</div>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Já apostaram</div>
+                            <div class="rule-value">{{ totalBettors }}</div>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Faltam apostar</div>
+                            <div class="rule-value">{{ missing }}</div>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Próximo jogo</div>
+                            <div class="rule-value">
+                                {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </mat-card-content>
         </mat-card>
 
-        <mat-card style="flex: 1 1 300px; max-width: 500px;">
+        <!-- 🏆 REGRAS DO BOLÃO -->
+        <mat-card class="rules-card">
             <mat-card-header>
-                <mat-card-title style="font-size: 1.5rem;">🏆 Regras do Bolão</mat-card-title>
+                <mat-card-title>
+                    <div class="card-title-with-icon">
+                        <span>Regras do Bolão</span>
+                    </div>
+                </mat-card-title>
             </mat-card-header>
+
             <mat-card-content>
-                <ul style="line-height: 2; padding-left: 20px; font-size: 1.05rem;">
-                    <li>Placar exato:  <strong>10 pts</strong></li>
-                    <li>Resultado correto (vitória/empate): <strong>5 pts</strong></li>
-                    <li>Extra: <strong>+1 pt</strong> por placar exato com 4 ou mais gols</li>
-                    <li>Acerto solo do placar exato:  <strong>+1 pt</strong> (se for o único a acertar)</li>
-                    <li>Últimos 4 colocados pagam <strong>R$ 50</strong></li>
-                </ul>
+                <div class="rules-grid">
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Placar exato</div>
+                            <div class="rule-value">+10 pontos</div>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Resultado correto (V/E)</div>
+                            <div class="rule-value">+5 pontos</div>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Placar exato com 4+ gols</div>
+                            <div class="rule-value">+1 ponto extra</div>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Acerto solo do placar</div>
+                            <div class="rule-value">+1 ponto extra</div>
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div>
+                            <div class="rule-label">Últimos 4 colocados</div>
+                            <div class="rule-value">Pagam R$ 50</div>
+                        </div>
+                    </div>
+                </div>
             </mat-card-content>
         </mat-card>
+
     </div>
 </div>
