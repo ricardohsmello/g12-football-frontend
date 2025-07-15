@@ -209,7 +209,7 @@ export class MatchListComponent implements OnInit {
 
         this.matchService.scoreRound(this.currentRound).subscribe({
           next: () => {
-            this.snackBar.open('Round settled successfully', '', { duration: 3000 });
+            this.snackBar.open('Round processing routine triggered successfully', '', { duration: 3000 });
             this.findByUsernameRound(this.username, this.currentRound);
           },
           error: (error) => {
