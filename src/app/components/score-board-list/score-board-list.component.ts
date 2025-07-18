@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ScoreBoardListComponent implements OnInit {
 
 roundFormGroup!: FormGroup;
+  isLoading = true;
   selectedRound = 0;
   availableRounds = Array.from({ length: 26 }, (_, i) => i + 13);
   scoreboard: ScoreboardEntry[] = [];
@@ -29,6 +30,7 @@ roundFormGroup!: FormGroup;
   }
 
   onRoundChange(): void {
+    this.isLoading = true;
     this.selectedRound = this.roundFormGroup.value.roundCtrl;
     const round = this.roundFormGroup.value.roundCtrl;
     this.loadScoreboard(round);
@@ -37,6 +39,7 @@ roundFormGroup!: FormGroup;
   loadScoreboard(round: number): void {
     this.scoreboardService.getByRound(round).subscribe(data => {
       this.scoreboard = data;
+      this.isLoading = false;
     });
   }
 }

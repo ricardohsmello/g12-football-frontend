@@ -8,7 +8,7 @@
 
           <!-- Header com seletor de rodada -->
         <div class="card-header">
-          <h4 class="card-title">🏆 Scoreboard</h4>
+          <h4 class="card-title">🏆 Classificação</h4>
 
           <form [formGroup]="roundFormGroup">
             <mat-form-field appearance="outline" style="width: 200px;">
@@ -23,7 +23,15 @@
           </form>
         </div>
 
-        <div class="card-body">
+          <mat-progress-spinner
+                  *ngIf="isLoading"
+                  mode="indeterminate"
+                  diameter="80"
+                  color="accent"
+                  style="margin: 16px auto; display: block;">
+          </mat-progress-spinner>
+        <div class="card-body"  *ngIf="!isLoading">
+
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>

@@ -32,7 +32,7 @@
 
                     <div *ngIf="hasAdminRole" style="display: flex; gap: 12px; margin-top: 12px;">
                         <button mat-raised-button color="primary" (click)="add()" [disabled]="isLoading">Novo Jogo</button>
-                        <button mat-raised-button color="accent" (click)="settleRound()" [disabled]="isLoading">Encerrar Rodada</button>
+                        <button mat-raised-button color="accent" (click)="settleRound()" [disabled]="isLoading">Calcular Rodada</button>
                     </div>
 
                     <mat-progress-spinner
