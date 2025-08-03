@@ -44,7 +44,7 @@ export class MatchListComponent implements OnInit {
   users = [
     "antonio", "braulio", "bruno", "cleber", "daniel", "edmilson", "fabio",
     "gabriel", "giovanni", "guilherme", "joaozorzella", "lucas", "luciano", "matheus",
-    "murilo", "rafael", "ricardocoutinho", "ricardomello", "weslley", "zitras"
+    "murilo", "rafaelcarvalho", "ricardomello", "weslley", "zitras"
   ];
 
   constructor(
