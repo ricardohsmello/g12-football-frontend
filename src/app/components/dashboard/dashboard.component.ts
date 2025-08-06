@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
 
   currentRound: number;
   totalPlayers = 20;
-  nextMatch: Date = new Date('2025-07-19T16:00:00');
+  nextMatch: Date = new Date('2025-08-09T18:30:00');
   totalBettors: number = 0;
   missing: number;
   isLoading = true;
