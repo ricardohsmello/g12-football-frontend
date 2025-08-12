@@ -14,7 +14,7 @@ import {BetService} from "../../services/bet-service/bet.service";
 export class DashboardComponent implements OnInit {
 
   currentRound: number;
-  totalPlayers = 20;
+  totalPlayers = 21;
   nextMatch: Date = new Date('2025-08-09T18:30:00');
   totalBettors: number = 0;
   missing: number;
