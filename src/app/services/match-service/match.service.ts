@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })export class MatchService {
 
-  private matchURL: string;
+  private readonly matchURL: string;
 
   constructor(private http: HttpClient) {
    
