@@ -26,7 +26,7 @@
                     <input matInput
                            [formControl]="questionCtrl"
                            (keydown.enter)="onKeydownEnter($event)"
-                           placeholder="Ex.: Qual o resultado do jogo Sao Paulo x Corinthians?" />
+                           placeholder="Ex.: Qual time mais aplicou goleadas? " />
                     <button mat-icon-button matSuffix aria-label="Perguntar" (click)="ask()" [disabled]="isAsking || questionCtrl.invalid">
                     </button>
                     <mat-error *ngIf="questionCtrl.invalid && questionCtrl.touched">
