@@ -10,50 +10,50 @@
 
 <div class="main-content dashboard-section container">
     <!-- 🤖 Perguntas -->
-    <mat-card class="qa-card">
-        <mat-card-header>
-            <mat-card-title>
-                <div class="card-title-with-icon">
-                    <span>Pergunte sobre o bolão</span>
-                </div>
-            </mat-card-title>
-        </mat-card-header>
+<!--    <mat-card class="qa-card">-->
+<!--        <mat-card-header>-->
+<!--            <mat-card-title>-->
+<!--                <div class="card-title-with-icon">-->
+<!--                    <span>Pergunte sobre o bolão</span>-->
+<!--                </div>-->
+<!--            </mat-card-title>-->
+<!--        </mat-card-header>-->
 
-        <mat-card-content>
-            <div class="qa-row">
-                <mat-form-field class="qa-input" appearance="outline">
-                    <mat-label>Faça sua pergunta</mat-label>
-                    <input matInput
-                           [formControl]="questionCtrl"
-                           (keydown.enter)="onKeydownEnter($event)"
-                           placeholder="Ex.: Qual time mais aplicou goleadas? " />
-                    <button mat-icon-button matSuffix aria-label="Perguntar" (click)="ask()" [disabled]="isAsking || questionCtrl.invalid">
-                    </button>
-                    <mat-error *ngIf="questionCtrl.invalid && questionCtrl.touched">
-                        Escreva pelo menos 2 caracteres.
-                    </mat-error>
-                </mat-form-field>
+<!--        <mat-card-content>-->
+<!--            <div class="qa-row">-->
+<!--                <mat-form-field class="qa-input" appearance="outline">-->
+<!--                    <mat-label>Faça sua pergunta</mat-label>-->
+<!--                    <input matInput-->
+<!--                           [formControl]="questionCtrl"-->
+<!--                           (keydown.enter)="onKeydownEnter($event)"-->
+<!--                           placeholder="Ex.: Qual time mais aplicou goleadas? " />-->
+<!--                    <button mat-icon-button matSuffix aria-label="Perguntar" (click)="ask()" [disabled]="isAsking || questionCtrl.invalid">-->
+<!--                    </button>-->
+<!--                    <mat-error *ngIf="questionCtrl.invalid && questionCtrl.touched">-->
+<!--                        Escreva pelo menos 2 caracteres.-->
+<!--                    </mat-error>-->
+<!--                </mat-form-field>-->
 
 
-            </div>
-            <button mat-flat-button color="primary" (click)="ask()" [disabled]="isAsking || questionCtrl.invalid">
-                <mat-progress-spinner *ngIf="isAsking" diameter="18" mode="indeterminate"></mat-progress-spinner>
-                <span *ngIf="!isAsking">Perguntar</span>
-            </button>
+<!--            </div>-->
+<!--            <button mat-flat-button color="primary" (click)="ask()" [disabled]="isAsking || questionCtrl.invalid">-->
+<!--                <mat-progress-spinner *ngIf="isAsking" diameter="18" mode="indeterminate"></mat-progress-spinner>-->
+<!--                <span *ngIf="!isAsking">Perguntar</span>-->
+<!--            </button>-->
 
-            <div *ngIf="lastAnswer" class="qa-answer">
-                <div class="qa-item">
-                    <div class="qa-label">Pergunta</div>
-                    <div class="qa-value">{{ lastAnswer.question }}</div>
-                </div>
-                <mat-divider></mat-divider>
-                <div class="qa-item">
-                    <div class="qa-label">Resposta</div>
-                    <div class="qa-value">{{ lastAnswer.answer }}</div>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
+<!--            <div *ngIf="lastAnswer" class="qa-answer">-->
+<!--                <div class="qa-item">-->
+<!--                    <div class="qa-label">Pergunta</div>-->
+<!--                    <div class="qa-value">{{ lastAnswer.question }}</div>-->
+<!--                </div>-->
+<!--                <mat-divider></mat-divider>-->
+<!--                <div class="qa-item">-->
+<!--                    <div class="qa-label">Resposta</div>-->
+<!--                    <div class="qa-value">{{ lastAnswer.answer }}</div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </mat-card-content>-->
+<!--    </mat-card>-->
 
 
     <div class="grid">
