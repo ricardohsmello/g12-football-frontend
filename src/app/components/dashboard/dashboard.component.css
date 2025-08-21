@@ -149,17 +149,18 @@
     .qa-value { font-size: .975rem; }
   }
 }
+
 .grid {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 0 16px;
+  /*display: flex;*/
+  /*justify-content: center;*/
+  /*align-items: flex-start;*/
+  /*padding: 0 16px;*/
 }
 
 .info-card {
-  width: 100%;
-  max-width: 600px;
+  align-content: center;
 }
+
 
 .rules-card { overflow: hidden; }
 

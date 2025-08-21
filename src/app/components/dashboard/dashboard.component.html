@@ -58,41 +58,30 @@
 
     <div class="grid">
         <mat-card class="info-card" *ngIf="!isLoading; else loadingState">
-            <mat-card-header>
-                <mat-card-title>
-                    <div class="card-title-with-icon">
-                        <span>Informações do Jogo</span>
-                    </div>
-                </mat-card-title>
-            </mat-card-header>
 
             <mat-card-content>
                 <div class="kpi-grid">
                     <div class="kpi">
                         <div class="kpi-content">
-                            <div class="kpi-value">{{ currentRound }}</div>
-                            <div class="kpi-label">Rodada atual</div>
+                            <div class="kpi-label">Rodada atual: {{ currentRound }}</div>
                         </div>
                     </div>
 
                     <div class="kpi">
                         <div class="kpi-content">
-                            <div class="kpi-value">{{ totalPlayers }}</div>
-                            <div class="kpi-label">Total de jogadores</div>
+                            <div class="kpi-label">Jogadores: {{ totalPlayers }}</div>
+                         </div>
+                    </div>
+
+                    <div class="kpi">
+                        <div class="kpi-content">
+                            <div class="kpi-label">Já apostaram: {{ totalBettors }}</div>
                         </div>
                     </div>
 
                     <div class="kpi">
                         <div class="kpi-content">
-                            <div class="kpi-value">{{ totalBettors }}</div>
-                            <div class="kpi-label">Já apostaram</div>
-                        </div>
-                    </div>
-
-                    <div class="kpi">
-                        <div class="kpi-content">
-                            <div class="kpi-value">{{ missing }}</div>
-                            <div class="kpi-label">Faltam apostar</div>
+                            <div class="kpi-label">Faltam apostar: {{ missing }}</div>
                         </div>
                     </div>
 
