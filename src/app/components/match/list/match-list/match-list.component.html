@@ -11,7 +11,14 @@
                     <h4 class="card-title mb-2">Partidas da rodada</h4>
 
                     <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
-                        <form [formGroup]="roundFormGroup">
+                        <form [formGroup]="roundFormGroup" style="display: flex; gap: 16px; flex-wrap: wrap;">
+                            <mat-form-field appearance="outline" style="width: 140px;">
+                                <mat-label>Ano</mat-label>
+                                <mat-select formControlName="yearCtrl">
+                                    <mat-option *ngFor="let year of availableYears" [value]="year">{{ year }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
                             <mat-form-field appearance="outline" style="width: 200px;">
                                 <mat-label>Round</mat-label>
                                 <mat-select formControlName="roundCtrl">

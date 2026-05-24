@@ -16,8 +16,8 @@ import { environment } from '../../../environments/environment';
     this.matchURL = `${environment.apiUrl}/match`;
   }
 
-  public findByUsernameRound(username: string, round: number): Observable<MatchResponse[]> {
-    return this.http.get<MatchResponse[]>(this.matchURL + "/username/" + username + "/round/" + round);
+  public findByUsernameRound(username: string, round: number, year: number): Observable<MatchResponse[]> {
+    return this.http.get<MatchResponse[]>(`${this.matchURL}/username/${username}/round/${round}?year=${year}`);
   }
 
   public findAll(): Observable<Match[]> {
