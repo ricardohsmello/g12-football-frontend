@@ -57,7 +57,7 @@
 
 
     <div class="grid">
-        <mat-card class="info-card" *ngIf="!isLoading; else loadingState">
+        <mat-card class="info-card" *ngIf="!isLoading && !errorMessage; else loadingState">
 
             <mat-card-content>
                 <div class="kpi-grid">
@@ -101,8 +101,13 @@
         <ng-template #loadingState>
             <mat-card class="info-card skeleton">
                 <mat-card-content class="loading">
-                    <mat-progress-spinner mode="indeterminate" diameter="48" color="accent"></mat-progress-spinner>
-                    <p>Carregando dados...</p>
+                    <ng-container *ngIf="errorMessage; else spinning">
+                        <p style="color: #e53935;">{{ errorMessage }}</p>
+                    </ng-container>
+                    <ng-template #spinning>
+                        <mat-progress-spinner mode="indeterminate" diameter="48" color="accent"></mat-progress-spinner>
+                        <p>Carregando dados...</p>
+                    </ng-template>
                 </mat-card-content>
             </mat-card>
         </ng-template>

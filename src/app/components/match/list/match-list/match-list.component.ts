@@ -167,33 +167,41 @@ export class MatchListComponent implements OnInit {
 
       this.hasAdminRole = this.keycloak.getUserRoles().includes('admin');
 
-      this.roundService.getCurrentRound().subscribe((round: number) => {
-        this.currentRound = round;
+      this.roundService.getCurrentRound().subscribe({
+        next: (round: number) => {
+          this.currentRound = round;
 
-        // @ts-ignore
-        this.userFormGroup.get('userCtrl')?.setValue(this.username, { emitEvent: false });
+          // @ts-ignore
+          this.userFormGroup.get('userCtrl')?.setValue(this.username, { emitEvent: false });
 
-        this.roundFormGroup.get('roundCtrl')?.setValue(round, { emitEvent: false });
-        this.findByUsernameRound(this.username, round);
+          this.roundFormGroup.get('roundCtrl')?.setValue(round, { emitEvent: false });
+          this.findByUsernameRound(this.username, round);
 
-        this.roundFormGroup.get('roundCtrl')?.valueChanges.subscribe((roundValue) => {
-          this.isLoading = true;
-          const roundNumber = Number(roundValue);
-          this.currentRound = roundNumber;
-          if (!isNaN(roundNumber)) {
-            this.findByUsernameRound(this.username, roundNumber);
-          }
-        });
+          this.roundFormGroup.get('roundCtrl')?.valueChanges.subscribe((roundValue) => {
+            this.isLoading = true;
+            const roundNumber = Number(roundValue);
+            this.currentRound = roundNumber;
+            if (!isNaN(roundNumber)) {
+              this.findByUsernameRound(this.username, roundNumber);
+            }
+          });
 
-        this.userFormGroup.get('userCtrl')?.valueChanges.subscribe((user) => {
-          this.isLoading = true;
-          this.findByUsernameRound(user, this.currentRound);
-        });
+          this.userFormGroup.get('userCtrl')?.valueChanges.subscribe((user) => {
+            this.isLoading = true;
+            this.findByUsernameRound(user, this.currentRound);
+          });
 
-        this.roundFormGroup.get('yearCtrl')?.valueChanges.subscribe(() => {
-          this.isLoading = true;
-          this.findByUsernameRound(this.username, this.currentRound);
-        });
+          this.roundFormGroup.get('yearCtrl')?.valueChanges.subscribe(() => {
+            this.isLoading = true;
+            this.findByUsernameRound(this.username, this.currentRound);
+          });
+        },
+        error: (err) => {
+          this.matchResponse = [];
+          this.isLoading = false;
+          const msg = err?.error?.message ?? 'Erro ao carregar a rodada atual.';
+          this.snackBar.open(msg, '', { duration: 4000 });
+        }
       });
 
     });
@@ -256,10 +264,18 @@ export class MatchListComponent implements OnInit {
 
   private findByUsernameRound(username: string, round: number) {
     const year = Number(this.roundFormGroup.get('yearCtrl')?.value ?? 2026);
-    this.matchService.findByUsernameRound(username, round, year).subscribe(data => {
-      this.matchResponse = data;
-      this.sortMatches();
-      this.isLoading = false;
+    this.matchService.findByUsernameRound(username, round, year, this.loggedUser).subscribe({
+      next: (data) => {
+        this.matchResponse = data;
+        this.sortMatches();
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.matchResponse = [];
+        this.isLoading = false;
+        const msg = err?.error?.message ?? 'Erro ao carregar partidas.';
+        this.snackBar.open(msg, '', { duration: 4000 });
+      }
     });
   }
 }
