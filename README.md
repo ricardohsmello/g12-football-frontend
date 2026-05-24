@@ -46,7 +46,7 @@ docker run --name keycloak-g12 -p 8180:8080
  quay.io/keycloak/keycloak:24.0.3 start-dev
 ``` 
 
-3. Access the Keycloak admin console at http://localhost:8081/
+3. Access the Keycloak admin console at http://localhost:8180/
 4. Create a new realm for the application.
    - name: g12
 5. Create a new client with the following settings:

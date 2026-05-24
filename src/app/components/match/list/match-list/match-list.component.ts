@@ -23,11 +23,14 @@ export class MatchListComponent implements OnInit {
 
   roundFormGroup = this._formBuilder.group({
     roundCtrl: this._formBuilder.control(13, Validators.required),
+    yearCtrl: this._formBuilder.control(2026, Validators.required),
   });
 
   userFormGroup = this._formBuilder.group({
     userCtrl: this._formBuilder.control('Selecione o jogador', Validators.required),
   });
+
+  availableYears = [2025, 2026];
 
 
   loggedUser: string;
@@ -186,6 +189,11 @@ export class MatchListComponent implements OnInit {
           this.isLoading = true;
           this.findByUsernameRound(user, this.currentRound);
         });
+
+        this.roundFormGroup.get('yearCtrl')?.valueChanges.subscribe(() => {
+          this.isLoading = true;
+          this.findByUsernameRound(this.username, this.currentRound);
+        });
       });
 
     });
@@ -247,7 +255,8 @@ export class MatchListComponent implements OnInit {
   }
 
   private findByUsernameRound(username: string, round: number) {
-    this.matchService.findByUsernameRound(username, round).subscribe(data => {
+    const year = Number(this.roundFormGroup.get('yearCtrl')?.value ?? 2026);
+    this.matchService.findByUsernameRound(username, round, year).subscribe(data => {
       this.matchResponse = data;
       this.sortMatches();
       this.isLoading = false;

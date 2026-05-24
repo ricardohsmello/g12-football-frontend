@@ -10,11 +10,20 @@
         <div class="card-header">
           <h4 class="card-title">🏆 Classificação</h4>
 
-          <form [formGroup]="roundFormGroup">
+          <form [formGroup]="roundFormGroup" style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <mat-form-field appearance="outline" style="width: 140px;">
+              <mat-label>Ano</mat-label>
+              <mat-select formControlName="yearCtrl" (selectionChange)="onYearChange()">
+                <mat-option *ngFor="let year of availableYears" [value]="year">
+                  {{ year }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
             <mat-form-field appearance="outline" style="width: 200px;">
               <mat-label>Select Round</mat-label>
               <mat-select formControlName="roundCtrl" (selectionChange)="onRoundChange()">
-                 <mat-option [value]="0">Total Geral</mat-option>
+                <mat-option [value]="0">Total Geral</mat-option>
                 <mat-option *ngFor="let round of availableRounds" [value]="round">
                   Round {{ round }}
                 </mat-option>

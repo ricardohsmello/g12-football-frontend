@@ -11,7 +11,14 @@
                     <h4 class="card-title mb-2">Partidas da rodada</h4>
 
                     <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
-                        <form [formGroup]="roundFormGroup">
+                        <form [formGroup]="roundFormGroup" style="display: flex; gap: 16px; flex-wrap: wrap;">
+                            <mat-form-field appearance="outline" style="width: 140px;">
+                                <mat-label>Ano</mat-label>
+                                <mat-select formControlName="yearCtrl">
+                                    <mat-option *ngFor="let year of availableYears" [value]="year">{{ year }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
                             <mat-form-field appearance="outline" style="width: 200px;">
                                 <mat-label>Round</mat-label>
                                 <mat-select formControlName="roundCtrl">
@@ -81,23 +88,29 @@
                                     <td class="text-left">{{ matchResponse.status }}</td>
 
                                     <td class="text-left">
-                                        <ng-container *ngIf="matchResponse.prediction; else showEditPrediction">
-                                            <div style="display: flex; align-items: center; gap: 8px;">
-                                                <span>{{ matchResponse.prediction.homeTeam }} x {{
-                                                    matchResponse.prediction.awayTeam }}</span>
+                                        <ng-container *ngIf="matchResponse.status === 'CLOSED' || isCurrentUserSelected; else hiddenPrediction">
+                                            <ng-container *ngIf="matchResponse.prediction; else showEditPrediction">
+                                                <div style="display: flex; align-items: center; gap: 8px;">
+                                                    <span>{{ matchResponse.prediction.homeTeam }} x {{
+                                                        matchResponse.prediction.awayTeam }}</span>
 
-                                                <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button
-                                                    color="accent" (click)="openEditBetDialog(matchResponse)">
-                                                    Editar
+                                                    <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button
+                                                        color="accent" (click)="openEditBetDialog(matchResponse)">
+                                                        Editar
+                                                    </button>
+                                                </div>
+                                            </ng-container>
+
+                                            <ng-template #showEditPrediction>
+                                                <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
+                                                    (click)="openEditBetDialog(matchResponse)">
+                                                    Adicionar
                                                 </button>
-                                            </div>
+                                            </ng-template>
                                         </ng-container>
 
-                                        <ng-template #showEditPrediction>
-                                            <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
-                                                (click)="openEditBetDialog(matchResponse)">
-                                                Adicionar
-                                            </button>
+                                        <ng-template #hiddenPrediction>
+                                            <span style="color: #aaa;">—</span>
                                         </ng-template>
                                     </td>
 

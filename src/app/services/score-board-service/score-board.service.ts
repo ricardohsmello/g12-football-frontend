@@ -19,8 +19,8 @@ export class ScoreBoardService {
     this.scoreBoardURL = `${environment.apiUrl}/scoreboard`;
   }
  
-  getByRound(round: number): Observable<ScoreboardEntry[]> {
-    return this.http.get<ScoreboardEntry[]>(`${this.scoreBoardURL}?round=${round}`);
+  getByRound(round: number, year: number): Observable<ScoreboardEntry[]> {
+    return this.http.get<ScoreboardEntry[]>(`${this.scoreBoardURL}?round=${round}&year=${year}`);
   }
 
 }
