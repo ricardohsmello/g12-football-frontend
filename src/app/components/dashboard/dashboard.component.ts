@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   missing: number;
   isLoading = true;
   isAsking = false;
+  errorMessage: string | null = null;
 
   public isLogged = false;
   public profile: KeycloakProfile | null = null;
@@ -42,14 +43,20 @@ export class DashboardComponent implements OnInit {
       this.profile = await this.keycloak.loadUserProfile();
     }
 
-    this.roundService.getCurrentRound().subscribe((round: number) => {
-      this.currentRound = round;
+    this.roundService.getCurrentRound().subscribe({
+      next: (round: number) => {
+        this.currentRound = round;
 
-      this.betService.countBettorsByRound(round).subscribe(count => {
-        this.totalBettors = count;
+        this.betService.countBettorsByRound(round).subscribe(count => {
+          this.totalBettors = count;
+          this.isLoading = false;
+          this.missing = this.totalPlayers - count;
+        });
+      },
+      error: (err) => {
+        this.errorMessage = err?.error?.message ?? 'Erro ao carregar a rodada atual.';
         this.isLoading = false;
-        this.missing = this.totalPlayers - count;
-      });
+      }
     });
   }
 
