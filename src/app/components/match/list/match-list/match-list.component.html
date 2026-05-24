@@ -88,23 +88,29 @@
                                     <td class="text-left">{{ matchResponse.status }}</td>
 
                                     <td class="text-left">
-                                        <ng-container *ngIf="matchResponse.prediction; else showEditPrediction">
-                                            <div style="display: flex; align-items: center; gap: 8px;">
-                                                <span>{{ matchResponse.prediction.homeTeam }} x {{
-                                                    matchResponse.prediction.awayTeam }}</span>
+                                        <ng-container *ngIf="matchResponse.status === 'CLOSED' || isCurrentUserSelected; else hiddenPrediction">
+                                            <ng-container *ngIf="matchResponse.prediction; else showEditPrediction">
+                                                <div style="display: flex; align-items: center; gap: 8px;">
+                                                    <span>{{ matchResponse.prediction.homeTeam }} x {{
+                                                        matchResponse.prediction.awayTeam }}</span>
 
-                                                <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button
-                                                    color="accent" (click)="openEditBetDialog(matchResponse)">
-                                                    Editar
+                                                    <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button
+                                                        color="accent" (click)="openEditBetDialog(matchResponse)">
+                                                        Editar
+                                                    </button>
+                                                </div>
+                                            </ng-container>
+
+                                            <ng-template #showEditPrediction>
+                                                <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
+                                                    (click)="openEditBetDialog(matchResponse)">
+                                                    Adicionar
                                                 </button>
-                                            </div>
+                                            </ng-template>
                                         </ng-container>
 
-                                        <ng-template #showEditPrediction>
-                                            <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
-                                                (click)="openEditBetDialog(matchResponse)">
-                                                Adicionar
-                                            </button>
+                                        <ng-template #hiddenPrediction>
+                                            <span style="color: #aaa;">—</span>
                                         </ng-template>
                                     </td>
 
