@@ -11,44 +11,51 @@ import { MatchBetEditComponent } from '../../bet-edit/match-bet-edit/match-bet-e
 import { BetService } from '../../../../services/bet-service/bet.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../../../dialog/confirm-dialog.component';
-import {RoundService} from "../../../../services/round-service/round.service";
+import { RoundService } from "../../../../services/round-service/round.service";
+import { Competition, COMPETITIONS, DEFAULT_COMPETITION, WORLD_CUP_ROUND_LABELS } from '../../../../domain/model/competition/competition';
 
 @Component({
   selector: 'app-match-list',
   templateUrl: './match-list.component.html',
   styleUrls: ['./match-list.component.scss']
-
 })
 export class MatchListComponent implements OnInit {
 
   roundFormGroup = this._formBuilder.group({
-    roundCtrl: this._formBuilder.control(13, Validators.required),
-    yearCtrl: this._formBuilder.control(2026, Validators.required),
+    roundCtrl: this._formBuilder.control(1, Validators.required),
+    competitionCtrl: this._formBuilder.control(DEFAULT_COMPETITION, Validators.required),
   });
 
   userFormGroup = this._formBuilder.group({
     userCtrl: this._formBuilder.control('Selecione o jogador', Validators.required),
   });
 
-  availableYears = [2025, 2026];
-
-
   loggedUser: string;
   username: string;
   matchResponse: MatchResponse[];
-  rounds: number[];
-  currentRound: number = 13;
+  currentRound: number = 1;
   public hasAdminRole: boolean = false;
   name?: string;
   sortOrder: 'asc' | 'desc' = 'desc';
   dateSortOrder: 'asc' | 'desc' = 'asc';
+  roundSortOrder: 'asc' | 'desc' = 'asc';
+  groupSortOrder: 'asc' | 'desc' = 'asc';
   isLoading = true;
+  competitions = COMPETITIONS;
 
   users = [
     "antonio", "braulio", "bruno", "cleber", "daniel", "edmilson", "fabio",
     "gabriel", "giovanni", "guilherme", "heraldo", "joaozorzella", "lucas", "luciano", "matheus",
     "murilo", "rafaelcarvalho", "ricardocoutinho", "ricardomello", "weslley", "zitras"
   ];
+
+  get selectedCompetition(): Competition {
+    return this.roundFormGroup.get('competitionCtrl')?.value ?? DEFAULT_COMPETITION;
+  }
+
+  get rounds(): number[] {
+    return this.selectedCompetition.rounds;
+  }
 
   constructor(
     private matchService: MatchService,
@@ -59,6 +66,22 @@ export class MatchListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private roundService: RoundService
   ) {
+  }
+
+  toggleRoundSortOrder(): void {
+    this.roundSortOrder = this.roundSortOrder === 'asc' ? 'desc' : 'asc';
+    this.matchResponse.sort((a, b) =>
+      this.roundSortOrder === 'asc' ? a.round - b.round : b.round - a.round
+    );
+  }
+
+  toggleGroupSortOrder(): void {
+    this.groupSortOrder = this.groupSortOrder === 'asc' ? 'desc' : 'asc';
+    this.matchResponse.sort((a, b) => {
+      const ga = a.group ?? '';
+      const gb = b.group ?? '';
+      return this.groupSortOrder === 'asc' ? ga.localeCompare(gb) : gb.localeCompare(ga);
+    });
   }
 
   toggleDateSortOrder() {
@@ -83,10 +106,7 @@ export class MatchListComponent implements OnInit {
     this.matchResponse.sort((a, b) => {
       const aPoints = a.pointsEarned ?? 0;
       const bPoints = b.pointsEarned ?? 0;
-
-      return this.sortOrder === 'asc'
-        ? aPoints - bPoints
-        : bPoints - aPoints;
+      return this.sortOrder === 'asc' ? aPoints - bPoints : bPoints - aPoints;
     });
   }
 
@@ -97,10 +117,10 @@ export class MatchListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
       if (result) {
         this.keycloak.loadUserProfile().then(profile => {
           const payload = {
+            competitionId: this.selectedCompetition.competitionId,
             matchId: match.id,
             username: profile.username ?? profile.email ?? 'unknown',
             prediction: {
@@ -137,7 +157,6 @@ export class MatchListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-
         this.matchService.updateScore(match.id, result).subscribe({
           next: () => {
             this.snackBar.open('Match score added successfully!', '', { duration: 3000 });
@@ -151,60 +170,74 @@ export class MatchListComponent implements OnInit {
               this.snackBar.open('Unexpected error occurred.', '', { duration: 4000 });
             }
           }
-        })
+        });
       }
     });
   }
 
   async ngOnInit() {
-
-
     this.keycloak.loadUserProfile().then(profile => {
-      this.loggedUser = profile.username ?? profile.email ?? 'unknown'
-      this.username = profile.username ?? profile.email ?? 'unknown'
-
-      this.rounds = Array.from({ length: 26 }, (_, i) => i + 13);
-
+      this.loggedUser = profile.username ?? profile.email ?? 'unknown';
+      this.username = profile.username ?? profile.email ?? 'unknown';
       this.hasAdminRole = this.keycloak.getUserRoles().includes('admin');
 
-      this.roundService.getCurrentRound().subscribe({
-        next: (round: number) => {
-          this.currentRound = round;
+      // @ts-ignore
+      this.userFormGroup.get('userCtrl')?.setValue(this.username, { emitEvent: false });
 
-          // @ts-ignore
-          this.userFormGroup.get('userCtrl')?.setValue(this.username, { emitEvent: false });
+      this.loadCurrentRound(this.selectedCompetition);
 
-          this.roundFormGroup.get('roundCtrl')?.setValue(round, { emitEvent: false });
-          this.findByUsernameRound(this.username, round);
+      this.roundFormGroup.get('competitionCtrl')?.valueChanges.subscribe((competition: Competition) => {
+        this.isLoading = true;
+        this.loadCurrentRound(competition);
+      });
 
-          this.roundFormGroup.get('roundCtrl')?.valueChanges.subscribe((roundValue) => {
-            this.isLoading = true;
-            const roundNumber = Number(roundValue);
-            this.currentRound = roundNumber;
-            if (!isNaN(roundNumber)) {
-              this.findByUsernameRound(this.username, roundNumber);
-            }
-          });
-
-          this.userFormGroup.get('userCtrl')?.valueChanges.subscribe((user) => {
-            this.isLoading = true;
-            this.findByUsernameRound(user, this.currentRound);
-          });
-
-          this.roundFormGroup.get('yearCtrl')?.valueChanges.subscribe(() => {
-            this.isLoading = true;
-            this.findByUsernameRound(this.username, this.currentRound);
-          });
-        },
-        error: (err) => {
-          this.matchResponse = [];
-          this.isLoading = false;
-          const msg = err?.error?.message ?? 'Erro ao carregar a rodada atual.';
-          this.snackBar.open(msg, '', { duration: 4000 });
+      this.roundFormGroup.get('roundCtrl')?.valueChanges.subscribe((roundValue) => {
+        this.isLoading = true;
+        const roundNumber = Number(roundValue);
+        this.currentRound = roundNumber;
+        if (!isNaN(roundNumber)) {
+          this.findByUsernameRound(this.username, roundNumber);
         }
       });
 
+      this.userFormGroup.get('userCtrl')?.valueChanges.subscribe((user) => {
+        this.isLoading = true;
+        this.findByUsernameRound(user, this.currentRound);
+      });
     });
+  }
+
+  private loadCurrentRound(competition: Competition): void {
+    this.roundService.getCurrentRound(competition.competitionId).subscribe({
+      next: (round: number) => {
+        this.currentRound = round;
+        this.roundFormGroup.get('roundCtrl')?.setValue(round, { emitEvent: false });
+        this.findByUsernameRound(this.username, round);
+      },
+      error: (err) => {
+        this.matchResponse = [];
+        this.isLoading = false;
+        const msg = err?.error?.message ?? 'Erro ao carregar a rodada atual.';
+        this.snackBar.open(msg, '', { duration: 4000 });
+      }
+    });
+  }
+
+  compareCompetition(a: Competition, b: Competition): boolean {
+    return a?.competitionId === b?.competitionId && a?.year === b?.year;
+  }
+
+  get showGroupColumn(): boolean {
+    if (this.selectedCompetition.competitionId !== 'world-cup-2026') return false;
+    const round = Number(this.roundFormGroup.get('roundCtrl')?.value);
+    return round >= 1 && round <= 3;
+  }
+
+  roundLabel(round: number): string {
+    if (this.selectedCompetition.competitionId === 'world-cup-2026') {
+      return WORLD_CUP_ROUND_LABELS[round] ?? `Rodada ${round}`;
+    }
+    return `${round}`;
   }
 
   get isCurrentUserSelected(): boolean {
@@ -221,16 +254,15 @@ export class MatchListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.isLoading = true
+        this.isLoading = true;
 
-        this.matchService.scoreRound(this.currentRound).subscribe({
+        this.matchService.scoreRound(this.currentRound, this.selectedCompetition.competitionId, this.selectedCompetition.year).subscribe({
           next: () => {
             this.snackBar.open('Round processing routine triggered successfully', '', { duration: 3000 });
             this.findByUsernameRound(this.username, this.currentRound);
           },
           error: (error) => {
             this.isLoading = false;
-
             if (error.error && error.error.message) {
               this.snackBar.open(error.error.message, '', { duration: 4000 });
             } else {
@@ -247,13 +279,8 @@ export class MatchListComponent implements OnInit {
 
   public add() {
     const dialogRef = this.dialog.open(MatchAddComponent, {
-      data: { name: this.name },
-    })
-
-    dialogRef.afterClosed().subscribe(async result => {
-      (this.matchService.save(result)).subscribe();
-    }
-    );
+      data: { competition: this.selectedCompetition },
+    });
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result === true) {
@@ -263,8 +290,8 @@ export class MatchListComponent implements OnInit {
   }
 
   private findByUsernameRound(username: string, round: number) {
-    const year = Number(this.roundFormGroup.get('yearCtrl')?.value ?? 2026);
-    this.matchService.findByUsernameRound(username, round, year, this.loggedUser).subscribe({
+    const { competitionId, year } = this.selectedCompetition;
+    this.matchService.findByUsernameRound(username, round, year, this.loggedUser, competitionId).subscribe({
       next: (data) => {
         this.matchResponse = data;
         this.sortMatches();
@@ -279,5 +306,3 @@ export class MatchListComponent implements OnInit {
     });
   }
 }
-
-

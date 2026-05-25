@@ -6,6 +6,7 @@ import { BetService } from '../../services/bet-service/bet.service';
 import { RagService } from '../../services/rag-service/rag.service';
 import { FormControl, Validators } from '@angular/forms';
 import { RagAnswer } from '../../domain/model/rag/rag';
+import { DEFAULT_COMPETITION } from '../../domain/model/competition/competition';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,11 +44,12 @@ export class DashboardComponent implements OnInit {
       this.profile = await this.keycloak.loadUserProfile();
     }
 
-    this.roundService.getCurrentRound().subscribe({
+    const { competitionId } = DEFAULT_COMPETITION;
+    this.roundService.getCurrentRound(competitionId).subscribe({
       next: (round: number) => {
         this.currentRound = round;
 
-        this.betService.countBettorsByRound(round).subscribe(count => {
+        this.betService.countBettorsByRound(round, competitionId).subscribe(count => {
           this.totalBettors = count;
           this.isLoading = false;
           this.missing = this.totalPlayers - count;

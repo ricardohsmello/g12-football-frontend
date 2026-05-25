@@ -19,8 +19,8 @@ import {Observable} from "rxjs/Observable";
     return this.http.post<Bet>(this.betURL, bet);
   }
 
-  public countBettorsByRound(round: number): Observable<number> {
-    return this.http.get<number>(`${this.betURL}/round/${round}/bettors-count`);
+  public countBettorsByRound(round: number, competitionId: string = 'brasileirao'): Observable<number> {
+    return this.http.get<number>(`${this.betURL}/round/${round}/bettors-count?competitionId=${competitionId}`);
   }
 }
 

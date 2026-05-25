@@ -16,8 +16,8 @@ import { environment } from '../../../environments/environment';
     this.matchURL = `${environment.apiUrl}/match`;
   }
 
-  public findByUsernameRound(username: string, round: number, year: number, currentUsername: string): Observable<MatchResponse[]> {
-    return this.http.get<MatchResponse[]>(`${this.matchURL}/username/${username}/round/${round}?year=${year}&currentUsername=${currentUsername}`);
+  public findByUsernameRound(username: string, round: number, year: number, currentUsername: string, competitionId: string): Observable<MatchResponse[]> {
+    return this.http.get<MatchResponse[]>(`${this.matchURL}/username/${username}/round/${round}?year=${year}&currentUsername=${currentUsername}&competitionId=${competitionId}`);
   }
 
   public findAll(): Observable<Match[]> {
@@ -33,8 +33,8 @@ import { environment } from '../../../environments/environment';
     return this.http.post<Match>(this.matchURL, match);
   }
 
-  public scoreRound(round: number) {
-    return this.http.put<void>(`${environment.apiUrl}/rounds-scoring/${round}/score`, {});
+  public scoreRound(round: number, competitionId: string, year: number) {
+    return this.http.put<void>(`${environment.apiUrl}/rounds-scoring/${round}/score?competitionId=${competitionId}&year=${year}`, {});
   }
 
 }

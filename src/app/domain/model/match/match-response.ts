@@ -2,6 +2,9 @@ import { Score } from "../score/score"
 
 export class MatchResponse {
    id: string;
+   competitionId: string;
+   stage: string;
+   group: string;
    round: number;
    homeTeam: string;
    awayTeam: string;
