@@ -12,17 +12,17 @@
 
                     <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
                         <form [formGroup]="roundFormGroup" style="display: flex; gap: 16px; flex-wrap: wrap;">
-                            <mat-form-field appearance="outline" style="width: 140px;">
-                                <mat-label>Ano</mat-label>
-                                <mat-select formControlName="yearCtrl">
-                                    <mat-option *ngFor="let year of availableYears" [value]="year">{{ year }}</mat-option>
+                            <mat-form-field appearance="outline" style="width: 220px;">
+                                <mat-label>Competição</mat-label>
+                                <mat-select formControlName="competitionCtrl" [compareWith]="compareCompetition">
+                                    <mat-option *ngFor="let c of competitions" [value]="c">{{ c.label }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
 
-                            <mat-form-field appearance="outline" style="width: 200px;">
-                                <mat-label>Round</mat-label>
+                            <mat-form-field appearance="outline" style="width: 240px;">
+                                <mat-label>Rodada</mat-label>
                                 <mat-select formControlName="roundCtrl">
-                                    <mat-option *ngFor="let round of rounds" [value]="round">{{ round }}</mat-option>
+                                    <mat-option *ngFor="let round of rounds" [value]="round">{{ roundLabel(round) }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </form>
@@ -55,7 +55,20 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">Rodada</th>
+                                    <th scope="col">
+                                        Rodada
+                                        <button mat-icon-button style="vertical-align: middle;"
+                                            (click)="toggleRoundSortOrder()" matTooltip="Ordenar por rodada">
+                                            <mat-icon>{{ roundSortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+                                        </button>
+                                    </th>
+                                    <th scope="col" *ngIf="showGroupColumn">
+                                        Grupo
+                                        <button mat-icon-button style="vertical-align: middle;"
+                                            (click)="toggleGroupSortOrder()" matTooltip="Ordenar por grupo">
+                                            <mat-icon>{{ groupSortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+                                        </button>
+                                    </th>
                                     <th scope="col">Mandante</th>
                                     <th scope="col">Visitante</th>
                                     <th scope="col">
@@ -81,7 +94,8 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let matchResponse of matchResponse">
-                                    <td class="text-left">{{ matchResponse.round }}</td>
+                                    <td class="text-left">{{ roundLabel(matchResponse.round) }}</td>
+                                    <td class="text-left" *ngIf="showGroupColumn">{{ matchResponse.group ? matchResponse.group : '—' }}</td>
                                     <td class="text-left">{{ matchResponse.homeTeam }}</td>
                                     <td class="text-left">{{ matchResponse.awayTeam }}</td>
                                     <td class="text-left">{{ matchResponse.matchDate | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</td>

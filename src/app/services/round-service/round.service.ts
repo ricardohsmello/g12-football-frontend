@@ -13,9 +13,8 @@ import {Observable} from "rxjs/Observable";
         this.roundURL = `${environment.apiUrl}/round`;
     }
 
-    public getCurrentRound() : Observable<number> {
-        console.log(this.roundURL);
-        return this.http.get<number>(this.roundURL + "/current");
+    public getCurrentRound(competitionId: string = 'brasileirao') : Observable<number> {
+        return this.http.get<number>(`${this.roundURL}/current?competitionId=${competitionId}`);
     }
 
 }

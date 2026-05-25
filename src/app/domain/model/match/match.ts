@@ -1,5 +1,8 @@
 export class Match {
-    round: number;    
+    competitionId: string;
+    stage: string;
+    group: string;
+    round: number;
     homeTeam: string;
     awayTeam: string;
     matchDate: Date;

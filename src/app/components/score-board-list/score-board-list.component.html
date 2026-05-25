@@ -6,41 +6,38 @@
     <div class="col-md-12">
       <div class="card">
 
-          <!-- Header com seletor de rodada -->
         <div class="card-header">
           <h4 class="card-title">🏆 Classificação</h4>
 
           <form [formGroup]="roundFormGroup" style="display: flex; gap: 16px; flex-wrap: wrap;">
-            <mat-form-field appearance="outline" style="width: 140px;">
-              <mat-label>Ano</mat-label>
-              <mat-select formControlName="yearCtrl" (selectionChange)="onYearChange()">
-                <mat-option *ngFor="let year of availableYears" [value]="year">
-                  {{ year }}
-                </mat-option>
+            <mat-form-field appearance="outline" style="width: 220px;">
+              <mat-label>Competição</mat-label>
+              <mat-select formControlName="competitionCtrl" [compareWith]="compareCompetition" (selectionChange)="onCompetitionChange()">
+                <mat-option *ngFor="let c of competitions" [value]="c">{{ c.label }}</mat-option>
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" style="width: 200px;">
-              <mat-label>Select Round</mat-label>
+            <mat-form-field appearance="outline" style="width: 240px;">
+              <mat-label>Rodada</mat-label>
               <mat-select formControlName="roundCtrl" (selectionChange)="onRoundChange()">
                 <mat-option [value]="0">Total Geral</mat-option>
                 <mat-option *ngFor="let round of availableRounds" [value]="round">
-                  Round {{ round }}
+                  {{ roundLabel(round) }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </form>
         </div>
 
-          <mat-progress-spinner
-                  *ngIf="isLoading"
-                  mode="indeterminate"
-                  diameter="80"
-                  color="accent"
-                  style="margin: 16px auto; display: block;">
-          </mat-progress-spinner>
-        <div class="card-body"  *ngIf="!isLoading">
+        <mat-progress-spinner
+                *ngIf="isLoading"
+                mode="indeterminate"
+                diameter="80"
+                color="accent"
+                style="margin: 16px auto; display: block;">
+        </mat-progress-spinner>
 
+        <div class="card-body" *ngIf="!isLoading">
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>

@@ -1,8 +1,11 @@
-.mat-stepper-horizontal {
-    margin-top: 8px;
-  }
-  
-  .mat-mdc-form-field {
-    margin-top: 16px;
-  }
-  
+.match-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 360px;
+  padding: 8px 0;
+}
+
+.full-width {
+  width: 100%;
+}
