@@ -37,7 +37,7 @@ export class MatchListComponent implements OnInit {
   public hasAdminRole: boolean = false;
   name?: string;
   sortOrder: 'asc' | 'desc' = 'desc';
-  dateSortOrder: 'asc' | 'desc' = 'desc';
+  dateSortOrder: 'asc' | 'desc' = 'asc';
   roundSortOrder: 'asc' | 'desc' = 'asc';
   groupSortOrder: 'asc' | 'desc' = 'asc';
   activeSortField: 'date' | 'points' | 'round' | 'group' | null = null;
@@ -261,10 +261,14 @@ export class MatchListComponent implements OnInit {
     return this.selectedCompetition.competitionId === 'world-cup-2026';
   }
 
-  get isGroupStage(): boolean {
-    if (this.activeSortField !== null) return false;
+  get isWcGroupRound(): boolean {
     const round = Number(this.roundFormGroup.get('roundCtrl')?.value);
     return this.isWorldCup && round >= 1 && round <= 3;
+  }
+
+  get isGroupStage(): boolean {
+    if (this.activeSortField !== null) return false;
+    return this.isWcGroupRound;
   }
 
   get groupedMatches(): { group: string; matches: MatchResponse[] }[] {
@@ -334,6 +338,7 @@ export class MatchListComponent implements OnInit {
     this.matchService.findByUsernameRound(username, round, year, this.loggedUser, competitionId).subscribe({
       next: (data) => {
         this.matchResponse = data;
+        this.activeSortField = null;
         this.sortMatches();
         this.isLoading = false;
       },

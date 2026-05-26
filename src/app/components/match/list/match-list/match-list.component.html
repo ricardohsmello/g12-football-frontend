@@ -64,7 +64,7 @@
             </button>
 
             <button class="sort-chip reset-chip" *ngIf="activeSortField !== null" (click)="activeSortField = null">
-              ✕ Agrupar por grupo
+              {{ isWcGroupRound ? '&#10005; Agrupar por grupo' : '&#10005; Limpar ordenacao' }}
             </button>
           </div>
         </div>
