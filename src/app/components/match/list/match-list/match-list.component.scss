@@ -259,6 +259,35 @@ $slate-800:    #1e293b;
   font-weight: 400;
 }
 
+.score-prediction-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-prediction {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: $app-orange;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.score-prediction-label {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.60rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $slate-400;
+  white-space: nowrap;
+  line-height: 1;
+}
+
 // Footer
 .match-footer {
   display: flex;

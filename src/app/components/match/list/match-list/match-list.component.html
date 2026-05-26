@@ -127,11 +127,22 @@
         </span>
 
         <div class="score-center">
-          <ng-container *ngIf="m.score; else noScore">
+          <!-- Jogo encerrado: mostra placar final -->
+          <ng-container *ngIf="m.score; else openCenter">
             <span class="score-value">{{ m.score.homeTeam }} &ndash; {{ m.score.awayTeam }}</span>
           </ng-container>
-          <ng-template #noScore>
-            <span class="score-vs">vs</span>
+
+          <!-- Jogo aberto: mostra palpite no centro ou "vs" -->
+          <ng-template #openCenter>
+            <ng-container *ngIf="m.prediction && isCurrentUserSelected; else showVs">
+              <div class="score-prediction-wrap">
+                <span class="score-prediction">{{ m.prediction.homeTeam }} &ndash; {{ m.prediction.awayTeam }}</span>
+                <span class="score-prediction-label">palpite</span>
+              </div>
+            </ng-container>
+            <ng-template #showVs>
+              <span class="score-vs">vs</span>
+            </ng-template>
           </ng-template>
         </div>
 
@@ -141,26 +152,23 @@
         </span>
       </div>
 
-      <!-- Linha 3: palpite + pontos + ações -->
+      <!-- Linha 3: palpite (só encerrado) + botões + pontos -->
       <div class="match-footer">
 
         <div class="prediction-area">
-          <span class="label-small">Palpite</span>
-          <ng-container *ngIf="m.status === 'CLOSED' || isCurrentUserSelected; else hiddenPrediction">
-            <ng-container *ngIf="m.prediction; else noPrediction">
-              <span class="prediction-value">{{ m.prediction.homeTeam }} x {{ m.prediction.awayTeam }}</span>
-              <button *ngIf="m.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
-                class="action-btn" (click)="openEditBetDialog(m)">Editar</button>
-            </ng-container>
-            <ng-template #noPrediction>
-              <button *ngIf="m.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
-                class="action-btn" (click)="openEditBetDialog(m)">Adicionar</button>
-              <span *ngIf="m.status !== 'OPEN' || !isCurrentUserSelected" class="no-data">—</span>
-            </ng-template>
+          <!-- Encerrado: mostra palpite no footer para comparar com placar -->
+          <ng-container *ngIf="m.status === 'CLOSED'">
+            <span class="label-small">Palpite</span>
+            <span class="prediction-value" *ngIf="m.prediction">{{ m.prediction.homeTeam }} x {{ m.prediction.awayTeam }}</span>
+            <span class="no-data" *ngIf="!m.prediction">—</span>
           </ng-container>
-          <ng-template #hiddenPrediction>
-            <span class="no-data">—</span>
-          </ng-template>
+
+          <!-- Aberto: botão editar/adicionar -->
+          <ng-container *ngIf="m.status === 'OPEN' && isCurrentUserSelected">
+            <button mat-button color="accent" class="action-btn" (click)="openEditBetDialog(m)">
+              {{ m.prediction ? 'Editar palpite' : 'Adicionar palpite' }}
+            </button>
+          </ng-container>
         </div>
 
         <div class="points-badge" *ngIf="m.status === 'CLOSED'">
