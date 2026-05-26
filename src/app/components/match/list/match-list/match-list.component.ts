@@ -23,7 +23,10 @@ export class MatchListComponent implements OnInit {
 
   roundFormGroup = this._formBuilder.group({
     roundCtrl: this._formBuilder.control(1, Validators.required),
-    competitionCtrl: this._formBuilder.control(DEFAULT_COMPETITION, Validators.required),
+    competitionCtrl: this._formBuilder.control(
+      COMPETITIONS.find(c => c.competitionId === 'world-cup-2026') ?? DEFAULT_COMPETITION,
+      Validators.required
+    ),
   });
 
   userFormGroup = this._formBuilder.group({
