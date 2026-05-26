@@ -352,7 +352,7 @@
   height: 260px;
   padding-top: 180px;
   padding-bottom: 45px;
-  @include panel-gradient($black-color);
+  background: url('/assets/img/banner.jpg') center/cover no-repeat !important;
   position: relative;
   overflow: hidden;
 
