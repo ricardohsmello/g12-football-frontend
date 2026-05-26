@@ -1,46 +1,34 @@
 <div class="panel-header panel-header-gp">
-
 </div>
+
 <div class="main-content" style="padding: 24px;">
 
-    <div style="display: flex; flex-direction: column; gap: 24px; align-items: center;">
-        <mat-card style="width: 100%; max-width: 100%;">
-            <iframe style="background: #21313C;
-        border: none; border-radius: 2px; box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);"
-                    width="100%" height="480"
-                    src="https://charts.mongodb.com/charts-g12-jngvndg/embed/charts?id=088e8f27-ce1e-461c-9b1c-cba875895db1&maxDataAge=14400&theme=dark&autoRefresh=true">
-            </iframe>
-        </mat-card>
-
-        <mat-card style="width: 100%; max-width:100%;">
-            <iframe style="background: #FFFFFF; border: none; border-radius: 2px; box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);"
-                    width="100%" height="480" src="https://charts.mongodb.com/charts-g12-jngvndg/embed/charts?id=a0f95b62-58dd-40bb-ad8c-77bc9c3b8181&maxDataAge=14400&theme=light&autoRefresh=true"></iframe>
-        </mat-card>
-
-        <mat-card style="width: 100%; max-width:100%;">
-            <iframe style="background: #FFFFFF; border: none; border-radius: 2px; box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);"
-                    width="100%" height="480" src="https://charts.mongodb.com/charts-g12-jngvndg/embed/charts?id=0024a16e-5055-464f-aaa8-b9e63c0bdac1&maxDataAge=14400&theme=light&autoRefresh=true"></iframe>
-        </mat-card>
-
-        <mat-card style="width: 100%; max-width:100%;">
-            <iframe style="background: #FFFFFF; border: none; border-radius: 2px; box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);"
-                    width="100%" height="480" src="https://charts.mongodb.com/charts-g12-jngvndg/embed/charts?id=a77c30ab-3380-41c7-86f4-887f79ed3c19&maxDataAge=14400&theme=light&autoRefresh=true"></iframe>
-        </mat-card>
-
-        <mat-card style="width: 100%; max-width:100%;">
-            <iframe style="background: #FFFFFF; border: none; border-radius: 2px; box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);"
-                    width="100%" height="480"
-                    src="https://charts.mongodb.com/charts-g12-jngvndg/embed/charts?id=aa9b22d6-314b-4d4d-b02c-0edb8ccdd111&maxDataAge=14400&theme=light&autoRefresh=true">
-            </iframe>
-        </mat-card>
-
-         <mat-card style="width: 100%; max-width:100%;">
-            <iframe style="background: #FFFFFF; border: none; border-radius: 2px; box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);"
-                    width="100%" height="480"
-                    src="https://charts.mongodb.com/charts-g12-jngvndg/embed/charts?id=9ceba9c1-61ce-4a0b-bc2a-75ccca6233bd&maxDataAge=14400&theme=light&autoRefresh=true">
-            </iframe>
-        </mat-card>
- 
+  <div class="card" style="margin-bottom: 24px;">
+    <div class="card-header">
+      <h4 class="card-title">Gráficos</h4>
+      <form [formGroup]="filterFormGroup" style="display: flex; gap: 16px; flex-wrap: wrap;">
+        <mat-form-field appearance="outline" style="width: 220px;">
+          <mat-label>Competição</mat-label>
+          <mat-select formControlName="competitionCtrl" [compareWith]="compareCompetition" (selectionChange)="onCompetitionChange()">
+            <mat-option *ngFor="let c of competitions" [value]="c">{{ c.label }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
     </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 24px; align-items: center;">
+
+    <mat-card style="width: 100%; max-width: 100%;" *ngFor="let url of chartUrls; let i = index">
+      <iframe
+        [src]="url"
+        style="border: none; border-radius: 2px; box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);"
+        [style.background]="i === 0 ? '#21313C' : '#FFFFFF'"
+        width="100%"
+        height="480">
+      </iframe>
+    </mat-card>
+
+  </div>
 
 </div>
