@@ -171,8 +171,9 @@
           </ng-container>
         </div>
 
-        <div class="points-badge" *ngIf="m.status === 'CLOSED'">
-          <span>{{ m.pointsEarned ?? 0 }} pt</span>
+        <div class="points-badge" *ngIf="m.status === 'CLOSED'" [class.points-positive]="(m.pointsEarned ?? 0) > 0">
+          <img *ngIf="(m.pointsEarned ?? 0) > 0" src="assets/img/star.svg" class="star-icon" alt="star">
+          <span>{{ (m.pointsEarned ?? 0) > 0 ? '+' : '' }}{{ m.pointsEarned ?? 0 }} pt</span>
         </div>
 
         <div class="score-actions" *ngIf="hasAdminRole">
