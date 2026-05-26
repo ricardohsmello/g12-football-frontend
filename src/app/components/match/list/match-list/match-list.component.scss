@@ -218,29 +218,32 @@ $slate-800:    #1e293b;
 }
 
 .team {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: $slate-800;
   flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 6px;
+  word-break: break-word;
+  overflow-wrap: break-word;
 
-  &.home-team { justify-content: flex-end; }
-  &.away-team { justify-content: flex-start; }
+  &.home-team { justify-content: flex-end; text-align: right; }
+  &.away-team { justify-content: flex-start; text-align: left; }
 }
 
 .team-flag {
-  width: 22px;
-  height: 15px;
-  object-fit: cover;
-  border-radius: 2px;
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
   flex-shrink: 0;
 }
 
 .score-center {
   text-align: center;
-  min-width: 72px;
+  min-width: 64px;
+  flex-shrink: 0;
 }
 
 .score-value {
