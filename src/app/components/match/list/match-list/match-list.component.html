@@ -121,7 +121,10 @@
 
       <!-- Linha 2: placar central -->
       <div class="match-scoreline">
-        <span class="team home-team">{{ m.homeTeam }}</span>
+        <span class="team home-team">
+          {{ m.homeTeam }}
+          <img *ngIf="flagUrl(m.homeTeam)" [src]="flagUrl(m.homeTeam)" class="team-flag" [alt]="m.homeTeam">
+        </span>
 
         <div class="score-center">
           <ng-container *ngIf="m.score; else noScore">
@@ -132,7 +135,10 @@
           </ng-template>
         </div>
 
-        <span class="team away-team">{{ m.awayTeam }}</span>
+        <span class="team away-team">
+          <img *ngIf="flagUrl(m.awayTeam)" [src]="flagUrl(m.awayTeam)" class="team-flag" [alt]="m.awayTeam">
+          {{ m.awayTeam }}
+        </span>
       </div>
 
       <!-- Linha 3: palpite + pontos + ações -->

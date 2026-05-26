@@ -287,6 +287,61 @@ export class MatchListComponent implements OnInit {
       .map(([group, matches]) => ({ group, matches }));
   }
 
+  private readonly FLAG_MAP: Record<string, string> = {
+    'África do Sul':   'assets/img/flags/africa.jpg',
+    'Alemanha':        'assets/img/flags/alemanha.jpg',
+    'Argélia':         'assets/img/flags/algeria.jpg',
+    'Arábia Saudita':  'assets/img/flags/arabia.jpg',
+    'Argentina':       'assets/img/flags/argentina.jpg',
+    'Austrália':       'assets/img/flags/australia.jpg',
+    'Áustria':         'assets/img/flags/austria.jpg',
+    'Bélgica':         'assets/img/flags/belgica.jpg',
+    'Bósnia':          'assets/img/flags/bosnia.jpg',
+    'Brasil':          'assets/img/flags/brasil.jpg',
+    'Cabo Verde':      'assets/img/flags/caboverde.jpg',
+    'Canadá':          'assets/img/flags/canada.jpg',
+    'Colômbia':        'assets/img/flags/colombia.jpg',
+    'Coreia do Sul':   'assets/img/flags/coreia.jpg',
+    'Costa do Marfim': 'assets/img/flags/costamarfim.jpg',
+    'Croácia':         'assets/img/flags/croacia.jpg',
+    'Curaçao':         'assets/img/flags/curacao.jpg',
+    'Catar':           'assets/img/flags/catar.jpg',
+    'Egito':           'assets/img/flags/egito.jpg',
+    'Equador':         'assets/img/flags/equador.jpg',
+    'Escócia':         'assets/img/flags/escocia.jpg',
+    'Espanha':         'assets/img/flags/espanha.jpg',
+    'Estados Unidos':  'assets/img/flags/eua.jpg',
+    'França':          'assets/img/flags/franca.jpg',
+    'Haiti':           'assets/img/flags/haiti.jpg',
+    'Gana':            'assets/img/flags/gana.jpg',
+    'Holanda':         'assets/img/flags/holanda.jpg',
+    'Inglaterra':      'assets/img/flags/inglaterra.jpg',
+    'Irã':             'assets/img/flags/iran.jpg',
+    'Iraque':          'assets/img/flags/iraque.jpg',
+    'Japão':           'assets/img/flags/japao.jpg',
+    'Jordânia':        'assets/img/flags/jordania.jpg',
+    'Marrocos':        'assets/img/flags/marrocos.jpg',
+    'México':          'assets/img/flags/mexico.jpg',
+    'Nova Zelândia':   'assets/img/flags/novazelandia.jpg',
+    'Noruega':         'assets/img/flags/noruega.jpg',
+    'Panamá':          'assets/img/flags/panama.jpg',
+    'Paraguai':        'assets/img/flags/paraguai.jpg',
+    'Portugal':        'assets/img/flags/portugal.jpg',
+    'RD Congo':        'assets/img/flags/congo.jpg',
+    'República Tcheca':'assets/img/flags/republica tchca.jpg',
+    'Senegal':         'assets/img/flags/senegal.jpg',
+    'Suécia':          'assets/img/flags/suecia.jpg',
+    'Suíça':           'assets/img/flags/suica.jpg',
+    'Tunísia':         'assets/img/flags/tunisia.jpg',
+    'Turquia':         'assets/img/flags/turquia.jpg',
+    'Uruguai':         'assets/img/flags/uruguai.jpg',
+    'Uzbequistão':     'assets/img/flags/uzbequistao.jpg',
+  };
+
+  flagUrl(team: string): string | null {
+    return this.FLAG_MAP[team] ?? null;
+  }
+
   statusLabel(status: string): string {
     return status === 'OPEN' ? 'Aberto' : status === 'CLOSED' ? 'Encerrado' : status;
   }
