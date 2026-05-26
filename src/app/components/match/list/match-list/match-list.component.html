@@ -1,164 +1,176 @@
-<head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>Jogos</title>
-</head>
 <div class="panel-header panel-header-sm"></div>
+
 <div class="main-content">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title mb-2">Partidas da rodada</h4>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
 
-                    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
-                        <form [formGroup]="roundFormGroup" style="display: flex; gap: 16px; flex-wrap: wrap;">
-                            <mat-form-field appearance="outline" style="width: 220px;">
-                                <mat-label>Competição</mat-label>
-                                <mat-select formControlName="competitionCtrl" [compareWith]="compareCompetition">
-                                    <mat-option *ngFor="let c of competitions" [value]="c">{{ c.label }}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
+        <!-- Header com filtros -->
+        <div class="card-header" [ngClass]="isWorldCup ? 'header-worldcup' : 'header-brasileirao'">
 
-                            <mat-form-field appearance="outline" style="width: 240px;">
-                                <mat-label>Rodada</mat-label>
-                                <mat-select formControlName="roundCtrl">
-                                    <mat-option *ngFor="let round of rounds" [value]="round">{{ roundLabel(round) }}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </form>
+          <div class="header-title">
+            <span class="comp-tag" [ngClass]="isWorldCup ? 'comp-tag-wc' : 'comp-tag-br'">
+              {{ isWorldCup ? 'Copa do Mundo' : 'Brasileirão' }}
+            </span>
+<!--            <h4 class="card-title mb-0">{{ selectedCompetition.label }}</h4>-->
+          </div>
 
-                        <form [formGroup]="userFormGroup">
-                            <mat-form-field appearance="outline" style="width: 200px;">
-                                <mat-label>Jogadores</mat-label>
-                                <mat-select formControlName="userCtrl">
-                                    <mat-option *ngFor="let user of users" [value]="user">{{ user }}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </form>
-                    </div>
+          <div class="filters-row">
+            <form [formGroup]="roundFormGroup" style="display: flex; gap: 16px; flex-wrap: wrap;">
+              <mat-form-field appearance="outline" class="filter-field">
+                <mat-label>Competição</mat-label>
+                <mat-select formControlName="competitionCtrl" [compareWith]="compareCompetition">
+                  <mat-option *ngFor="let c of competitions" [value]="c">{{ c.label }}</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-                    <div *ngIf="hasAdminRole" style="display: flex; gap: 12px; margin-top: 12px;">
-                        <button mat-raised-button color="primary" (click)="add()" [disabled]="isLoading">Novo Jogo</button>
-                        <button mat-raised-button color="accent" (click)="settleRound()" [disabled]="isLoading">Calcular Rodada</button>
-                    </div>
+              <mat-form-field appearance="outline" class="filter-field">
+                <mat-label>Rodada</mat-label>
+                <mat-select formControlName="roundCtrl">
+                  <mat-option *ngFor="let round of rounds" [value]="round">{{ roundLabel(round) }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
 
-                    <mat-progress-spinner
-                            *ngIf="isLoading"
-                            mode="indeterminate"
-                            diameter="80"
-                            color="accent"
-                            style="margin: 16px auto; display: block;">
-                    </mat-progress-spinner>
-                </div>
-                <div class="card-body" *ngIf="!isLoading">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">
-                                        Rodada
-                                        <button mat-icon-button style="vertical-align: middle;"
-                                            (click)="toggleRoundSortOrder()" matTooltip="Ordenar por rodada">
-                                            <mat-icon>{{ roundSortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
-                                        </button>
-                                    </th>
-                                    <th scope="col" *ngIf="showGroupColumn">
-                                        Grupo
-                                        <button mat-icon-button style="vertical-align: middle;"
-                                            (click)="toggleGroupSortOrder()" matTooltip="Ordenar por grupo">
-                                            <mat-icon>{{ groupSortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
-                                        </button>
-                                    </th>
-                                    <th scope="col">Mandante</th>
-                                    <th scope="col">Visitante</th>
-                                    <th scope="col">
-                                        Data
-                                        <button mat-icon-button style="vertical-align: middle;"
-                                            (click)="toggleDateSortOrder()" matTooltip="Order by date">
-                                            <mat-icon>{{ dateSortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'
-                                                }}</mat-icon>
-                                        </button>
-                                    </th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Palpite</th>
-                                    <th scope="col">Resultado do jogo</th>
-                                    <th scope="col">
-                                        Pontos conquistados
-                                        <button mat-icon-button style="vertical-align: middle;"
-                                            (click)="toggleSortOrder()" matTooltip="Order by points">
-                                            <mat-icon>{{ sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'
-                                                }}</mat-icon>
-                                        </button>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let matchResponse of matchResponse">
-                                    <td class="text-left">{{ roundLabel(matchResponse.round) }}</td>
-                                    <td class="text-left" *ngIf="showGroupColumn">{{ matchResponse.group ? matchResponse.group : '—' }}</td>
-                                    <td class="text-left">{{ matchResponse.homeTeam }}</td>
-                                    <td class="text-left">{{ matchResponse.awayTeam }}</td>
-                                    <td class="text-left">{{ matchResponse.matchDate | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}</td>
-                                    <td class="text-left">{{ matchResponse.status }}</td>
+            <form [formGroup]="userFormGroup">
+              <mat-form-field appearance="outline" class="filter-field">
+                <mat-label>Jogador</mat-label>
+                <mat-select formControlName="userCtrl">
+                  <mat-option *ngFor="let user of users" [value]="user">{{ user }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </form>
+          </div>
 
-                                    <td class="text-left">
-                                        <ng-container *ngIf="matchResponse.status === 'CLOSED' || isCurrentUserSelected; else hiddenPrediction">
-                                            <ng-container *ngIf="matchResponse.prediction; else showEditPrediction">
-                                                <div style="display: flex; align-items: center; gap: 8px;">
-                                                    <span>{{ matchResponse.prediction.homeTeam }} x {{
-                                                        matchResponse.prediction.awayTeam }}</span>
+          <div *ngIf="hasAdminRole" style="display: flex; gap: 12px; margin-top: 12px;">
+            <button mat-raised-button color="primary" (click)="add()" [disabled]="isLoading">Novo Jogo</button>
+            <button mat-raised-button color="accent" (click)="settleRound()" [disabled]="isLoading">Calcular Rodada</button>
+          </div>
 
-                                                    <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button
-                                                        color="accent" (click)="openEditBetDialog(matchResponse)">
-                                                        Editar
-                                                    </button>
-                                                </div>
-                                            </ng-container>
+          <!-- Sort chips -->
+          <div class="sort-row" *ngIf="!isLoading">
+            <span class="sort-label">Ordenar:</span>
 
-                                            <ng-template #showEditPrediction>
-                                                <button *ngIf="matchResponse.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
-                                                    (click)="openEditBetDialog(matchResponse)">
-                                                    Adicionar
-                                                </button>
-                                            </ng-template>
-                                        </ng-container>
+            <button class="sort-chip" [class.active]="activeSortField === 'date'" (click)="toggleDateSortOrder()">
+              Data {{ dateSortOrder === 'asc' ? '↑' : '↓' }}
+            </button>
 
-                                        <ng-template #hiddenPrediction>
-                                            <span style="color: #aaa;">—</span>
-                                        </ng-template>
-                                    </td>
+            <button class="sort-chip" [class.active]="activeSortField === 'points'" (click)="toggleSortOrder()">
+              Pontos {{ sortOrder === 'asc' ? '↑' : '↓' }}
+            </button>
 
-                                    <td class="text-left">
-                                        <ng-container *ngIf="matchResponse.score; else showEdit">
-                                             <div style="display: flex; align-items: center; gap: 8px;">
-                                            <span>{{ matchResponse.score.homeTeam }}
-                                            vs
-                                            {{ matchResponse.score.awayTeam }}</span>
-                                            <div *ngIf="hasAdminRole">
-                                                <button mat-button
-                                                        color="accent" (click)="openEditScoreDialog(matchResponse)">
-                                                    Editar
-                                                </button>
-                                            </div>
-                                            </div>
-                                        </ng-container>
-                                        <ng-template #showEdit>
-                                            <div *ngIf="hasAdminRole">
-                                                <button mat-button
-                                                        color="accent" (click)="openEditScoreDialog(matchResponse)">
-                                                    Adicionar
-                                                </button>
-                                            </div>
-                                        </ng-template>
-                                    </td>
-                                   <td class="text-center">{{matchResponse.pointsEarned}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<button class="sort-chip" [class.active]="activeSortField === 'group'" (click)="toggleGroupSortOrder()">
+              Grupo {{ groupSortOrder === 'asc' ? '↑' : '↓' }}
+            </button>
 
-            </div>
+            <button class="sort-chip reset-chip" *ngIf="activeSortField !== null" (click)="activeSortField = null">
+              ✕ Agrupar por grupo
+            </button>
+          </div>
         </div>
+
+        <!-- Loading -->
+        <mat-progress-spinner
+          *ngIf="isLoading"
+          mode="indeterminate"
+          diameter="60"
+          color="accent"
+          style="margin: 32px auto; display: block;">
+        </mat-progress-spinner>
+
+        <div class="card-body" *ngIf="!isLoading">
+
+          <!-- Copa do Mundo - Fase de Grupos: agrupado por grupo -->
+          <ng-container *ngIf="isGroupStage; else flatList">
+            <div *ngFor="let section of groupedMatches" class="group-section">
+              <div class="group-header">
+                Grupo {{ section.group }}
+              </div>
+              <ng-container *ngTemplateOutlet="matchCards; context: { $implicit: section.matches }"></ng-container>
+            </div>
+          </ng-container>
+
+          <!-- Lista plana (Brasileirão ou fases eliminatórias) -->
+          <ng-template #flatList>
+            <ng-container *ngTemplateOutlet="matchCards; context: { $implicit: matchResponse }"></ng-container>
+          </ng-template>
+
+        </div>
+      </div>
     </div>
+  </div>
 </div>
+
+<!-- Template de cards reutilizável -->
+<ng-template #matchCards let-matches>
+  <div class="match-list">
+    <div class="match-card" *ngFor="let m of matches" [ngClass]="{ 'match-closed': m.status === 'CLOSED' }">
+
+      <!-- Linha 1: rodada + data + status badge -->
+      <div class="match-meta">
+        <span class="round-badge" [ngClass]="isWorldCup ? 'badge-wc' : 'badge-br'">
+          {{ roundLabel(m.round) }}
+        </span>
+        <span class="match-date">
+          {{ m.matchDate | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}
+        </span>
+        <span class="status-chip" [ngClass]="m.status === 'OPEN' ? 'status-open' : 'status-closed'">
+          {{ statusLabel(m.status) }}
+        </span>
+      </div>
+
+      <!-- Linha 2: placar central -->
+      <div class="match-scoreline">
+        <span class="team home-team">{{ m.homeTeam }}</span>
+
+        <div class="score-center">
+          <ng-container *ngIf="m.score; else noScore">
+            <span class="score-value">{{ m.score.homeTeam }} &ndash; {{ m.score.awayTeam }}</span>
+          </ng-container>
+          <ng-template #noScore>
+            <span class="score-vs">vs</span>
+          </ng-template>
+        </div>
+
+        <span class="team away-team">{{ m.awayTeam }}</span>
+      </div>
+
+      <!-- Linha 3: palpite + pontos + ações -->
+      <div class="match-footer">
+
+        <div class="prediction-area">
+          <span class="label-small">Palpite</span>
+          <ng-container *ngIf="m.status === 'CLOSED' || isCurrentUserSelected; else hiddenPrediction">
+            <ng-container *ngIf="m.prediction; else noPrediction">
+              <span class="prediction-value">{{ m.prediction.homeTeam }} x {{ m.prediction.awayTeam }}</span>
+              <button *ngIf="m.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
+                class="action-btn" (click)="openEditBetDialog(m)">Editar</button>
+            </ng-container>
+            <ng-template #noPrediction>
+              <button *ngIf="m.status === 'OPEN' && isCurrentUserSelected" mat-button color="accent"
+                class="action-btn" (click)="openEditBetDialog(m)">Adicionar</button>
+              <span *ngIf="m.status !== 'OPEN' || !isCurrentUserSelected" class="no-data">—</span>
+            </ng-template>
+          </ng-container>
+          <ng-template #hiddenPrediction>
+            <span class="no-data">—</span>
+          </ng-template>
+        </div>
+
+        <div class="points-badge" *ngIf="m.status === 'CLOSED'">
+          <span>{{ m.pointsEarned ?? 0 }} pt</span>
+        </div>
+
+        <div class="score-actions" *ngIf="hasAdminRole">
+          <ng-container *ngIf="m.score; else addScore">
+            <button mat-button color="accent" class="action-btn" (click)="openEditScoreDialog(m)">Editar Placar</button>
+          </ng-container>
+          <ng-template #addScore>
+            <button mat-button color="accent" class="action-btn" (click)="openEditScoreDialog(m)">Adicionar Placar</button>
+          </ng-template>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

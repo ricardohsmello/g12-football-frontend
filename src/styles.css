@@ -1,1 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* === Design Tokens === */
+:root {
+  --primary:      #f96332;
+  --primary-soft: rgba(249, 99, 50, 0.10);
+  --navy:         #1e293b;
+  --navy-deep:    #0f172a;
+  --bg-main:      #f0f4f8;
+  --border:       #e2e8f0;
+  --text-primary: #1e293b;
+  --text-muted:   #64748b;
+}
+
+/* === Sidebar: navy escuro === */
+.sidebar::after,
+.off-canvas-sidebar::after {
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
+}
+
+.sidebar .nav li.active > a i {
+  color: #f96332 !important;
+}
+
+.sidebar .nav li:hover:not(.active) > a {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* === Main panel background === */
+.main-panel {
+  background-color: #f0f4f8 !important;
+}
+
+/* === Cards === */
+.card {
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.07) !important;
+  border-radius: 10px !important;
+}
+
+/* === Navbar === */
+.navbar {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+}
+
+.navbar a:not(.btn):not(.dropdown-item) {
+  color: #1e293b !important;
+}
+
+/* === Tabela === */
+.table th {
+  color: #64748b !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(240, 244, 248, 0.6) !important;
+}
+
+/* === Panel header === */
+.panel-header {
+  background: linear-gradient(135deg, #1e293b 0%, #2d3f5a 100%) !important;
+}
+
+.panel-header.panel-header-sm,
+.panel-header.panel-header-gp {
+  height: 75px !important;
+}

@@ -37,9 +37,10 @@ export class MatchListComponent implements OnInit {
   public hasAdminRole: boolean = false;
   name?: string;
   sortOrder: 'asc' | 'desc' = 'desc';
-  dateSortOrder: 'asc' | 'desc' = 'asc';
+  dateSortOrder: 'asc' | 'desc' = 'desc';
   roundSortOrder: 'asc' | 'desc' = 'asc';
   groupSortOrder: 'asc' | 'desc' = 'asc';
+  activeSortField: 'date' | 'points' | 'round' | 'group' | null = null;
   isLoading = true;
   competitions = COMPETITIONS;
 
@@ -69,28 +70,35 @@ export class MatchListComponent implements OnInit {
   }
 
   toggleRoundSortOrder(): void {
+    this.activeSortField = 'round';
     this.roundSortOrder = this.roundSortOrder === 'asc' ? 'desc' : 'asc';
-    this.matchResponse.sort((a, b) =>
+    this.matchResponse = [...this.matchResponse].sort((a, b) =>
       this.roundSortOrder === 'asc' ? a.round - b.round : b.round - a.round
     );
   }
 
   toggleGroupSortOrder(): void {
+    this.activeSortField = 'group';
     this.groupSortOrder = this.groupSortOrder === 'asc' ? 'desc' : 'asc';
-    this.matchResponse.sort((a, b) => {
+    this.matchResponse = [...this.matchResponse].sort((a, b) => {
       const ga = a.group ?? '';
       const gb = b.group ?? '';
       return this.groupSortOrder === 'asc' ? ga.localeCompare(gb) : gb.localeCompare(ga);
     });
   }
 
-  toggleDateSortOrder() {
+  toggleDateSortOrder(): void {
+    this.activeSortField = 'date';
     this.dateSortOrder = this.dateSortOrder === 'asc' ? 'desc' : 'asc';
-    this.sortMatchesByDate();
+    this.matchResponse = [...this.matchResponse].sort((a, b) => {
+      const dateA = new Date(a.matchDate).getTime();
+      const dateB = new Date(b.matchDate).getTime();
+      return this.dateSortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+    });
   }
 
-  sortMatchesByDate() {
-    this.matchResponse.sort((a, b) => {
+  sortMatchesByDate(): void {
+    this.matchResponse = [...this.matchResponse].sort((a, b) => {
       const dateA = new Date(a.matchDate).getTime();
       const dateB = new Date(b.matchDate).getTime();
       return this.dateSortOrder === 'asc' ? dateA - dateB : dateB - dateA;
@@ -98,12 +106,17 @@ export class MatchListComponent implements OnInit {
   }
 
   toggleSortOrder(): void {
+    this.activeSortField = 'points';
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
-    this.sortMatches();
+    this.matchResponse = [...this.matchResponse].sort((a, b) => {
+      const aPoints = a.pointsEarned ?? 0;
+      const bPoints = b.pointsEarned ?? 0;
+      return this.sortOrder === 'asc' ? aPoints - bPoints : bPoints - aPoints;
+    });
   }
 
   sortMatches(): void {
-    this.matchResponse.sort((a, b) => {
+    this.matchResponse = [...this.matchResponse].sort((a, b) => {
       const aPoints = a.pointsEarned ?? 0;
       const bPoints = b.pointsEarned ?? 0;
       return this.sortOrder === 'asc' ? aPoints - bPoints : bPoints - aPoints;
@@ -242,6 +255,33 @@ export class MatchListComponent implements OnInit {
 
   get isCurrentUserSelected(): boolean {
     return this.userFormGroup.get('userCtrl')?.value === this.loggedUser;
+  }
+
+  get isWorldCup(): boolean {
+    return this.selectedCompetition.competitionId === 'world-cup-2026';
+  }
+
+  get isGroupStage(): boolean {
+    if (this.activeSortField !== null) return false;
+    const round = Number(this.roundFormGroup.get('roundCtrl')?.value);
+    return this.isWorldCup && round >= 1 && round <= 3;
+  }
+
+  get groupedMatches(): { group: string; matches: MatchResponse[] }[] {
+    if (!this.isGroupStage) return [];
+    const map = new Map<string, MatchResponse[]>();
+    for (const m of this.matchResponse) {
+      const g = m.group ?? '—';
+      if (!map.has(g)) map.set(g, []);
+      map.get(g)!.push(m);
+    }
+    return Array.from(map.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([group, matches]) => ({ group, matches }));
+  }
+
+  statusLabel(status: string): string {
+    return status === 'OPEN' ? 'Aberto' : status === 'CLOSED' ? 'Encerrado' : status;
   }
 
   settleRound(): void {
