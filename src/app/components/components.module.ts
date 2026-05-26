@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FooterComponent } from './footer/footer.component';
@@ -13,6 +14,7 @@ import {MaterialExampleModule} from "../../material.module";
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule,
     NgbModule,
     MaterialExampleModule
   ],
