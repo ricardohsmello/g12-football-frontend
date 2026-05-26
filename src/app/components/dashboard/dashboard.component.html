@@ -1,29 +1,38 @@
-<div class="panel-header panel-header-sm">
-  <div class="header text-center">
-    <h2 class="dash-header-title">Bolão G12</h2>
-    <p class="dash-header-sub">Bem-vindo, {{ profile?.firstName }} {{ profile?.lastName }}</p>
-  </div>
-</div>
+<div class="panel-header panel-header-sm"></div>
 
 <div class="main-content dash-container">
 
-  <!-- Cards das competicoes -->
+  <!-- Titulo e boas vindas -->
+  <div class="welcome-block">
+    <div class="welcome-title">G12 Football Bet</div>
+    <div class="welcome-sub">Bem-vindo, {{ profile?.firstName }} {{ profile?.lastName }}</div>
+  </div>
+
+  <!-- Secao: Torneios Ativos -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-label">Torneios Ativos</span>
+  </div>
+
   <div class="comp-grid">
 
     <!-- Brasileirao -->
-    <mat-card class="comp-card">
-      <div class="comp-header comp-header-br">
-        <span class="comp-badge badge-br">Brasileirão 2026</span>
-        <span class="comp-phase" *ngIf="!brLoading && !brError">Rodada {{ brRound }}/38</span>
-      </div>
+    <div class="comp-card">
+      <div class="comp-accent comp-accent-br"></div>
+      <div class="comp-body">
+        <div class="comp-title-row">
+          <div class="comp-info">
+            <span class="comp-name">Brasileirão 2026</span>
+            <span class="comp-phase" *ngIf="!brLoading && !brError">Rodada {{ brRound }} de 38</span>
+          </div>
+          <span class="comp-badge badge-br">Liga</span>
+        </div>
 
-      <mat-card-content>
         <ng-container *ngIf="brLoading">
           <div class="card-loading">
-            <mat-progress-spinner mode="indeterminate" diameter="36" color="accent"></mat-progress-spinner>
+            <mat-progress-spinner mode="indeterminate" diameter="28" color="accent"></mat-progress-spinner>
           </div>
         </ng-container>
-
         <p *ngIf="brError" class="card-error">{{ brError }}</p>
 
         <div class="kpi-row" *ngIf="!brLoading && !brError">
@@ -31,32 +40,41 @@
             <div class="kpi-value">{{ totalPlayers }}</div>
             <div class="kpi-label">Jogadores</div>
           </div>
+          <div class="kpi-divider"></div>
           <div class="kpi-box">
             <div class="kpi-value kpi-green">{{ brBettors }}</div>
             <div class="kpi-label">Apostaram</div>
           </div>
+          <div class="kpi-divider"></div>
           <div class="kpi-box">
             <div class="kpi-value kpi-orange">{{ brMissing }}</div>
             <div class="kpi-label">Faltam</div>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+
+        <div class="progress-bar-wrap" *ngIf="!brLoading && !brError">
+          <div class="progress-bar-fill progress-br" [style.width.%]="(brBettors / totalPlayers) * 100"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- Copa do Mundo -->
-    <mat-card class="comp-card">
-      <div class="comp-header comp-header-wc">
-        <span class="comp-badge badge-wc">Copa do Mundo 2026</span>
-        <span class="comp-phase" *ngIf="!wcLoading && !wcError">{{ wcStageLabel }}</span>
-      </div>
+    <div class="comp-card">
+      <div class="comp-accent comp-accent-wc"></div>
+      <div class="comp-body">
+        <div class="comp-title-row">
+          <div class="comp-info">
+            <span class="comp-name">Copa do Mundo 2026</span>
+            <span class="comp-phase" *ngIf="!wcLoading && !wcError">{{ wcStageLabel }}</span>
+          </div>
+          <span class="comp-badge badge-wc">Copa</span>
+        </div>
 
-      <mat-card-content>
         <ng-container *ngIf="wcLoading">
           <div class="card-loading">
-            <mat-progress-spinner mode="indeterminate" diameter="36" color="accent"></mat-progress-spinner>
+            <mat-progress-spinner mode="indeterminate" diameter="28" color="accent"></mat-progress-spinner>
           </div>
         </ng-container>
-
         <p *ngIf="wcError" class="card-error">{{ wcError }}</p>
 
         <div class="kpi-row" *ngIf="!wcLoading && !wcError">
@@ -64,45 +82,63 @@
             <div class="kpi-value">{{ totalPlayers }}</div>
             <div class="kpi-label">Jogadores</div>
           </div>
+          <div class="kpi-divider"></div>
           <div class="kpi-box">
             <div class="kpi-value kpi-green">{{ wcBettors }}</div>
             <div class="kpi-label">Apostaram</div>
           </div>
+          <div class="kpi-divider"></div>
           <div class="kpi-box">
             <div class="kpi-value kpi-orange">{{ wcMissing }}</div>
             <div class="kpi-label">Faltam</div>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
+
+        <div class="progress-bar-wrap" *ngIf="!wcLoading && !wcError">
+          <div class="progress-bar-fill progress-wc" [style.width.%]="(wcBettors / totalPlayers) * 100"></div>
+        </div>
+      </div>
+    </div>
 
   </div>
 
-  <!-- Pontuacao -->
-  <mat-card class="rules-card">
-    <div class="rules-header">Pontuação</div>
+  <!-- Secao: Pontuacao -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-label">Pontuação</span>
+  </div>
+
+  <div class="rules-card">
     <div class="rules-grid">
       <div class="rule-item">
-        <div class="rule-pts pts-gold">10</div>
-        <div class="rule-desc">Placar exato</div>
+        <div class="rule-pts-badge pts-gold">10</div>
+        <div>
+          <div class="rule-title">Placar exato</div>
+          <div class="rule-sub">Acertou o placar certinho</div>
+        </div>
       </div>
       <div class="rule-item">
-        <div class="rule-pts pts-blue">5</div>
-        <div class="rule-desc">Resultado correto (V/E/D)</div>
+        <div class="rule-pts-badge pts-blue">5</div>
+        <div>
+          <div class="rule-title">Resultado correto</div>
+          <div class="rule-sub">Vitória, empate ou derrota</div>
+        </div>
       </div>
       <div class="rule-item">
-        <div class="rule-pts pts-slate">+1</div>
-        <div class="rule-desc">Placar exato com 4+ gols</div>
+        <div class="rule-pts-badge pts-slate">+1</div>
+        <div>
+          <div class="rule-title">Goleada</div>
+          <div class="rule-sub">Placar exato com 4+ gols</div>
+        </div>
       </div>
       <div class="rule-item">
-        <div class="rule-pts pts-slate">+1</div>
-        <div class="rule-desc">Único a acertar o placar</div>
+        <div class="rule-pts-badge pts-slate">+1</div>
+        <div>
+          <div class="rule-title">Craque</div>
+          <div class="rule-sub">Único a acertar o placar</div>
+        </div>
       </div>
-<!--      <div class="rule-item rule-danger">-->
-<!--        <div class="rule-pts pts-red">R$50</div>-->
-<!--        <div class="rule-desc">Últimos 4 colocados pagam</div>-->
-<!--      </div>-->
     </div>
-  </mat-card>
+  </div>
 
 </div>

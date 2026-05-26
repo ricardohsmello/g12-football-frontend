@@ -62,8 +62,8 @@
 }
 
 /* === Panel header === */
-.panel-header {
-  background: linear-gradient(135deg, #1e293b 0%, #2d3f5a 100%) !important;
+.panel-header::after {
+  background: rgba(0, 0, 0, 0.38) !important;
 }
 
 .panel-header.panel-header-sm,
