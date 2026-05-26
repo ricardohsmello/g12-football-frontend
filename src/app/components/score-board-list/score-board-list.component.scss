@@ -1,0 +1,22 @@
+.card-header {
+  border-bottom: 3px solid #f96332 !important;
+  background-color: #fff !important;
+}
+
+.card-title {
+  color: #1e293b !important;
+  font-weight: 700;
+}
+
+.table th {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+}
+
+tbody tr:first-child td {
+  font-weight: 700;
+  color: #f96332;
+}

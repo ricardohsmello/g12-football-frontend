@@ -1,81 +1,88 @@
-<form [formGroup]="form" class="match-add-form">
+<h2 mat-dialog-title class="dialog-title">Novo Jogo</h2>
 
-  <!-- Competição -->
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Competição</mat-label>
-    <mat-select formControlName="competitionCtrl" [compareWith]="compareCompetition">
-      <mat-option *ngFor="let c of competitions" [value]="c">{{ c.label }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+<mat-dialog-content>
+  <form [formGroup]="form" class="match-add-form">
 
-  <!-- Stage -->
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Fase</mat-label>
-    <mat-select formControlName="stageCtrl">
-      <mat-option *ngFor="let s of stages" [value]="s">{{ stageLabel(s) }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <!-- Competicao -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Competicao</mat-label>
+      <mat-select formControlName="competitionCtrl" [compareWith]="compareCompetition">
+        <mat-option *ngFor="let c of competitions" [value]="c">{{ c.label }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <!-- Grupo (apenas para GROUP) -->
-  <mat-form-field appearance="outline" class="full-width" *ngIf="selectedStage === 'GROUP'">
-    <mat-label>Grupo</mat-label>
-    <mat-select formControlName="groupCtrl">
-      <mat-option *ngFor="let g of groups" [value]="g">Grupo {{ g }}</mat-option>
-    </mat-select>
-    <mat-error *ngIf="form.get('groupCtrl')?.hasError('required')">Grupo é obrigatório</mat-error>
-  </mat-form-field>
+    <!-- Fase -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fase</mat-label>
+      <mat-select formControlName="stageCtrl">
+        <mat-option *ngFor="let s of stages" [value]="s">{{ stageLabel(s) }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <!-- Rodada -->
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Rodada{{ roundLocked ? ' (preenchida automaticamente)' : '' }}</mat-label>
-    <mat-select formControlName="roundCtrl" [disabled]="roundLocked">
-      <mat-option *ngFor="let r of rounds" [value]="r">{{ r }}</mat-option>
-    </mat-select>
-    <mat-error *ngIf="form.get('roundCtrl')?.hasError('required')">Rodada é obrigatória</mat-error>
-  </mat-form-field>
+    <!-- Grupo (apenas para GROUP) -->
+    <mat-form-field appearance="outline" class="full-width" *ngIf="selectedStage === 'GROUP'">
+      <mat-label>Grupo</mat-label>
+      <mat-select formControlName="groupCtrl">
+        <mat-option *ngFor="let g of groups" [value]="g">Grupo {{ g }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('groupCtrl')?.hasError('required')">Grupo e obrigatorio</mat-error>
+    </mat-form-field>
 
-  <!-- Times -->
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Mandante</mat-label>
-    <mat-select formControlName="homeTeamCtrl">
-      <mat-option *ngFor="let t of teams" [value]="t">{{ t }}</mat-option>
-    </mat-select>
-    <mat-error *ngIf="form.get('homeTeamCtrl')?.hasError('required')">Obrigatório</mat-error>
-  </mat-form-field>
+    <!-- Rodada -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Rodada{{ roundLocked ? ' (automatica)' : '' }}</mat-label>
+      <mat-select formControlName="roundCtrl" [disabled]="roundLocked">
+        <mat-option *ngFor="let r of rounds" [value]="r">{{ r }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('roundCtrl')?.hasError('required')">Rodada e obrigatoria</mat-error>
+    </mat-form-field>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Visitante</mat-label>
-    <mat-select formControlName="awayTeamCtrl">
-      <mat-option *ngFor="let t of teams" [value]="t">{{ t }}</mat-option>
-    </mat-select>
-    <mat-error *ngIf="form.get('awayTeamCtrl')?.hasError('required')">Obrigatório</mat-error>
-  </mat-form-field>
+    <!-- Times lado a lado -->
+    <div class="two-col">
+      <mat-form-field appearance="outline">
+        <mat-label>Mandante</mat-label>
+        <mat-select formControlName="homeTeamCtrl">
+          <mat-option *ngFor="let t of teams" [value]="t">{{ t }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('homeTeamCtrl')?.hasError('required')">Obrigatorio</mat-error>
+      </mat-form-field>
 
-  <mat-error *ngIf="form.hasError('sameTeam') && form.get('awayTeamCtrl')?.touched" style="font-size:12px; margin-bottom:8px;">
-    Mandante e visitante não podem ser iguais
-  </mat-error>
+      <mat-form-field appearance="outline">
+        <mat-label>Visitante</mat-label>
+        <mat-select formControlName="awayTeamCtrl">
+          <mat-option *ngFor="let t of teams" [value]="t">{{ t }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('awayTeamCtrl')?.hasError('required')">Obrigatorio</mat-error>
+      </mat-form-field>
+    </div>
 
-  <!-- Data e Hora -->
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Data do jogo</mat-label>
-    <input matInput [matDatepicker]="picker" formControlName="dateCtrl">
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-    <mat-error *ngIf="form.get('dateCtrl')?.hasError('required')">Data é obrigatória</mat-error>
-  </mat-form-field>
+    <mat-error *ngIf="form.hasError('sameTeam') && form.get('awayTeamCtrl')?.touched" class="same-team-error">
+      Mandante e visitante nao podem ser iguais
+    </mat-error>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Horário (HH:mm)</mat-label>
-    <input matInput placeholder="16:00" formControlName="timeCtrl">
-    <mat-error *ngIf="form.get('timeCtrl')?.hasError('required')">Obrigatório</mat-error>
-    <mat-error *ngIf="form.get('timeCtrl')?.hasError('pattern')">Formato inválido (HH:mm)</mat-error>
-  </mat-form-field>
+    <!-- Data e Hora lado a lado -->
+    <div class="two-col">
+      <mat-form-field appearance="outline">
+        <mat-label>Data do jogo</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dateCtrl">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="form.get('dateCtrl')?.hasError('required')">Data e obrigatoria</mat-error>
+      </mat-form-field>
 
-  <!-- Ações -->
-  <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px;">
-    <button mat-button mat-dialog-close>Cancelar</button>
-    <button mat-raised-button color="primary" (click)="save()">Salvar</button>
-  </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Horario (HH:mm)</mat-label>
+        <input matInput placeholder="16:00" formControlName="timeCtrl">
+        <mat-error *ngIf="form.get('timeCtrl')?.hasError('required')">Obrigatorio</mat-error>
+        <mat-error *ngIf="form.get('timeCtrl')?.hasError('pattern')">Formato invalido (HH:mm)</mat-error>
+      </mat-form-field>
+    </div>
 
-</form>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button class="btn-save" (click)="save()">Salvar</button>
+</mat-dialog-actions>

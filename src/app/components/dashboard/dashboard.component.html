@@ -1,165 +1,108 @@
-<div class="panel-header panel-header-lg">
-    <div class="header text-center">
-        <h1 class="title">Bolão Brasileirão 2025</h1>
-        <p class="description">Bem-vindo, {{ profile.firstName }} {{ profile.lastName }}</p>
-    </div>
-
-
+<div class="panel-header panel-header-sm">
+  <div class="header text-center">
+    <h2 class="dash-header-title">Bolão G12</h2>
+    <p class="dash-header-sub">Bem-vindo, {{ profile?.firstName }} {{ profile?.lastName }}</p>
+  </div>
 </div>
 
+<div class="main-content dash-container">
 
-<div class="main-content dashboard-section container">
-    <!-- 🤖 Perguntas -->
-<!--    <mat-card class="qa-card">-->
-<!--        <mat-card-header>-->
-<!--            <mat-card-title>-->
-<!--                <div class="card-title-with-icon">-->
-<!--                    <span>Pergunte sobre o bolão</span>-->
-<!--                </div>-->
-<!--            </mat-card-title>-->
-<!--        </mat-card-header>-->
+  <!-- Cards das competicoes -->
+  <div class="comp-grid">
 
-<!--        <mat-card-content>-->
-<!--            <div class="qa-row">-->
-<!--                <mat-form-field class="qa-input" appearance="outline">-->
-<!--                    <mat-label>Faça sua pergunta</mat-label>-->
-<!--                    <input matInput-->
-<!--                           [formControl]="questionCtrl"-->
-<!--                           (keydown.enter)="onKeydownEnter($event)"-->
-<!--                           placeholder="Ex.: Qual time mais aplicou goleadas? " />-->
-<!--                    <button mat-icon-button matSuffix aria-label="Perguntar" (click)="ask()" [disabled]="isAsking || questionCtrl.invalid">-->
-<!--                    </button>-->
-<!--                    <mat-error *ngIf="questionCtrl.invalid && questionCtrl.touched">-->
-<!--                        Escreva pelo menos 2 caracteres.-->
-<!--                    </mat-error>-->
-<!--                </mat-form-field>-->
+    <!-- Brasileirao -->
+    <mat-card class="comp-card">
+      <div class="comp-header comp-header-br">
+        <span class="comp-badge badge-br">Brasileirão 2026</span>
+        <span class="comp-phase" *ngIf="!brLoading && !brError">Rodada {{ brRound }}/38</span>
+      </div>
 
+      <mat-card-content>
+        <ng-container *ngIf="brLoading">
+          <div class="card-loading">
+            <mat-progress-spinner mode="indeterminate" diameter="36" color="accent"></mat-progress-spinner>
+          </div>
+        </ng-container>
 
-<!--            </div>-->
-<!--            <button mat-flat-button color="primary" (click)="ask()" [disabled]="isAsking || questionCtrl.invalid">-->
-<!--                <mat-progress-spinner *ngIf="isAsking" diameter="18" mode="indeterminate"></mat-progress-spinner>-->
-<!--                <span *ngIf="!isAsking">Perguntar</span>-->
-<!--            </button>-->
+        <p *ngIf="brError" class="card-error">{{ brError }}</p>
 
-<!--            <div *ngIf="lastAnswer" class="qa-answer">-->
-<!--                <div class="qa-item">-->
-<!--                    <div class="qa-label">Pergunta</div>-->
-<!--                    <div class="qa-value">{{ lastAnswer.question }}</div>-->
-<!--                </div>-->
-<!--                <mat-divider></mat-divider>-->
-<!--                <div class="qa-item">-->
-<!--                    <div class="qa-label">Resposta</div>-->
-<!--                    <div class="qa-value">{{ lastAnswer.answer }}</div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </mat-card-content>-->
-<!--    </mat-card>-->
+        <div class="kpi-row" *ngIf="!brLoading && !brError">
+          <div class="kpi-box">
+            <div class="kpi-value">{{ totalPlayers }}</div>
+            <div class="kpi-label">Jogadores</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-value kpi-green">{{ brBettors }}</div>
+            <div class="kpi-label">Apostaram</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-value kpi-orange">{{ brMissing }}</div>
+            <div class="kpi-label">Faltam</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
+    <!-- Copa do Mundo -->
+    <mat-card class="comp-card">
+      <div class="comp-header comp-header-wc">
+        <span class="comp-badge badge-wc">Copa do Mundo 2026</span>
+        <span class="comp-phase" *ngIf="!wcLoading && !wcError">{{ wcStageLabel }}</span>
+      </div>
 
-    <div class="grid">
-        <mat-card class="info-card" *ngIf="!isLoading && !errorMessage; else loadingState">
+      <mat-card-content>
+        <ng-container *ngIf="wcLoading">
+          <div class="card-loading">
+            <mat-progress-spinner mode="indeterminate" diameter="36" color="accent"></mat-progress-spinner>
+          </div>
+        </ng-container>
 
-            <mat-card-content>
-                <div class="kpi-grid">
-                    <div class="kpi">
-                        <div class="kpi-content">
-                            <div class="kpi-label">Rodada atual: {{ currentRound }}</div>
-                        </div>
-                    </div>
+        <p *ngIf="wcError" class="card-error">{{ wcError }}</p>
 
-                    <div class="kpi">
-                        <div class="kpi-content">
-                            <div class="kpi-label">Jogadores: {{ totalPlayers }}</div>
-                         </div>
-                    </div>
+        <div class="kpi-row" *ngIf="!wcLoading && !wcError">
+          <div class="kpi-box">
+            <div class="kpi-value">{{ totalPlayers }}</div>
+            <div class="kpi-label">Jogadores</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-value kpi-green">{{ wcBettors }}</div>
+            <div class="kpi-label">Apostaram</div>
+          </div>
+          <div class="kpi-box">
+            <div class="kpi-value kpi-orange">{{ wcMissing }}</div>
+            <div class="kpi-label">Faltam</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-                    <div class="kpi">
-                        <div class="kpi-content">
-                            <div class="kpi-label">Já apostaram: {{ totalBettors }}</div>
-                        </div>
-                    </div>
+  </div>
 
-                    <div class="kpi">
-                        <div class="kpi-content">
-                            <div class="kpi-label">Faltam apostar: {{ missing }}</div>
-                        </div>
-                    </div>
-
-<!--                    <div class="kpi kpi-wide">-->
-<!--                        <div class="kpi-content">-->
-<!--                            <div class="kpi-value">-->
-<!--                                {{ nextMatch | date:'dd/MM/yyyy HH:mm':'America/Sao_Paulo' }}-->
-<!--                                <span class="chip" *ngIf="nextMatch">em {{ nextMatch | date:'shortTime':'America/Sao_Paulo' }}</span>-->
-<!--                            </div>-->
-<!--                            <div class="kpi-label">Próximo jogo</div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                </div>
-            </mat-card-content>
-        </mat-card>
-
-        <ng-template #loadingState>
-            <mat-card class="info-card skeleton">
-                <mat-card-content class="loading">
-                    <ng-container *ngIf="errorMessage; else spinning">
-                        <p style="color: #e53935;">{{ errorMessage }}</p>
-                    </ng-container>
-                    <ng-template #spinning>
-                        <mat-progress-spinner mode="indeterminate" diameter="48" color="accent"></mat-progress-spinner>
-                        <p>Carregando dados...</p>
-                    </ng-template>
-                </mat-card-content>
-            </mat-card>
-        </ng-template>
-
-        <!-- 🏆 Regras -->
-<!--        <mat-card class="rules-card">-->
-<!--            <mat-card-header>-->
-<!--                <mat-card-title>-->
-<!--                    <div class="card-title-with-icon">-->
-<!--                        <span>Regras do Bolão</span>-->
-<!--                    </div>-->
-<!--                </mat-card-title>-->
-<!--            </mat-card-header>-->
-
-<!--            <mat-card-content>-->
-<!--                <div class="rules-grid">-->
-<!--                    <div class="rule-item">-->
-<!--                        <div>-->
-<!--                            <div class="rule-label">Placar exato</div>-->
-<!--                            <div class="rule-value">+10 pontos</div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="rule-item">-->
-<!--                        <div>-->
-<!--                            <div class="rule-label">Resultado correto (V/E)</div>-->
-<!--                            <div class="rule-value">+5 pontos</div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="rule-item">-->
-<!--                        <div>-->
-<!--                            <div class="rule-label">Placar exato com 4+ gols</div>-->
-<!--                            <div class="rule-value">+1 ponto extra</div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="rule-item">-->
-<!--                        <div>-->
-<!--                            <div class="rule-label">Acerto solo do placar</div>-->
-<!--                            <div class="rule-value">+1 ponto extra</div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="rule-item">-->
-<!--                        <div>-->
-<!--                            <div class="rule-label">Últimos 4 colocados</div>-->
-<!--                            <div class="rule-value chip chip-warning">Pagam R$ 50</div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </mat-card-content>-->
-<!--        </mat-card>-->
+  <!-- Pontuacao -->
+  <mat-card class="rules-card">
+    <div class="rules-header">Pontuação</div>
+    <div class="rules-grid">
+      <div class="rule-item">
+        <div class="rule-pts pts-gold">10</div>
+        <div class="rule-desc">Placar exato</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-pts pts-blue">5</div>
+        <div class="rule-desc">Resultado correto (V/E/D)</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-pts pts-slate">+1</div>
+        <div class="rule-desc">Placar exato com 4+ gols</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-pts pts-slate">+1</div>
+        <div class="rule-desc">Único a acertar o placar</div>
+      </div>
+      <div class="rule-item rule-danger">
+        <div class="rule-pts pts-red">R$50</div>
+        <div class="rule-desc">Últimos 4 colocados pagam</div>
+      </div>
     </div>
+  </mat-card>
+
 </div>
