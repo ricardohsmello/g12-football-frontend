@@ -222,9 +222,20 @@ $slate-800:    #1e293b;
   font-weight: 600;
   color: $slate-800;
   flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 
-  &.home-team { text-align: right; }
-  &.away-team { text-align: left; }
+  &.home-team { justify-content: flex-end; }
+  &.away-team { justify-content: flex-start; }
+}
+
+.team-flag {
+  width: 22px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
 }
 
 .score-center {
