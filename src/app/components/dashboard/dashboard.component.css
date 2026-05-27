@@ -70,6 +70,16 @@
   overflow: hidden;
 }
 
+.comp-card-link {
+  cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+
+.comp-card-link:hover {
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.13);
+  transform: translateY(-2px);
+}
+
 .comp-accent {
   height: 4px;
   width: 100%;
