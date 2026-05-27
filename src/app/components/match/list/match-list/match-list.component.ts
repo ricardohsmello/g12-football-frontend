@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatchService } from '../../../../services/match-service/match.service';
 import { MatchAddComponent } from '../../add/match-add.component';
@@ -68,7 +69,8 @@ export class MatchListComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private betService: BetService,
     private snackBar: MatSnackBar,
-    private roundService: RoundService
+    private roundService: RoundService,
+    private route: ActivatedRoute
   ) {
   }
 
@@ -192,6 +194,14 @@ export class MatchListComponent implements OnInit {
   }
 
   async ngOnInit() {
+    const competitionParam = this.route.snapshot.queryParamMap.get('competition');
+    if (competitionParam) {
+      const match = COMPETITIONS.find(c => c.competitionId === competitionParam);
+      if (match) {
+        this.roundFormGroup.get('competitionCtrl')?.setValue(match, { emitEvent: false });
+      }
+    }
+
     this.keycloak.loadUserProfile().then(profile => {
       this.loggedUser = profile.username ?? profile.email ?? 'unknown';
       this.username = profile.username ?? profile.email ?? 'unknown';

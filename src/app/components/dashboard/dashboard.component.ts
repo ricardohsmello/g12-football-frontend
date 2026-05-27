@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { KeycloakProfile } from 'keycloak-js';
+import { Router } from '@angular/router';
 import { RoundService } from '../../services/round-service/round.service';
 import { BetService } from '../../services/bet-service/bet.service';
 import { RagService } from '../../services/rag-service/rag.service';
@@ -42,8 +43,13 @@ export class DashboardComponent implements OnInit {
     private readonly keycloak: KeycloakService,
     private roundService: RoundService,
     private betService: BetService,
-    private ragService: RagService
+    private ragService: RagService,
+    private router: Router
   ) {}
+
+  goToMatches(competitionId: string): void {
+    this.router.navigate(['/match'], { queryParams: { competition: competitionId } });
+  }
 
   async ngOnInit() {
     const isLogged = await this.keycloak.isLoggedIn();
