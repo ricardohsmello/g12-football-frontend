@@ -178,7 +178,7 @@
 
         <div class="score-actions" *ngIf="hasAdminRole">
           <ng-container *ngIf="m.score; else addScore">
-            <button mat-button color="accent" class="action-btn" (click)="openEditScoreDialog(m)">Editar Resultado Final</button>
+            <button mat-button color="accent" class="action-btn" style="color: red;" (click)="openEditScoreDialog(m)">Editar Resultado Final</button>
           </ng-container>
           <ng-template #addScore>
             <button mat-button color="accent" class="action-btn" (click)="openEditScoreDialog(m)">Adicionar Resultado Final</button>

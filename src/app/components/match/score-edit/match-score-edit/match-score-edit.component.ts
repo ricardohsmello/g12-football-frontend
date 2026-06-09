@@ -3,7 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-match-score-edit',
-  templateUrl: './match-score-edit.component.html'
+  templateUrl: './match-score-edit.component.html',
+  styleUrls: ['./match-score-edit.component.scss']
 })
 export class MatchScoreEditComponent {
   homeTeamScore: number;
