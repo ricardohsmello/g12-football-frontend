@@ -18,7 +18,7 @@ const WC = COMPETITIONS.find(c => c.competitionId === 'world-cup-2026')!;
 })
 export class DashboardComponent implements OnInit {
 
-  totalPlayers = 21;
+  totalPlayers = 18;
 
   // Brasileirao
   brRound: number = 0;
