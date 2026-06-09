@@ -171,17 +171,17 @@
           </ng-container>
         </div>
 
-        <div class="points-badge" *ngIf="m.status === 'CLOSED'" [class.points-positive]="(m.pointsEarned ?? 0) > 0">
+        <div class="points-badge" *ngIf="m.status === 'CLOSED' && m.score != null" [class.points-positive]="(m.pointsEarned ?? 0) > 0">
           <img *ngIf="(m.pointsEarned ?? 0) > 0" src="assets/img/star.svg" class="star-icon" alt="star">
           <span>{{ (m.pointsEarned ?? 0) > 0 ? '+' : '' }}{{ m.pointsEarned ?? 0 }} pt</span>
         </div>
 
         <div class="score-actions" *ngIf="hasAdminRole">
           <ng-container *ngIf="m.score; else addScore">
-            <button mat-button color="accent" class="action-btn" (click)="openEditScoreDialog(m)">Editar Placar</button>
+            <button mat-button color="accent" class="action-btn" (click)="openEditScoreDialog(m)">Editar Resultado Final</button>
           </ng-container>
           <ng-template #addScore>
-            <button mat-button color="accent" class="action-btn" (click)="openEditScoreDialog(m)">Adicionar Placar</button>
+            <button mat-button color="accent" class="action-btn" (click)="openEditScoreDialog(m)">Adicionar Resultado Final</button>
           </ng-template>
         </div>
 

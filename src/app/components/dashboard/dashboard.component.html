@@ -16,6 +16,48 @@
 
   <div class="comp-grid">
 
+      <!-- Copa do Mundo -->
+      <div class="comp-card comp-card-link" (click)="goToMatches('world-cup-2026')" title="Ver jogos da Copa do Mundo">
+          <div class="comp-accent comp-accent-wc"></div>
+          <div class="comp-body">
+              <div class="comp-title-row">
+                  <div class="comp-info">
+                      <span class="comp-name">Copa do Mundo 2026</span>
+                      <span class="comp-phase" *ngIf="!wcLoading && !wcError">{{ wcStageLabel }}</span>
+                  </div>
+                  <span class="comp-badge badge-wc">Copa</span>
+              </div>
+
+              <ng-container *ngIf="wcLoading">
+                  <div class="card-loading">
+                      <mat-progress-spinner mode="indeterminate" diameter="28" color="accent"></mat-progress-spinner>
+                  </div>
+              </ng-container>
+              <p *ngIf="wcError" class="card-error">{{ wcError }}</p>
+
+              <div class="kpi-row" *ngIf="!wcLoading && !wcError">
+                  <div class="kpi-box">
+                      <div class="kpi-value">{{ totalPlayers }}</div>
+                      <div class="kpi-label">Jogadores</div>
+                  </div>
+                  <div class="kpi-divider"></div>
+                  <div class="kpi-box">
+                      <div class="kpi-value kpi-green">{{ wcBettors }}</div>
+                      <div class="kpi-label">Apostaram</div>
+                  </div>
+                  <div class="kpi-divider"></div>
+                  <div class="kpi-box">
+                      <div class="kpi-value kpi-orange">{{ wcMissing }}</div>
+                      <div class="kpi-label">Faltam</div>
+                  </div>
+              </div>
+
+              <div class="progress-bar-wrap" *ngIf="!wcLoading && !wcError">
+                  <div class="progress-bar-fill progress-wc" [style.width.%]="(wcBettors / totalPlayers) * 100"></div>
+              </div>
+          </div>
+      </div>
+
     <!-- Brasileirao -->
     <div class="comp-card comp-card-link" (click)="goToMatches('brasileirao')" title="Ver jogos do Brasileirão">
       <div class="comp-accent comp-accent-br"></div>
@@ -54,48 +96,6 @@
 
         <div class="progress-bar-wrap" *ngIf="!brLoading && !brError">
           <div class="progress-bar-fill progress-br" [style.width.%]="(brBettors / totalPlayers) * 100"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Copa do Mundo -->
-    <div class="comp-card comp-card-link" (click)="goToMatches('world-cup-2026')" title="Ver jogos da Copa do Mundo">
-      <div class="comp-accent comp-accent-wc"></div>
-      <div class="comp-body">
-        <div class="comp-title-row">
-          <div class="comp-info">
-            <span class="comp-name">Copa do Mundo 2026</span>
-            <span class="comp-phase" *ngIf="!wcLoading && !wcError">{{ wcStageLabel }}</span>
-          </div>
-          <span class="comp-badge badge-wc">Copa</span>
-        </div>
-
-        <ng-container *ngIf="wcLoading">
-          <div class="card-loading">
-            <mat-progress-spinner mode="indeterminate" diameter="28" color="accent"></mat-progress-spinner>
-          </div>
-        </ng-container>
-        <p *ngIf="wcError" class="card-error">{{ wcError }}</p>
-
-        <div class="kpi-row" *ngIf="!wcLoading && !wcError">
-          <div class="kpi-box">
-            <div class="kpi-value">{{ totalPlayers }}</div>
-            <div class="kpi-label">Jogadores</div>
-          </div>
-          <div class="kpi-divider"></div>
-          <div class="kpi-box">
-            <div class="kpi-value kpi-green">{{ wcBettors }}</div>
-            <div class="kpi-label">Apostaram</div>
-          </div>
-          <div class="kpi-divider"></div>
-          <div class="kpi-box">
-            <div class="kpi-value kpi-orange">{{ wcMissing }}</div>
-            <div class="kpi-label">Faltam</div>
-          </div>
-        </div>
-
-        <div class="progress-bar-wrap" *ngIf="!wcLoading && !wcError">
-          <div class="progress-bar-fill progress-wc" [style.width.%]="(wcBettors / totalPlayers) * 100"></div>
         </div>
       </div>
     </div>
