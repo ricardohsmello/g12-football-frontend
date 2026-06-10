@@ -34,7 +34,8 @@ export const COMPETITIONS: Competition[] = [
   }
 ];
 
-export const DEFAULT_COMPETITION: Competition = COMPETITIONS[2]; // Brasileirão 2026
+export const DEFAULT_COMPETITION: Competition = COMPETITIONS[2]; // WORLD CUP
+export const BRASILEIRAO_2026: Competition = COMPETITIONS[1]; // BR 26
 
 export const WORLD_CUP_ROUND_LABELS: Record<number, string> = {
   1: 'Fase de Grupos - Rodada 1',

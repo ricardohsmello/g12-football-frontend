@@ -7,7 +7,12 @@ import { BetService } from '../../services/bet-service/bet.service';
 import { RagService } from '../../services/rag-service/rag.service';
 import { FormControl, Validators } from '@angular/forms';
 import { RagAnswer } from '../../domain/model/rag/rag';
-import { COMPETITIONS, DEFAULT_COMPETITION, WORLD_CUP_ROUND_LABELS } from '../../domain/model/competition/competition';
+import {
+  BRASILEIRAO_2026,
+  COMPETITIONS,
+  DEFAULT_COMPETITION,
+  WORLD_CUP_ROUND_LABELS
+} from '../../domain/model/competition/competition';
 
 const WC = COMPETITIONS.find(c => c.competitionId === 'world-cup-2026')!;
 
@@ -62,7 +67,7 @@ export class DashboardComponent implements OnInit {
   }
 
   private loadBrasileiraoData(): void {
-    const { competitionId } = DEFAULT_COMPETITION;
+    const { competitionId } = BRASILEIRAO_2026;
     this.roundService.getCurrentRound(competitionId).subscribe({
       next: (round) => {
         this.brRound = round;
