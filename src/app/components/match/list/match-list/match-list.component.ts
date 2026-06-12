@@ -339,7 +339,7 @@ export class MatchListComponent implements OnInit {
     'Paraguai':        'assets/img/flags/national-team/paraguai.svg',
     'Portugal':        'assets/img/flags/national-team/portugal.svg',
     'RD Congo':        'assets/img/flags/national-team/congo.svg',
-    'República Tcheca':'assets/img/flags/national-team/republicatcheca.svg',
+    'Tchéquia':'assets/img/flags/national-team/republicatcheca.svg',
     'Senegal':         'assets/img/flags/national-team/senegal.svg',
     'Suécia':          'assets/img/flags/national-team/suecia.svg',
     'Suíça':           'assets/img/flags/national-team/suica.svg',

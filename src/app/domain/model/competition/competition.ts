@@ -57,7 +57,7 @@ export const BRASILEIRAO_TEAMS: string[] = [
 ];
 
 export const WORLD_CUP_2026_GROUPS: Record<string, string[]> = {
-  A: ['México', 'África do Sul', 'Coreia do Sul', 'República Tcheca'],
+  A: ['México', 'África do Sul', 'Coreia do Sul', 'Tchéquia'],
   B: ['Canadá', 'Bósnia', 'Catar', 'Suíça'],
   C: ['Brasil', 'Marrocos', 'Haiti', 'Escócia'],
   D: ['Estados Unidos', 'Paraguai', 'Austrália', 'Turquia'],
