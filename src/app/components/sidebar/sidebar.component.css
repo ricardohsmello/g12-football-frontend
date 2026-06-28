@@ -1,0 +1,15 @@
+.sidebar-author {
+  display: block;
+  text-align: center;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  margin-top: 2px;
+  padding-bottom: 4px;
+  transition: color 0.2s;
+}
+
+.sidebar-author:hover {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+}

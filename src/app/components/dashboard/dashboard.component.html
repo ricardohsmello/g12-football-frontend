@@ -8,100 +8,138 @@
     <div class="welcome-sub">Bem-vindo, {{ profile?.firstName }} {{ profile?.lastName }}</div>
   </div>
 
-  <!-- Secao: Torneios Ativos -->
+  <!-- Secao: Placar ao Vivo -->
   <div class="section-header">
-    <div class="section-dot"></div>
-    <span class="section-label">Torneios Ativos</span>
+    <div class="section-dot live-dot-pulse"></div>
+    <span class="section-label">Placar ao Vivo</span>
+    <span class="live-updated" *ngIf="liveLastUpdated">
+      &nbsp;· atualizado às {{ liveLastUpdated | date:'HH:mm:ss' }}
+    </span>
   </div>
 
-  <div class="comp-grid">
-
-      <!-- Copa do Mundo -->
-      <div class="comp-card comp-card-link" (click)="goToMatches('world-cup-2026')" title="Ver jogos da Copa do Mundo">
-          <div class="comp-accent comp-accent-wc"></div>
-          <div class="comp-body">
-              <div class="comp-title-row">
-                  <div class="comp-info">
-                      <span class="comp-name">Copa do Mundo 2026</span>
-                      <span class="comp-phase" *ngIf="!wcLoading && !wcError">{{ wcStageLabel }}</span>
-                  </div>
-                  <span class="comp-badge badge-wc">Copa</span>
-              </div>
-
-              <ng-container *ngIf="wcLoading">
-                  <div class="card-loading">
-                      <mat-progress-spinner mode="indeterminate" diameter="28" color="accent"></mat-progress-spinner>
-                  </div>
-              </ng-container>
-              <p *ngIf="wcError" class="card-error">{{ wcError }}</p>
-
-              <div class="kpi-row" *ngIf="!wcLoading && !wcError">
-                  <div class="kpi-box">
-                      <div class="kpi-value">{{ totalPlayers }}</div>
-                      <div class="kpi-label">Jogadores</div>
-                  </div>
-                  <div class="kpi-divider"></div>
-                  <div class="kpi-box">
-                      <div class="kpi-value kpi-green">{{ wcBettors }}</div>
-                      <div class="kpi-label">Apostaram</div>
-                  </div>
-                  <div class="kpi-divider"></div>
-                  <div class="kpi-box">
-                      <div class="kpi-value kpi-orange">{{ wcMissing }}</div>
-                      <div class="kpi-label">Faltam</div>
-                  </div>
-              </div>
-
-              <div class="progress-bar-wrap" *ngIf="!wcLoading && !wcError">
-                  <div class="progress-bar-fill progress-wc" [style.width.%]="(wcBettors / totalPlayers) * 100"></div>
-              </div>
-          </div>
-      </div>
-
-    <!-- Brasileirao -->
-    <div class="comp-card comp-card-link" (click)="goToMatches('brasileirao')" title="Ver jogos do Brasileirão">
-      <div class="comp-accent comp-accent-br"></div>
-      <div class="comp-body">
-        <div class="comp-title-row">
-          <div class="comp-info">
-            <span class="comp-name">Brasileirão 2026</span>
-            <span class="comp-phase" *ngIf="!brLoading && !brError">Rodada {{ brRound }} de 38</span>
-          </div>
-          <span class="comp-badge badge-br">Liga</span>
-        </div>
-
-        <ng-container *ngIf="brLoading">
-          <div class="card-loading">
-            <mat-progress-spinner mode="indeterminate" diameter="28" color="accent"></mat-progress-spinner>
-          </div>
-        </ng-container>
-        <p *ngIf="brError" class="card-error">{{ brError }}</p>
-
-        <div class="kpi-row" *ngIf="!brLoading && !brError">
-          <div class="kpi-box">
-            <div class="kpi-value">{{ totalPlayers }}</div>
-            <div class="kpi-label">Jogadores</div>
-          </div>
-          <div class="kpi-divider"></div>
-          <div class="kpi-box">
-            <div class="kpi-value kpi-green">{{ brBettors }}</div>
-            <div class="kpi-label">Apostaram</div>
-          </div>
-          <div class="kpi-divider"></div>
-          <div class="kpi-box">
-            <div class="kpi-value kpi-orange">{{ brMissing }}</div>
-            <div class="kpi-label">Faltam</div>
-          </div>
-        </div>
-
-        <div class="progress-bar-wrap" *ngIf="!brLoading && !brError">
-          <div class="progress-bar-fill progress-br" [style.width.%]="(brBettors / totalPlayers) * 100"></div>
-        </div>
-      </div>
+  <div class="live-section">
+    <div class="card-loading" *ngIf="liveLoading">
+      <mat-progress-spinner mode="indeterminate" diameter="36" color="accent"></mat-progress-spinner>
     </div>
 
+    <div class="live-empty" *ngIf="!liveLoading && liveMatches.length === 0">
+      <i class="now-ui-icons media-1_button-play"></i>
+      <span>Nenhum jogo ao vivo no momento</span>
+    </div>
+
+    <div class="live-teaser-card" *ngFor="let match of liveMatches" (click)="goToLive()">
+      <div class="live-teaser-pulse">
+        <span class="live-dot-sm"></span>
+        <span class="live-label">AO VIVO</span>
+      </div>
+
+      <div class="live-teaser-title">
+        Acompanhe o jogo ao vivo entre
+        <strong>{{ match.homeTeam }}</strong> x <strong>{{ match.awayTeam }}</strong>
+      </div>
+
+      <div class="live-teaser-hint" *ngIf="topBet(match) as bet">
+        <i class="now-ui-icons ui-2_favourite-28"></i>
+        <span><strong>{{ bet.username }}</strong> apostou {{ bet.prediction.homeTeam }} x {{ bet.prediction.awayTeam }} e pode fazer <strong>{{ bet.projectedPoints }} pts</strong></span>
+      </div>
+
+      <div class="live-teaser-cta">Ver placar completo →</div>
+    </div>
   </div>
 
+    <!-- Secao: Torneios Ativos -->
+    <div class="section-header">
+        <div class="section-dot"></div>
+        <span class="section-label">Torneios Ativos</span>
+    </div>
+
+    <div class="comp-grid">
+
+        <!-- Copa do Mundo -->
+        <div class="comp-card comp-card-link" (click)="goToMatches('world-cup-2026')" title="Ver jogos da Copa do Mundo">
+            <div class="comp-accent comp-accent-wc"></div>
+            <div class="comp-body">
+                <div class="comp-title-row">
+                    <div class="comp-info">
+                        <span class="comp-name">Copa do Mundo 2026</span>
+                        <span class="comp-phase" *ngIf="!wcLoading && !wcError">{{ wcStageLabel }}</span>
+                    </div>
+                    <span class="comp-badge badge-wc">Copa</span>
+                </div>
+
+                <ng-container *ngIf="wcLoading">
+                    <div class="card-loading">
+                        <mat-progress-spinner mode="indeterminate" diameter="28" color="accent"></mat-progress-spinner>
+                    </div>
+                </ng-container>
+                <p *ngIf="wcError" class="card-error">{{ wcError }}</p>
+
+                <div class="kpi-row" *ngIf="!wcLoading && !wcError">
+                    <div class="kpi-box">
+                        <div class="kpi-value">{{ totalPlayers }}</div>
+                        <div class="kpi-label">Jogadores</div>
+                    </div>
+                    <div class="kpi-divider"></div>
+                    <div class="kpi-box">
+                        <div class="kpi-value kpi-green">{{ wcBettors }}</div>
+                        <div class="kpi-label">Apostaram</div>
+                    </div>
+                    <div class="kpi-divider"></div>
+                    <div class="kpi-box">
+                        <div class="kpi-value kpi-orange">{{ wcMissing }}</div>
+                        <div class="kpi-label">Faltam</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar-wrap" *ngIf="!wcLoading && !wcError">
+                    <div class="progress-bar-fill progress-wc" [style.width.%]="(wcBettors / totalPlayers) * 100"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Brasileirao -->
+        <div class="comp-card comp-card-link" (click)="goToMatches('brasileirao')" title="Ver jogos do Brasileirão">
+            <div class="comp-accent comp-accent-br"></div>
+            <div class="comp-body">
+                <div class="comp-title-row">
+                    <div class="comp-info">
+                        <span class="comp-name">Brasileirão 2026</span>
+                        <span class="comp-phase" *ngIf="!brLoading && !brError">Rodada {{ brRound }} de 38</span>
+                    </div>
+                    <span class="comp-badge badge-br">Liga</span>
+                </div>
+
+                <ng-container *ngIf="brLoading">
+                    <div class="card-loading">
+                        <mat-progress-spinner mode="indeterminate" diameter="28" color="accent"></mat-progress-spinner>
+                    </div>
+                </ng-container>
+                <p *ngIf="brError" class="card-error">{{ brError }}</p>
+
+                <div class="kpi-row" *ngIf="!brLoading && !brError">
+                    <div class="kpi-box">
+                        <div class="kpi-value">{{ totalPlayers }}</div>
+                        <div class="kpi-label">Jogadores</div>
+                    </div>
+                    <div class="kpi-divider"></div>
+                    <div class="kpi-box">
+                        <div class="kpi-value kpi-green">{{ brBettors }}</div>
+                        <div class="kpi-label">Apostaram</div>
+                    </div>
+                    <div class="kpi-divider"></div>
+                    <div class="kpi-box">
+                        <div class="kpi-value kpi-orange">{{ brMissing }}</div>
+                        <div class="kpi-label">Faltam</div>
+                    </div>
+                </div>
+
+                <div class="progress-bar-wrap" *ngIf="!brLoading && !brError">
+                    <div class="progress-bar-fill progress-br" [style.width.%]="(brBettors / totalPlayers) * 100"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
   <!-- Secao: Pontuacao -->
   <div class="section-header">
     <div class="section-dot"></div>

@@ -1,3 +1,27 @@
+.navbar-author-corner {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.navbar-author-corner:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-author-corner strong {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-tall {
+  min-height: 80px;
+}
+
 .navbar-toggler {
     border: none;
     padding: 4px 8px;
@@ -8,6 +32,23 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     width: 1.5em;
     height: 1.5em;
+}
+
+.navbar-author {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.78rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.navbar-author:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-author strong {
+  color: #fff;
 }
 
 .user-menu {

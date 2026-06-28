@@ -1,0 +1,106 @@
+<div class="panel-header panel-header-sm"></div>
+
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+
+        <div class="card-header">
+          <div class="header-top">
+            <h4 class="card-title">
+              <span class="live-dot"></span>
+              Placar ao Vivo
+            </h4>
+            <span class="last-updated" *ngIf="lastUpdated">
+              Atualizado às {{ lastUpdated | date:'HH:mm:ss' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-body">
+
+          <mat-progress-spinner
+            *ngIf="isLoading"
+            mode="indeterminate"
+            diameter="60"
+            color="accent"
+            style="margin: 24px auto; display: block;">
+          </mat-progress-spinner>
+
+          <div class="empty-state" *ngIf="!isLoading && matches.length === 0">
+            <p>Nenhum jogo ao vivo no momento</p>
+          </div>
+
+          <div class="match-card" *ngFor="let match of matches">
+
+            <!-- Placar normal -->
+            <ng-container *ngIf="editingMatchId !== match.matchId">
+              <div class="scoreboard">
+                <div class="team">
+                  <img *ngIf="flagUrl(match.homeTeam)" [src]="flagUrl(match.homeTeam)" class="team-flag" [alt]="match.homeTeam">
+                  <span class="team-name">{{ match.homeTeam }}</span>
+                </div>
+                <span class="score">{{ match.liveScore.homeTeam }}</span>
+                <div class="vs">x</div>
+                <span class="score">{{ match.liveScore.awayTeam }}</span>
+                <div class="team">
+                  <span class="team-name">{{ match.awayTeam }}</span>
+                  <img *ngIf="flagUrl(match.awayTeam)" [src]="flagUrl(match.awayTeam)" class="team-flag" [alt]="match.awayTeam">
+                </div>
+              </div>
+
+              <div class="match-meta">
+                <span class="updated-at">Atualizado às {{ match.updatedAt | date:'HH:mm' }}</span>
+                <button mat-button class="edit-btn" (click)="openEdit(match)">Editar placar</button>
+                <span class="match-meta-spacer"></span>
+              </div>
+            </ng-container>
+
+            <!-- Edição inline do placar -->
+            <ng-container *ngIf="editingMatchId === match.matchId">
+              <div class="edit-block">
+                <span class="team-name">{{ match.homeTeam }}</span>
+                <input type="number" min="0" class="score-input" [(ngModel)]="editScore.homeTeam" />
+                <span class="vs">x</span>
+                <input type="number" min="0" class="score-input" [(ngModel)]="editScore.awayTeam" />
+                <span class="team-name">{{ match.awayTeam }}</span>
+              </div>
+              <div class="edit-actions">
+                <button mat-stroked-button (click)="cancelEdit()" [disabled]="saving">Cancelar</button>
+                <button mat-flat-button color="primary" (click)="saveScore(match.matchId)" [disabled]="saving">
+                  <mat-spinner *ngIf="saving" diameter="16" style="display:inline-block; margin-right:6px;"></mat-spinner>
+                  Salvar
+                </button>
+              </div>
+            </ng-container>
+
+            <div class="table-responsive">
+              <table class="table table-sm bets-table">
+                <thead>
+                  <tr>
+                    <th>Apostador</th>
+                    <th>Aposta</th>
+                    <th>Pontos projetados</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let bet of sortedBets(match)" [class.winning]="bet.projectedPoints > 0">
+                    <td>{{ bet.username }}</td>
+                    <td>{{ bet.prediction.homeTeam }} x {{ bet.prediction.awayTeam }}</td>
+                    <td>
+                      <span class="points-badge" [class.points-positive]="bet.projectedPoints > 0">
+                        {{ bet.projectedPoints }} pts
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,6 +11,7 @@ export const ROUTES: RouteInfo[] = [
     { path: '/match', title: 'Jogos',  icon:'objects_spaceship', class: '' },
     { path: '/scoreboard', title: 'Classificação',  icon:'sport_trophy', class: '' },
     { path: '/charts', title: 'Gráficos',  icon:'business_chart-pie-36', class: '' },
+    { path: '/live-scoring', title: 'Ao Vivo', icon: 'media-1_button-play', class: '' },
 ];
 
 @Component({
