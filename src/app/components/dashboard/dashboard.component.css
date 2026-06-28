@@ -202,6 +202,286 @@
   text-align: center;
 }
 
+/* Acoes do match (horario + botao editar) */
+.live-match-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.live-match-time {
+  flex: 1;
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.edit-score-btn {
+  color: #f96332;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0 8px;
+}
+
+.live-match-actions-spacer {
+  flex: 1;
+}
+
+/* Bloco de edição inline */
+.live-edit-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.score-input {
+  width: 56px;
+  height: 48px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #f96332;
+  text-align: center;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  background: #f8fafc;
+  -moz-appearance: textfield;
+}
+
+.score-input::-webkit-outer-spin-button,
+.score-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.score-input:focus {
+  border-color: #f96332;
+  background: #fff;
+}
+
+.live-edit-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+/* Teaser card */
+.live-teaser-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(15,23,42,0.07);
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  border-left: 4px solid #ef4444;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+
+.live-teaser-card:hover {
+  box-shadow: 0 6px 20px rgba(15,23,42,0.13);
+  transform: translateY(-2px);
+}
+
+.live-teaser-pulse {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.live-dot-sm {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  animation: live-pulse 1.4s ease-in-out infinite;
+}
+
+.live-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #ef4444;
+}
+
+.live-teaser-title {
+  font-size: 0.92rem;
+  color: #1e293b;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.live-teaser-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #64748b;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.live-teaser-hint i {
+  font-size: 0.9rem;
+  color: #f96332;
+  flex-shrink: 0;
+}
+
+.live-teaser-cta {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #f96332;
+  text-align: right;
+}
+
+/* Live dot pulsante */
+.live-dot-pulse {
+  background: #ef4444 !important;
+  animation: live-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
+.live-updated {
+  font-size: 0.68rem;
+  color: #94a3b8;
+}
+
+/* Seção live */
+.live-section {
+  margin-bottom: 24px;
+}
+
+.live-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(15,23,42,0.07);
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.live-empty mat-icon {
+  font-size: 1.3rem;
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+/* Card de partida ao vivo */
+.live-match-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(15,23,42,0.07);
+  padding: 16px 18px 14px;
+  margin-bottom: 14px;
+  border-top: 3px solid #ef4444;
+}
+
+.live-scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.live-team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  &.home { flex-direction: row; }
+  &.away { flex-direction: row-reverse; }
+}
+
+.live-flag {
+  width: 28px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.live-team-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+}
+
+.live-score {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f96332;
+  min-width: 1.8rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.live-vs {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.live-match-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-bottom: 14px;
+}
+
+.live-match-time mat-icon {
+  font-size: 0.95rem;
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+/* Tabela de apostas */
+.live-bets-table th {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+}
+
+.live-bets-table tr.bet-winning td {
+  background: #f0fdf4;
+  font-weight: 600;
+}
+
+.pts-chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.pts-chip.pts-chip-win {
+  background: #dcfce7;
+  color: #16a34a;
+  font-weight: 700;
+}
+
 /* Card Pontuacao */
 .rules-card {
   background: #fff;
