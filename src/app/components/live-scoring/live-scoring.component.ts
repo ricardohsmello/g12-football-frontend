@@ -22,6 +22,8 @@ export class LiveScoringComponent implements OnInit, OnDestroy {
   editScore = { homeTeam: 0, awayTeam: 0 };
   saving = false;
   flagUrl = flagUrl;
+  sortField: 'username' | 'prediction' | 'points' = 'points';
+  sortDir: 'asc' | 'desc' = 'desc';
 
   private pollSub?: Subscription;
 
@@ -41,8 +43,29 @@ export class LiveScoringComponent implements OnInit, OnDestroy {
     this.pollSub?.unsubscribe();
   }
 
+  toggleSort(field: 'username' | 'prediction' | 'points'): void {
+    if (this.sortField === field) {
+      this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortDir = field === 'points' ? 'desc' : 'asc';
+    }
+  }
+
   sortedBets(match: LiveMatch) {
-    return [...match.bets].sort((a, b) => b.projectedPoints - a.projectedPoints);
+    return [...match.bets].sort((a, b) => {
+      let cmp = 0;
+      if (this.sortField === 'username') {
+        cmp = a.username.localeCompare(b.username);
+      } else if (this.sortField === 'prediction') {
+        const pa = `${a.prediction.homeTeam}-${a.prediction.awayTeam}`;
+        const pb = `${b.prediction.homeTeam}-${b.prediction.awayTeam}`;
+        cmp = pa.localeCompare(pb);
+      } else {
+        cmp = a.projectedPoints - b.projectedPoints;
+      }
+      return this.sortDir === 'asc' ? cmp : -cmp;
+    });
   }
 
   openEdit(match: LiveMatch): void {

@@ -192,6 +192,22 @@
     color: #64748b;
   }
 
+  .th-sort {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+
+    &:hover { color: #f96332; }
+  }
+
+  .sort-arrow {
+    margin-left: 4px;
+    font-size: 0.7rem;
+    color: #cbd5e1;
+
+    &.active { color: #f96332; }
+  }
+
   tr.winning td {
     background-color: #f0fdf4;
     font-weight: 600;

@@ -78,9 +78,24 @@
               <table class="table table-sm bets-table">
                 <thead>
                   <tr>
-                    <th>Apostador</th>
-                    <th>Aposta</th>
-                    <th>Pontos projetados</th>
+                    <th class="th-sort" (click)="toggleSort('username')">
+                      Apostador
+                      <span class="sort-arrow" [class.active]="sortField === 'username'">
+                        {{ sortField === 'username' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}
+                      </span>
+                    </th>
+                    <th class="th-sort" (click)="toggleSort('prediction')">
+                      Aposta
+                      <span class="sort-arrow" [class.active]="sortField === 'prediction'">
+                        {{ sortField === 'prediction' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}
+                      </span>
+                    </th>
+                    <th class="th-sort" (click)="toggleSort('points')">
+                      Pontos projetados
+                      <span class="sort-arrow" [class.active]="sortField === 'points'">
+                        {{ sortField === 'points' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}
+                      </span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
