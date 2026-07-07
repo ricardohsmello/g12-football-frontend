@@ -96,6 +96,12 @@
                         {{ sortField === 'points' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}
                       </span>
                     </th>
+                    <th class="th-sort" (click)="toggleSort('total')">
+                      Classificação atualizada
+                      <span class="sort-arrow" [class.active]="sortField === 'total'">
+                        {{ sortField === 'total' ? (sortDir === 'asc' ? '↑' : '↓') : '↕' }}
+                      </span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -105,6 +111,11 @@
                     <td>
                       <span class="points-badge" [class.points-positive]="bet.projectedPoints > 0">
                         {{ bet.projectedPoints }} pts
+                      </span>
+                    </td>
+                    <td>
+                      <span class="points-badge points-total">
+                        {{ liveTotal(bet.username) }} pts
                       </span>
                     </td>
                   </tr>
