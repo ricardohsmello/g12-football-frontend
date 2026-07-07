@@ -173,7 +173,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private startLivePolling(): void {
     const wc = COMPETITIONS.find(c => c.competitionId === 'world-cup-2026')!;
-    this.livePollSub = interval(1_000).pipe(
+    this.livePollSub = interval(60_000).pipe(
       startWith(0),
       switchMap(() => this.liveScoringService.getLiveScoring(this.wcRound || 1, wc.competitionId))
     ).subscribe({
