@@ -1,8 +1,15 @@
 
 import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { ScoreboardEntry, ScoreBoardService } from '../../services/score-board-service/score-board.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Competition, COMPETITIONS, DEFAULT_COMPETITION, WORLD_CUP_ROUND_LABELS } from '../../domain/model/competition/competition';
+import { flagUrl } from '../../domain/model/match/flag-map';
+
+// Rodada "Pontuação Extra" da Copa (WORLD_CUP_ROUND_LABELS[10])
+const EXTRA_POINTS_ROUND = 10;
+// Rodada 0 = Total Geral (soma de todas as rodadas)
+const OVERALL_ROUND = 0;
 
 @Component({
   selector: 'app-score-board-list',
@@ -16,9 +23,25 @@ export class ScoreBoardListComponent implements OnInit {
   selectedRound = 0;
   competitions = COMPETITIONS;
   scoreboard: ScoreboardEntry[] = [];
+  flagUrl = flagUrl;
 
   get selectedCompetition(): Competition {
     return this.roundFormGroup.get('competitionCtrl')?.value ?? DEFAULT_COMPETITION;
+  }
+
+  get isOverall(): boolean {
+    return this.selectedRound === OVERALL_ROUND;
+  }
+
+  get showPredictions(): boolean {
+    return this.selectedCompetition.competitionId === 'world-cup-2026'
+      && (this.isOverall || this.selectedRound === EXTRA_POINTS_ROUND)
+      && this.scoreboard.some(entry => (entry.prediction?.length ?? 0) > 0);
+  }
+
+  // Coluna de pontos do Top 4 aparece so no Total Geral (na Pontuacao Extra o proprio "Pontos" ja e esse valor)
+  get showExtraPoints(): boolean {
+    return this.showPredictions && this.isOverall;
   }
 
   get availableRounds(): number[] {
@@ -64,9 +87,34 @@ export class ScoreBoardListComponent implements OnInit {
   }
 
   loadScoreboard(round: number, competition: Competition): void {
-    this.scoreboardService.getByRound(round, competition.year, competition.competitionId).subscribe(data => {
-      this.scoreboard = data;
-      this.isLoading = false;
+    const isOverallWorldCup = round === OVERALL_ROUND && competition.competitionId === 'world-cup-2026';
+
+    // No Total Geral da Copa, o palpite e os pontos do Top 4 vivem no doc round=10.
+    // Buscamos os dois e casamos por jogador, sem depender de mudanca no backend.
+    if (isOverallWorldCup) {
+      forkJoin({
+        totals: this.scoreboardService.getByRound(OVERALL_ROUND, competition.year, competition.competitionId),
+        extra: this.scoreboardService.getByRound(EXTRA_POINTS_ROUND, competition.year, competition.competitionId)
+      }).subscribe({
+        next: ({ totals, extra }) => {
+          const extraByUser = new Map(extra.map(e => [e.username, e]));
+          this.scoreboard = totals.map(t => {
+            const ex = extraByUser.get(t.username);
+            return { ...t, prediction: ex?.prediction ?? t.prediction, extraPoints: ex?.points ?? 0 };
+          });
+          this.isLoading = false;
+        },
+        error: () => { this.isLoading = false; }
+      });
+      return;
+    }
+
+    this.scoreboardService.getByRound(round, competition.year, competition.competitionId).subscribe({
+      next: (data) => {
+        this.scoreboard = data;
+        this.isLoading = false;
+      },
+      error: () => { this.isLoading = false; }
     });
   }
 }

@@ -100,7 +100,8 @@ export class MatchAddComponent implements OnInit {
   }
 
   private applyCompetition(c: Competition): void {
-    this.stages = c.stages;
+    // PONTUACAO_EXTRA existe so para o scoreboard, nao e uma fase de jogo
+    this.stages = c.stages.filter(s => s !== 'PONTUACAO_EXTRA');
     this.groups = c.groups;
     this.updateTeams(c, null);
     this.updateRoundForStage(c.stages[0], c);
@@ -165,6 +166,7 @@ export class MatchAddComponent implements OnInit {
       SEMI_FINAL:    'Semifinal',
       THIRD_PLACE:   'Terceiro Lugar',
       FINAL:         'Final',
+      EXTRA_POINTS:  'Pontuacao extra',
     };
     return labels[stage] ?? stage;
   }
