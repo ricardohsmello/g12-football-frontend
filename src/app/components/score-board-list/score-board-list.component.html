@@ -44,13 +44,30 @@
                 <tr>
                   <th scope="col">Posição</th>
                   <th scope="col">Jogador</th>
-                  <th scope="col">Pontos</th>
+                  <th *ngIf="showPredictions" scope="col">Palpite (Top 4)</th>
+                  <th *ngIf="showExtraPoints" scope="col">Pontos Top 4</th>
+                  <th scope="col">{{ isOverall ? 'Total Geral' : 'Pontos' }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let entry of scoreboard; let i = index">
                   <td class="text-left">{{ i + 1 }}</td>
                   <td class="text-left">{{ entry.username }}</td>
+                  <td *ngIf="showPredictions" class="text-left">
+                    <span class="pred-list">
+                      <span class="pred-item" *ngFor="let team of entry.prediction; let p = index"
+                            [title]="(p + 1) + 'º ' + team">
+                        <span class="pred-pos">{{ p + 1 }}</span>
+                        <img *ngIf="flagUrl(team)" [src]="flagUrl(team)" class="pred-flag" [alt]="team">
+                        <span *ngIf="!flagUrl(team)" class="pred-name">{{ team }}</span>
+                      </span>
+                    </span>
+                  </td>
+                  <td *ngIf="showExtraPoints" class="text-left">
+                    <span class="extra-badge" [class.extra-badge-zero]="(entry.extraPoints ?? 0) === 0">
+                      {{ entry.extraPoints ?? 0 }} pts
+                    </span>
+                  </td>
                   <td class="text-left">{{ entry.points }}</td>
                 </tr>
               </tbody>

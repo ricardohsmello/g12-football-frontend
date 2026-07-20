@@ -28,9 +28,9 @@ export const COMPETITIONS: Competition[] = [
     label: 'Copa do Mundo 2026',
     competitionId: 'world-cup-2026',
     year: 2026,
-    stages: ['GROUP', 'SECOND_ROUND', 'ROUND_OF_16', 'QUARTER_FINAL', 'SEMI_FINAL', 'THIRD_PLACE', 'FINAL'],
+    stages: ['GROUP', 'SECOND_ROUND', 'ROUND_OF_16', 'QUARTER_FINAL', 'SEMI_FINAL', 'THIRD_PLACE', 'FINAL', 'PONTUACAO_EXTRA'],
     groups: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'],
-    rounds: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    rounds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   }
 ];
 
@@ -47,6 +47,7 @@ export const WORLD_CUP_ROUND_LABELS: Record<number, string> = {
   7: 'Semifinal',
   8: 'Terceiro Lugar',
   9: 'Final',
+  10: 'Pontuação Extra'
 };
 
 export const BRASILEIRAO_TEAMS: string[] = [

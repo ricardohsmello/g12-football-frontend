@@ -8,6 +8,60 @@
     <div class="welcome-sub">Bem-vindo, {{ profile?.firstName }} {{ profile?.lastName }}</div>
   </div>
 
+  <!-- Secao: Podium (Top 3) -->
+  <div class="section-header">
+    <div class="section-dot"></div>
+    <span class="section-label">Pódium — Top 3</span>
+  </div>
+
+  <div class="podium-card podium-card-link" (click)="goToScoreboard()" title="Ver classificação completa">
+    <div class="card-loading" *ngIf="podiumLoading">
+      <mat-progress-spinner mode="indeterminate" diameter="36" color="accent"></mat-progress-spinner>
+    </div>
+    <p *ngIf="podiumError && !podiumLoading" class="card-error">{{ podiumError }}</p>
+
+    <div class="podium" *ngIf="!podiumLoading && !podiumError && podium.length">
+
+      <!-- 2o lugar (esquerda) -->
+      <div class="podium-col" *ngIf="podium[1] as p">
+        <div class="podium-medal">🥈</div>
+        <div class="podium-avatar avatar-silver">{{ initials(p.username) }}</div>
+        <div class="podium-name">{{ p.username }}</div>
+        <div class="podium-points">{{ p.points }} pts</div>
+        <div class="podium-bar bar-silver">
+          <span class="podium-rank">2</span>
+        </div>
+      </div>
+
+      <!-- 1o lugar (centro) -->
+      <div class="podium-col podium-col-first" *ngIf="podium[0] as p">
+        <div class="podium-trophy">🏆</div>
+        <div class="podium-avatar avatar-gold">{{ initials(p.username) }}</div>
+        <div class="podium-name podium-name-first">{{ p.username }}</div>
+        <div class="podium-points podium-points-first">{{ p.points }} pts</div>
+        <div class="podium-bar bar-gold">
+          <span class="podium-rank">1</span>
+        </div>
+      </div>
+
+      <!-- 3o lugar (direita) -->
+      <div class="podium-col" *ngIf="podium[2] as p">
+        <div class="podium-medal">🥉</div>
+        <div class="podium-avatar avatar-bronze">{{ initials(p.username) }}</div>
+        <div class="podium-name">{{ p.username }}</div>
+        <div class="podium-points">{{ p.points }} pts</div>
+        <div class="podium-bar bar-bronze">
+          <span class="podium-rank">3</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="podium-cta" *ngIf="!podiumLoading && !podiumError && podium.length">
+      Ver classificação completa →
+    </div>
+  </div>
+
   <!-- Secao: Placar ao Vivo -->
   <div class="section-header">
     <div class="section-dot live-dot-pulse"></div>

@@ -6,6 +6,8 @@ import { environment } from '../../../environments/environment';
 export interface ScoreboardEntry {
   username: string;
   points: number;
+  prediction?: string[];
+  extraPoints?: number;
 }
 
 @Injectable({

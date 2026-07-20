@@ -15,6 +15,9 @@ import { ConfirmDialogComponent } from '../../../dialog/confirm-dialog.component
 import { RoundService } from "../../../../services/round-service/round.service";
 import { Competition, COMPETITIONS, DEFAULT_COMPETITION, WORLD_CUP_ROUND_LABELS } from '../../../../domain/model/competition/competition';
 
+// Rodada "Pontuacao Extra" da Copa: usada so no scoreboard, nunca na listagem de jogos
+const EXTRA_POINTS_ROUND = 10;
+
 @Component({
   selector: 'app-match-list',
   templateUrl: './match-list.component.html',
@@ -59,6 +62,10 @@ export class MatchListComponent implements OnInit {
   }
 
   get rounds(): number[] {
+    // Rodada 10 = Pontuacao Extra, existe so no scoreboard e nao na listagem de jogos
+    if (this.selectedCompetition.competitionId === 'world-cup-2026') {
+      return this.selectedCompetition.rounds.filter(r => r !== EXTRA_POINTS_ROUND);
+    }
     return this.selectedCompetition.rounds;
   }
 
