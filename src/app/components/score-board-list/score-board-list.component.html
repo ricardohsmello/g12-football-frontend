@@ -38,6 +38,47 @@
         </mat-progress-spinner>
 
         <div class="card-body" *ngIf="!isLoading">
+
+          <!-- Podium (Top 3) -->
+          <div class="podium-card" *ngIf="showPodium">
+            <div class="podium">
+
+              <!-- 2o lugar (esquerda) -->
+              <div class="podium-col" *ngIf="podium[1] as p">
+                <div class="podium-medal">🥈</div>
+                <div class="podium-avatar avatar-silver">{{ initials(p.username) }}</div>
+                <div class="podium-name">{{ p.username }}</div>
+                <div class="podium-points">{{ p.points }} pts</div>
+                <div class="podium-bar bar-silver">
+                  <span class="podium-rank">2</span>
+                </div>
+              </div>
+
+              <!-- 1o lugar (centro) -->
+              <div class="podium-col podium-col-first" *ngIf="podium[0] as p">
+                <div class="podium-trophy">🏆</div>
+                <div class="podium-avatar avatar-gold">{{ initials(p.username) }}</div>
+                <div class="podium-name podium-name-first">{{ p.username }}</div>
+                <div class="podium-points podium-points-first">{{ p.points }} pts</div>
+                <div class="podium-bar bar-gold">
+                  <span class="podium-rank">1</span>
+                </div>
+              </div>
+
+              <!-- 3o lugar (direita) -->
+              <div class="podium-col" *ngIf="podium[2] as p">
+                <div class="podium-medal">🥉</div>
+                <div class="podium-avatar avatar-bronze">{{ initials(p.username) }}</div>
+                <div class="podium-name">{{ p.username }}</div>
+                <div class="podium-points">{{ p.points }} pts</div>
+                <div class="podium-bar bar-bronze">
+                  <span class="podium-rank">3</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>

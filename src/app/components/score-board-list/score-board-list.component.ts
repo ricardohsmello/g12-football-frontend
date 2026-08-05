@@ -10,6 +10,8 @@ import { flagUrl } from '../../domain/model/match/flag-map';
 const EXTRA_POINTS_ROUND = 10;
 // Rodada 0 = Total Geral (soma de todas as rodadas)
 const OVERALL_ROUND = 0;
+// Competicoes que exibem o podium (Top 3) no Total Geral
+const PODIUM_COMPETITIONS = ['world-cup-2026', 'brasileirao'];
 
 @Component({
   selector: 'app-score-board-list',
@@ -31,6 +33,21 @@ export class ScoreBoardListComponent implements OnInit {
 
   get isOverall(): boolean {
     return this.selectedRound === OVERALL_ROUND;
+  }
+
+  // Podium (Top 3) aparece no Total Geral das competicoes configuradas
+  get showPodium(): boolean {
+    return this.isOverall
+      && PODIUM_COMPETITIONS.includes(this.selectedCompetition.competitionId)
+      && this.scoreboard.length > 0;
+  }
+
+  get podium(): ScoreboardEntry[] {
+    return this.scoreboard.slice(0, 3);
+  }
+
+  initials(name: string): string {
+    return (name ?? '').trim().slice(0, 2).toUpperCase();
   }
 
   get showPredictions(): boolean {

@@ -18,10 +18,8 @@ import { LiveMatch } from '../../domain/model/live-scoring/live-scoring.model';
 import { interval, Subscription } from 'rxjs';
 import { switchMap, startWith } from 'rxjs/operators';
 import { flagUrl } from '../../domain/model/match/flag-map';
-import { ScoreBoardService, ScoreboardEntry } from '../../services/score-board-service/score-board.service';
 
 const WC = COMPETITIONS.find(c => c.competitionId === 'world-cup-2026')!;
-const OVERALL_ROUND = 0;
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +28,7 @@ const OVERALL_ROUND = 0;
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
-  totalPlayers = 18;
+  totalPlayers = 11;
 
   // Brasileirao
   brRound: number = 0;
@@ -45,11 +43,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   wcMissing = 0;
   wcLoading = true;
   wcError: string | null = null;
-
-  // Podium (Top 3 - classificacao geral)
-  podium: ScoreboardEntry[] = [];
-  podiumLoading = true;
-  podiumError: string | null = null;
 
   public profile: KeycloakProfile | null = null;
 
@@ -71,7 +64,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private betService: BetService,
     private ragService: RagService,
     private liveScoringService: LiveScoringService,
-    private scoreBoardService: ScoreBoardService,
     private router: Router
   ) {}
 
@@ -85,25 +77,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.profile = await this.keycloak.loadUserProfile();
     }
 
-    this.loadPodium();
     this.loadBrasileiraoData();
     this.loadWorldCupData();
     this.startLivePolling();
-  }
-
-  private loadPodium(): void {
-    this.scoreBoardService.getByRound(OVERALL_ROUND, WC.year, WC.competitionId).subscribe({
-      next: (entries) => {
-        this.podium = [...entries]
-          .sort((a, b) => b.points - a.points)
-          .slice(0, 3);
-        this.podiumLoading = false;
-      },
-      error: (err) => {
-        this.podiumError = err?.error?.message ?? 'Erro ao carregar o pódium.';
-        this.podiumLoading = false;
-      }
-    });
   }
 
   ngOnDestroy(): void {
@@ -157,16 +133,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   flagUrl = flagUrl;
 
-  initials(name: string): string {
-    return (name ?? '').trim().slice(0, 2).toUpperCase();
-  }
-
   goToLive(): void {
     this.router.navigate(['/live-scoring']);
-  }
-
-  goToScoreboard(): void {
-    this.router.navigate(['/scoreboard']);
   }
 
   topBet(match: LiveMatch) {

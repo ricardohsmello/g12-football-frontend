@@ -129,6 +129,13 @@
 .badge-br { background: rgba(22,163,74,0.10); color: #16a34a; }
 .badge-wc { background: rgba(220,38,38,0.08); color: #dc2626; }
 
+.comp-cta {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #f96332;
+  text-align: right;
+}
+
 /* KPIs */
 .kpi-row {
   display: flex;
@@ -480,134 +487,6 @@
   background: #dcfce7;
   color: #16a34a;
   font-weight: 700;
-}
-
-/* Podium (Top 3) */
-.podium-card {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.07);
-  padding: 20px 18px 0;
-  margin-bottom: 24px;
-  overflow: hidden;
-}
-
-.podium-card-link {
-  cursor: pointer;
-  transition: box-shadow 0.18s, transform 0.18s;
-}
-
-.podium-card-link:hover {
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.13);
-  transform: translateY(-2px);
-}
-
-.podium {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  max-width: 460px;
-  margin: 0 auto;
-}
-
-.podium-cta {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #f96332;
-  text-align: right;
-  padding: 12px 4px 14px;
-}
-
-.podium-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1 1 0;
-  min-width: 0;
-}
-
-.podium-trophy {
-  font-size: 2rem;
-  line-height: 1;
-  margin-bottom: 4px;
-  animation: trophy-bounce 2.2s ease-in-out infinite;
-}
-
-.podium-medal {
-  font-size: 1.4rem;
-  line-height: 1;
-  margin-bottom: 6px;
-}
-
-.podium-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
-}
-
-.podium-col-first .podium-avatar {
-  width: 56px;
-  height: 56px;
-  font-size: 1rem;
-}
-
-.avatar-gold   { background: linear-gradient(135deg, #f6b73c, #d97706); }
-.avatar-silver { background: linear-gradient(135deg, #cbd5e1, #94a3b8); }
-.avatar-bronze { background: linear-gradient(135deg, #d9975b, #b45309); }
-
-.podium-name {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #1e293b;
-  text-align: center;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.podium-name-first { font-size: 0.9rem; }
-
-.podium-points {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: #64748b;
-  margin: 2px 0 8px;
-}
-
-.podium-points-first { color: #d97706; }
-
-.podium-bar {
-  width: 100%;
-  border-radius: 8px 8px 0 0;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 10px;
-}
-
-.podium-rank {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.bar-gold   { height: 96px; background: linear-gradient(180deg, #fbbf24, #d97706); }
-.bar-silver { height: 66px; background: linear-gradient(180deg, #cbd5e1, #94a3b8); }
-.bar-bronze { height: 48px; background: linear-gradient(180deg, #e0a96d, #b45309); }
-
-@keyframes trophy-bounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-5px); }
 }
 
 /* Card Pontuacao */

@@ -108,7 +108,7 @@
 
       <!-- Linha 1: rodada + data + status badge -->
       <div class="match-meta">
-        <span class="round-badge" [ngClass]="isWorldCup ? 'badge-wc' : 'badge-br'">
+        <span class="round-badge badge-wc" *ngIf="isWorldCup">
           {{ roundLabel(m.round) }}
         </span>
         <span class="match-date">

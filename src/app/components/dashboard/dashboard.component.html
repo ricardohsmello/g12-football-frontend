@@ -8,60 +8,6 @@
     <div class="welcome-sub">Bem-vindo, {{ profile?.firstName }} {{ profile?.lastName }}</div>
   </div>
 
-  <!-- Secao: Podium (Top 3) -->
-  <div class="section-header">
-    <div class="section-dot"></div>
-    <span class="section-label">Pódium — Top 3</span>
-  </div>
-
-  <div class="podium-card podium-card-link" (click)="goToScoreboard()" title="Ver classificação completa">
-    <div class="card-loading" *ngIf="podiumLoading">
-      <mat-progress-spinner mode="indeterminate" diameter="36" color="accent"></mat-progress-spinner>
-    </div>
-    <p *ngIf="podiumError && !podiumLoading" class="card-error">{{ podiumError }}</p>
-
-    <div class="podium" *ngIf="!podiumLoading && !podiumError && podium.length">
-
-      <!-- 2o lugar (esquerda) -->
-      <div class="podium-col" *ngIf="podium[1] as p">
-        <div class="podium-medal">🥈</div>
-        <div class="podium-avatar avatar-silver">{{ initials(p.username) }}</div>
-        <div class="podium-name">{{ p.username }}</div>
-        <div class="podium-points">{{ p.points }} pts</div>
-        <div class="podium-bar bar-silver">
-          <span class="podium-rank">2</span>
-        </div>
-      </div>
-
-      <!-- 1o lugar (centro) -->
-      <div class="podium-col podium-col-first" *ngIf="podium[0] as p">
-        <div class="podium-trophy">🏆</div>
-        <div class="podium-avatar avatar-gold">{{ initials(p.username) }}</div>
-        <div class="podium-name podium-name-first">{{ p.username }}</div>
-        <div class="podium-points podium-points-first">{{ p.points }} pts</div>
-        <div class="podium-bar bar-gold">
-          <span class="podium-rank">1</span>
-        </div>
-      </div>
-
-      <!-- 3o lugar (direita) -->
-      <div class="podium-col" *ngIf="podium[2] as p">
-        <div class="podium-medal">🥉</div>
-        <div class="podium-avatar avatar-bronze">{{ initials(p.username) }}</div>
-        <div class="podium-name">{{ p.username }}</div>
-        <div class="podium-points">{{ p.points }} pts</div>
-        <div class="podium-bar bar-bronze">
-          <span class="podium-rank">3</span>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="podium-cta" *ngIf="!podiumLoading && !podiumError && podium.length">
-      Ver classificação completa →
-    </div>
-  </div>
-
   <!-- Secao: Placar ao Vivo -->
   <div class="section-header">
     <div class="section-dot live-dot-pulse"></div>
@@ -109,50 +55,8 @@
 
     <div class="comp-grid">
 
-        <!-- Copa do Mundo -->
-        <div class="comp-card comp-card-link" (click)="goToMatches('world-cup-2026')" title="Ver jogos da Copa do Mundo">
-            <div class="comp-accent comp-accent-wc"></div>
-            <div class="comp-body">
-                <div class="comp-title-row">
-                    <div class="comp-info">
-                        <span class="comp-name">Copa do Mundo 2026</span>
-                        <span class="comp-phase" *ngIf="!wcLoading && !wcError">{{ wcStageLabel }}</span>
-                    </div>
-                    <span class="comp-badge badge-wc">Copa</span>
-                </div>
-
-                <ng-container *ngIf="wcLoading">
-                    <div class="card-loading">
-                        <mat-progress-spinner mode="indeterminate" diameter="28" color="accent"></mat-progress-spinner>
-                    </div>
-                </ng-container>
-                <p *ngIf="wcError" class="card-error">{{ wcError }}</p>
-
-                <div class="kpi-row" *ngIf="!wcLoading && !wcError">
-                    <div class="kpi-box">
-                        <div class="kpi-value">{{ totalPlayers }}</div>
-                        <div class="kpi-label">Jogadores</div>
-                    </div>
-                    <div class="kpi-divider"></div>
-                    <div class="kpi-box">
-                        <div class="kpi-value kpi-green">{{ wcBettors }}</div>
-                        <div class="kpi-label">Apostaram</div>
-                    </div>
-                    <div class="kpi-divider"></div>
-                    <div class="kpi-box">
-                        <div class="kpi-value kpi-orange">{{ wcMissing }}</div>
-                        <div class="kpi-label">Faltam</div>
-                    </div>
-                </div>
-
-                <div class="progress-bar-wrap" *ngIf="!wcLoading && !wcError">
-                    <div class="progress-bar-fill progress-wc" [style.width.%]="(wcBettors / totalPlayers) * 100"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Brasileirao -->
-        <div class="comp-card comp-card-link" (click)="goToMatches('brasileirao')" title="Ver jogos do Brasileirão">
+        <!-- Brasileirao 2026 -->
+        <div class="comp-card comp-card-link" (click)="goToMatches('brasileirao-2026')" title="Ver jogos do Brasileirão 2026">
             <div class="comp-accent comp-accent-br"></div>
             <div class="comp-body">
                 <div class="comp-title-row">
@@ -190,6 +94,46 @@
                 <div class="progress-bar-wrap" *ngIf="!brLoading && !brError">
                     <div class="progress-bar-fill progress-br" [style.width.%]="(brBettors / totalPlayers) * 100"></div>
                 </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Secao: Torneios Encerrados -->
+    <div class="section-header">
+        <div class="section-dot"></div>
+        <span class="section-label">Torneios Encerrados</span>
+    </div>
+
+    <div class="comp-grid">
+
+        <!-- Copa do Mundo 2026 -->
+        <div class="comp-card comp-card-link" (click)="goToMatches('world-cup-2026')" title="Ver Copa do Mundo 2026">
+            <div class="comp-accent comp-accent-wc"></div>
+            <div class="comp-body">
+                <div class="comp-title-row">
+                    <div class="comp-info">
+                        <span class="comp-name">Copa do Mundo 2026</span>
+                        <span class="comp-phase">Encerrado</span>
+                    </div>
+                    <span class="comp-badge badge-wc">Copa</span>
+                </div>
+                <div class="comp-cta">Ver jogos e classificação →</div>
+            </div>
+        </div>
+
+        <!-- Brasileirao 2025 -->
+        <div class="comp-card comp-card-link" (click)="goToMatches('brasileirao')" title="Ver Brasileirão 2025">
+            <div class="comp-accent comp-accent-br"></div>
+            <div class="comp-body">
+                <div class="comp-title-row">
+                    <div class="comp-info">
+                        <span class="comp-name">Brasileirão 2025</span>
+                        <span class="comp-phase">Encerrado</span>
+                    </div>
+                    <span class="comp-badge badge-br">Liga</span>
+                </div>
+                <div class="comp-cta">Ver jogos e classificação →</div>
             </div>
         </div>
 

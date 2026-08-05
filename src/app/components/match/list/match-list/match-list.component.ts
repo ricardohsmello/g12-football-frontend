@@ -28,7 +28,7 @@ export class MatchListComponent implements OnInit {
   roundFormGroup = this._formBuilder.group({
     roundCtrl: this._formBuilder.control(1, Validators.required),
     competitionCtrl: this._formBuilder.control(
-      COMPETITIONS.find(c => c.competitionId === 'world-cup-2026') ?? DEFAULT_COMPETITION,
+      DEFAULT_COMPETITION,
       Validators.required
     ),
   });
@@ -52,7 +52,7 @@ export class MatchListComponent implements OnInit {
   competitions = COMPETITIONS;
 
   users = [
-    "antonio", "braulio", "cleber", "daniel", "gabriel", "guilherme",
+    "antonio", "daniel", "gabriel", "guilherme",
     "heraldo", "joaozorzella", "lucas", "luciano", "matheus",
     "murilo", "ricardomello"
   ];
@@ -372,7 +372,7 @@ export class MatchListComponent implements OnInit {
     'Palmeiras':       'assets/img/flags/clubs/sep.svg',
     'Remo':            'assets/img/flags/clubs/cr.svg',
     'Santos':          'assets/img/flags/clubs/sfc.svg',
-    'São Paulo':       'assets/img/flags/clubs/spfc.svg',
+    'São Paulo':       'assets/img/flags/clubs/spfc.svg',
     'Vasco':           'assets/img/flags/clubs/crvg.svg',
     'Vitória':         'assets/img/flags/clubs/ecv.svg',
     'Ceará':         'assets/img/flags/clubs/ceara.svg',
