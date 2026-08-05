@@ -18,7 +18,7 @@ export const COMPETITIONS: Competition[] = [
   },
   {
     label: 'Brasileirão 2026',
-    competitionId: 'brasileirao',
+    competitionId: 'brasileirao-2026',
     year: 2026,
     stages: ['LEAGUE'],
     groups: [],
@@ -34,7 +34,7 @@ export const COMPETITIONS: Competition[] = [
   }
 ];
 
-export const DEFAULT_COMPETITION: Competition = COMPETITIONS[2]; // WORLD CUP
+export const DEFAULT_COMPETITION: Competition = COMPETITIONS[1]; // BR 26
 export const BRASILEIRAO_2026: Competition = COMPETITIONS[1]; // BR 26
 
 export const WORLD_CUP_ROUND_LABELS: Record<number, string> = {
