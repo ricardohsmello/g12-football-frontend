@@ -7,7 +7,7 @@ import { ScoreBoardService } from '../../services/score-board-service/score-boar
 import { LiveMatch } from '../../domain/model/live-scoring/live-scoring.model';
 import { flagUrl } from '../../domain/model/match/flag-map';
 
-const COMPETITION_ID = 'world-cup-2026';
+const COMPETITION_ID = 'brasileirao-2026';
 const COMPETITION_YEAR = 2026;
 const OVERALL_ROUND = 0;
 const POLL_INTERVAL_MS = 30_000;

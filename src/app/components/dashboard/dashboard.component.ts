@@ -14,12 +14,14 @@ import {
   WORLD_CUP_ROUND_LABELS
 } from '../../domain/model/competition/competition';
 import { LiveScoringService } from '../../services/live-scoring-service/live-scoring.service';
-import { LiveMatch } from '../../domain/model/live-scoring/live-scoring.model';
+import { LiveMatch, LiveBet } from '../../domain/model/live-scoring/live-scoring.model';
 import { interval, Subscription } from 'rxjs';
 import { switchMap, startWith } from 'rxjs/operators';
 import { flagUrl } from '../../domain/model/match/flag-map';
 
 const WC = COMPETITIONS.find(c => c.competitionId === 'world-cup-2026')!;
+// Competicao do "Placar ao Vivo" (mesma da tela dedicada /live-scoring)
+const LIVE_COMPETITION_ID = 'brasileirao-2026';
 
 @Component({
   selector: 'app-dashboard',
@@ -141,6 +143,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return [...match.bets].sort((a, b) => b.projectedPoints - a.projectedPoints)[0] ?? null;
   }
 
+  // Melhor aposta (maior pontuacao projetada) entre todos os jogos ao vivo,
+  // junto do jogo em que ela foi feita.
+  topBetOverall(): { match: LiveMatch; bet: LiveBet } | null {
+    let best: { match: LiveMatch; bet: LiveBet } | null = null;
+    this.liveMatches.forEach(match => {
+      match.bets.forEach(bet => {
+        if (!best || bet.projectedPoints > best.bet.projectedPoints) {
+          best = { match, bet };
+        }
+      });
+    });
+    return best;
+  }
+
   sortedBets(match: LiveMatch) {
     return [...match.bets].sort((a, b) => b.projectedPoints - a.projectedPoints);
   }
@@ -171,11 +187,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.startLivePolling();
   }
 
+  // Busca a rodada atual antes de iniciar o polling, garantindo que a
+  // primeira consulta ja use a rodada correta (sem flash de "nenhum jogo").
   private startLivePolling(): void {
-    const wc = COMPETITIONS.find(c => c.competitionId === 'world-cup-2026')!;
+    this.roundService.getCurrentRound(LIVE_COMPETITION_ID).subscribe({
+      next: (round) => this.runLivePolling(round),
+      error: () => this.runLivePolling(1)
+    });
+  }
+
+  private runLivePolling(round: number): void {
     this.livePollSub = interval(60_000).pipe(
       startWith(0),
-      switchMap(() => this.liveScoringService.getLiveScoring(this.wcRound || 6, wc.competitionId))
+      switchMap(() => this.liveScoringService.getLiveScoring(round, LIVE_COMPETITION_ID))
     ).subscribe({
       next: (data) => {
         this.liveMatches = data;

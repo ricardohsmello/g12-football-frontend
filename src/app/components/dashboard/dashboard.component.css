@@ -347,6 +347,55 @@
   text-align: right;
 }
 
+.live-count {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-left: 2px;
+}
+
+.live-matchups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.live-matchup {
+  font-size: 0.82rem;
+  color: #1e293b;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+.live-matchup strong { font-weight: 700; }
+
+.live-matchup-more {
+  color: #64748b;
+  background: transparent;
+  font-weight: 600;
+  align-self: center;
+}
+
+.live-cta-btn {
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  background: #f96332;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.live-cta-btn:hover {
+  background: #e0521f;
+}
+
 /* Live dot pulsante */
 .live-dot-pulse {
   background: #ef4444 !important;

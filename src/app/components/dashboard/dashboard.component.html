@@ -27,7 +27,8 @@
       <span>Nenhum jogo ao vivo no momento</span>
     </div>
 
-    <div class="live-teaser-card" *ngFor="let match of liveMatches" (click)="goToLive()">
+    <!-- 1 jogo: card detalhado -->
+    <div class="live-teaser-card" *ngIf="!liveLoading && liveMatches.length === 1" (click)="goToLive()">
       <div class="live-teaser-pulse">
         <span class="live-dot-sm"></span>
         <span class="live-label">AO VIVO</span>
@@ -35,15 +36,46 @@
 
       <div class="live-teaser-title">
         Acompanhe o jogo ao vivo entre
-        <strong>{{ match.homeTeam }}</strong> x <strong>{{ match.awayTeam }}</strong>
+        <strong>{{ liveMatches[0].homeTeam }}</strong> x <strong>{{ liveMatches[0].awayTeam }}</strong>
       </div>
 
-      <div class="live-teaser-hint" *ngIf="topBet(match) as bet">
+      <div class="live-teaser-hint" *ngIf="topBet(liveMatches[0]) as bet">
         <i class="now-ui-icons ui-2_favourite-28"></i>
         <span><strong>{{ bet.username }}</strong> apostou {{ bet.prediction.homeTeam }} x {{ bet.prediction.awayTeam }} e pode fazer <strong>{{ bet.projectedPoints }} pts</strong></span>
       </div>
 
       <div class="live-teaser-cta">Ver placar completo →</div>
+    </div>
+
+    <!-- Varios jogos: card resumo + botao -->
+    <div class="live-teaser-card" *ngIf="!liveLoading && liveMatches.length > 1" (click)="goToLive()">
+      <div class="live-teaser-pulse">
+        <span class="live-dot-sm"></span>
+        <span class="live-label">AO VIVO</span>
+        <span class="live-count">{{ liveMatches.length }} jogos acontecendo agora</span>
+      </div>
+
+      <div class="live-teaser-title">
+        Acompanhe os jogos ao vivo:
+      </div>
+
+      <div class="live-matchups">
+        <span class="live-matchup" *ngFor="let match of liveMatches | slice:0:2">
+          <strong>{{ match.homeTeam }}</strong> x <strong>{{ match.awayTeam }}</strong>
+        </span>
+        <span class="live-matchup live-matchup-more" *ngIf="liveMatches.length > 2">
+          +{{ liveMatches.length - 2 }} outro(s)
+        </span>
+      </div>
+
+      <div class="live-teaser-hint" *ngIf="topBetOverall() as top">
+        <i class="now-ui-icons ui-2_favourite-28"></i>
+        <span>Em <strong>{{ top.match.homeTeam }} x {{ top.match.awayTeam }}</strong>, <strong>{{ top.bet.username }}</strong> apostou {{ top.bet.prediction.homeTeam }} x {{ top.bet.prediction.awayTeam }} e pode fazer <strong>{{ top.bet.projectedPoints }} pts</strong></span>
+      </div>
+
+      <button class="live-cta-btn" (click)="goToLive()">
+        Ver todos os jogos ao vivo →
+      </button>
     </div>
   </div>
 
