@@ -52,9 +52,9 @@ export class MatchListComponent implements OnInit {
   competitions = COMPETITIONS;
 
   users = [
-    "antonio", "braulio", "bruno", "cleber", "daniel", "fabio",
-    "giovanni", "guilherme", "heraldo", "joaozorzella", "lucas", "luciano", "matheus",
-    "murilo", "rafaelcarvalho", "ricardomello", "romero", "weslley"
+    "antonio", "braulio", "cleber", "daniel", "gabriel", "guilherme",
+    "heraldo", "joaozorzella", "lucas", "luciano", "matheus",
+    "murilo", "ricardomello"
   ];
 
   get selectedCompetition(): Competition {
